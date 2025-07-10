@@ -14,6 +14,7 @@ export function initEnhanceTool() {
 
   let currentImage = null;
   let originalImage = null;
+  let originalFilename = 'image'; // Add a variable to store the original filename
 
   // 更新數值顯示與觸發套用
   brightnessSlider.oninput = () => {
@@ -30,7 +31,7 @@ export function initEnhanceTool() {
   };
   filterSelect.onchange = applyEnhancements;
 
-  window.loadImageToEnhance = (dataUrl) => {
+  window.loadImageToEnhance = (dataUrl, filename) => { // Add filename parameter
     console.log('loadImageToEnhance called with dataUrl:', dataUrl.substring(0, 50) + '...');
     originalImage = new Image();
     originalImage.onload = () => {
@@ -38,6 +39,7 @@ export function initEnhanceTool() {
       enhanceCanvas.width = originalImage.width;
       enhanceCanvas.height = originalImage.height;
       currentImage = originalImage;
+      originalFilename = filename || 'image'; // Store the filename
 
       // 重設調整參數
       brightnessSlider.value = 0;
@@ -97,7 +99,14 @@ export function initEnhanceTool() {
       const url = URL.createObjectURL(blob);
       const a = document.createElement('a');
       a.href = url;
-      a.download = 'enhanced_image.png';
+      
+      // Generate new filename
+      const nameParts = originalFilename.split('.');
+      const extension = nameParts.pop();
+      const baseName = nameParts.join('.');
+      const newFilename = `${baseName}_enhanced.${extension}`;
+
+      a.download = newFilename; // Use the new filename
       a.click();
       URL.revokeObjectURL(url);
     }, 'image/png');

@@ -13,8 +13,9 @@ export function initCropTool() {
   let isDragging = false;
   let cropRect = null;
   let aspectRatio = null; // null means free ratio
+  let originalFilename = 'image'; // Add a variable to store the original filename
 
-  window.loadImageToCrop = (dataUrl) => {
+  window.loadImageToCrop = (dataUrl, filename) => { // Add filename parameter
     image = new Image();
     image.onload = () => {
       canvas.width = image.width;
@@ -23,6 +24,7 @@ export function initCropTool() {
       imgW = image.width;
       imgH = image.height;
       aspectRatio = null;
+      originalFilename = filename || 'image'; // Store the filename
       draw();
     };
     image.src = dataUrl;

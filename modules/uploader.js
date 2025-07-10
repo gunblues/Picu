@@ -62,10 +62,10 @@ export function initUploader() {
         img.classList.add('selected');
         window.selectedForCrop = index;
         if (typeof window.loadImageToCrop === 'function') {
-          window.loadImageToCrop(dataUrl);
+          window.loadImageToCrop(dataUrl, item.name); // Pass item.name
         }
         if (typeof window.loadImageToEnhance === 'function') {
-          window.loadImageToEnhance(dataUrl);
+          window.loadImageToEnhance(dataUrl, item.name); // Pass item.name
         }
       };
 
