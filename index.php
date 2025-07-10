@@ -64,18 +64,6 @@ function getTranslation($key) {
 <main>
   <h1><?php echo getTranslation('title'); ?></h1>
 
-  <div class="adsense-top-banner" style="text-align:center; margin: 20px 0;">
-    <ins class="adsbygoogle"
-         style="display:block"
-         data-ad-client="ca-pub-1004943414433052"
-         data-ad-slot="9994972103"
-         data-ad-format="auto"
-         data-full-width-responsive="true"></ins>
-    <script>
-         (adsbygoogle = window.adsbygoogle || []).push({});
-    </script>
-  </div>
-
   <div class="section" id="upload-section">
     <h2><?php echo getTranslation('uploadTitle'); ?></h2>
     <div id="upload-area" tabindex="0"><?php echo getTranslation('uploadArea'); ?></div>
@@ -86,18 +74,6 @@ function getTranslation($key) {
         <button id="deselect-all-btn"><?php echo getTranslation('deselectAll'); ?></button>
     </div>
   </div> <!-- /#upload-section -->
-
-  <div class="adsense-middle-banner" style="text-align:center; margin: 20px 0;">
-    <ins class="adsbygoogle"
-         style="display:block"
-         data-ad-client="ca-pub-1004943414433052"
-         data-ad-slot="4742645420"
-         data-ad-format="auto"
-         data-full-width-responsive="true"></ins>
-    <script>
-         (adsbygoogle = window.adsbygoogle || []).push({});
-    </script>
-  </div>
 
   <div class="section" id="tools-section">
     <div id="tabs">
