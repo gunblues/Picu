@@ -220,9 +220,17 @@ input[type="range"] {
 
 #crop-canvas, #enhance-canvas {
   max-width: 100%;
+  height: 400px; /* Set a fixed height for desktop */
   border: 1px solid #ccc;
   border-radius: 8px;
   margin-top: 1em;
+  overflow: hidden; /* Ensure content doesn't spill out */
+}
+
+@media (max-width: 768px) {
+  #crop-canvas, #enhance-canvas {
+    height: 300px; /* Adjust height for mobile */
+  }
 }
 
 /* Media Queries for Responsiveness */
