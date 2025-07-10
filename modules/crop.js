@@ -7,6 +7,8 @@ export function initCropTool() {
   const ratioButtons = toolbar.querySelectorAll('button[data-ratio]');
   const cropBtn = document.getElementById('crop-btn');
 
+  canvas.style.touchAction = 'none'; // Prevent browser from handling touch events (e.g., scrolling)
+
   let image = null;
   let imgX = 0, imgY = 0, imgW = 0, imgH = 0;
   let startX, startY, endX, endY;
