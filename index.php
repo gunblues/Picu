@@ -37,6 +37,8 @@ function getTranslation($key) {
 <link rel="icon" href="🐣" />
 <script src="https://cdnjs.cloudflare.com/ajax/libs/jszip/3.10.1/jszip.min.js"></script>
 <link rel="stylesheet" href="style.css">
+<link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/cropperjs/1.5.12/cropper.min.css">
+<script src="https://cdnjs.cloudflare.com/ajax/libs/cropperjs/1.5.12/cropper.min.js"></script>
 
 <!-- SEO Meta Tags -->
 <meta name="description" content="<?php echo getTranslation('seoDescription'); ?>">
@@ -186,7 +188,7 @@ function getTranslation($key) {
         <button data-ratio="16/9"><?php echo getTranslation('ratio16x9'); ?></button>
         <button data-ratio="custom"><?php echo getTranslation('ratioFree'); ?></button>
       </div>
-      <canvas id="crop-canvas"></canvas>
+      <div id="crop-canvas"></div>
       <button id="crop-btn"><?php echo getTranslation('cropBtn'); ?></button>
     </div>
   </div>

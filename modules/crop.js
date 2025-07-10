@@ -1,35 +1,39 @@
-
-
 export function initCropTool() {
-  const canvas = document.getElementById('crop-canvas');
-  const ctx = canvas.getContext('2d');
+  const imageElement = document.createElement('img');
+  imageElement.id = 'image-to-crop';
+  imageElement.style.maxWidth = '100%'; // Ensure image fits within container
+  imageElement.style.display = 'block'; // Remove extra space below image
+  
+  const cropCanvasContainer = document.getElementById('crop-canvas'); // This was a canvas, now it will hold the image
+  cropCanvasContainer.innerHTML = ''; // Clear existing canvas
+  cropCanvasContainer.appendChild(imageElement);
+
   const toolbar = document.getElementById('crop-toolbar');
   const ratioButtons = toolbar.querySelectorAll('button[data-ratio]');
   const cropBtn = document.getElementById('crop-btn');
 
-  canvas.style.touchAction = 'none'; // Prevent browser from handling touch events (e.g., scrolling)
+  let cropper = null;
+  let originalFilename = 'image';
 
-  let image = null;
-  let imgX = 0, imgY = 0, imgW = 0, imgH = 0;
-  let startX, startY, endX, endY;
-  let isDragging = false;
-  let cropRect = null;
-  let aspectRatio = null; // null means free ratio
-  let originalFilename = 'image'; // Add a variable to store the original filename
+  window.loadImageToCrop = (dataUrl, filename) => {
+    originalFilename = filename || 'image';
+    imageElement.src = dataUrl;
 
-  window.loadImageToCrop = (dataUrl, filename) => { // Add filename parameter
-    image = new Image();
-    image.onload = () => {
-      canvas.width = image.width;
-      canvas.height = image.height;
-      imgX = 0; imgY = 0;
-      imgW = image.width;
-      imgH = image.height;
-      aspectRatio = null;
-      originalFilename = filename || 'image'; // Store the filename
-      draw();
-    };
-    image.src = dataUrl;
+    if (cropper) {
+      cropper.destroy();
+    }
+
+    cropper = new Cropper(imageElement, {
+      aspectRatio: NaN, // Free ratio by default
+      viewMode: 1, // Restrict the crop box to not exceed the canvas
+      autoCropArea: 0.8, // 80% of the image
+      background: false, // Hide the grid background
+      ready() {
+        // Set initial active ratio button
+        ratioButtons.forEach(btn => btn.classList.remove('active'));
+        toolbar.querySelector('button[data-ratio="custom"]').classList.add('active');
+      }
+    });
   };
 
   ratioButtons.forEach(btn => {
@@ -38,154 +42,35 @@ export function initCropTool() {
       btn.classList.add('active');
       const val = btn.dataset.ratio;
       if (val === 'custom') {
-        aspectRatio = null;
+        cropper.setAspectRatio(NaN); // Free ratio
       } else {
         const parts = val.split('/');
-        aspectRatio = parseFloat(parts[0]) / parseFloat(parts[1]);
+        const aspectRatio = parseFloat(parts[0]) / parseFloat(parts[1]);
+        cropper.setAspectRatio(aspectRatio);
       }
-      draw();
     };
   });
-  ratioButtons[ratioButtons.length - 1].classList.add('active'); // 預設自由比例
 
-  // Helper to get coordinates from mouse or touch event
-  function getCoordinates(e) {
-    const rect = canvas.getBoundingClientRect();
-    let clientX, clientY;
-
-    if (e.touches && e.touches.length > 0) {
-      clientX = e.touches[0].clientX;
-      clientY = e.touches[0].clientY;
-    } else {
-      clientX = e.clientX;
-      clientY = e.clientY;
-    }
-
-    return {
-      x: clientX - rect.left,
-      y: clientY - rect.top
-    };
-  }
-
-  canvas.onmousedown = canvas.ontouchstart = (e) => {
-    if (!image) {
+  cropBtn.onclick = () => {
+    if (!cropper || !imageElement.src) {
       alert(window.alertTranslations.alertSelectImage);
       return;
     }
-    e.preventDefault(); // Prevent scrolling on touch devices
-    isDragging = true;
-    const coords = getCoordinates(e);
-    startX = coords.x;
-    startY = coords.y;
-    endX = startX;
-    endY = startY;
-    cropRect = null;
-    draw();
-  };
 
-  canvas.onmousemove = canvas.ontouchmove = (e) => {
-    if (!isDragging) return;
-    e.preventDefault(); // Prevent scrolling on touch devices
-    const coords = getCoordinates(e);
-    let mouseX = Math.min(Math.max(coords.x, 0), canvas.width);
-    let mouseY = Math.min(Math.max(coords.y, 0), canvas.height);
-
-    if (aspectRatio) {
-      const dx = mouseX - startX;
-      const dy = mouseY - startY;
-
-      // 判斷拖曳方向
-      const absDx = Math.abs(dx);
-      const absDy = Math.abs(dy);
-
-      if (absDx > absDy) {
-        // 以水平為主
-        const w = dx;
-        const h = w / aspectRatio;
-        endX = startX + w;
-        endY = startY + h;
-      } else {
-        // 以垂直為主
-        const h = dy;
-        const w = h * aspectRatio;
-        endY = startY + h;
-        endX = startX + w;
-      }
-    } else {
-      endX = mouseX;
-      endY = mouseY;
-    }
-
-    cropRect = {
-      x: Math.min(startX, endX),
-      y: Math.min(startY, endY),
-      w: Math.abs(endX - startX),
-      h: Math.abs(endY - startY),
-    };
-
-    draw();
-  };
-
-  canvas.onmouseup = canvas.ontouchend = canvas.ontouchcancel = (e) => {
-    if (!isDragging) return;
-    isDragging = false;
-    draw();
-  };
-  canvas.onmouseleave = () => {
-    if (isDragging) {
-      isDragging = false;
-      draw();
-    }
-  };
-
-  function draw() {
-    if (!image) {
-      ctx.clearRect(0, 0, canvas.width, canvas.height);
-      return;
-    }
-    ctx.clearRect(0, 0, canvas.width, canvas.height);
-    ctx.drawImage(image, imgX, imgY, imgW, imgH);
-
-    if (cropRect) {
-      ctx.strokeStyle = '#ff9900';
-      ctx.lineWidth = 2;
-      ctx.setLineDash([6]);
-      ctx.strokeRect(cropRect.x, cropRect.y, cropRect.w, cropRect.h);
-
-      // 遮罩外圍
-      ctx.fillStyle = 'rgba(255, 153, 0, 0.3)';
-      ctx.fillRect(0, 0, canvas.width, cropRect.y);
-      ctx.fillRect(0, cropRect.y + cropRect.h, canvas.width, canvas.height - (cropRect.y + cropRect.h));
-      ctx.fillRect(0, cropRect.y, cropRect.x, cropRect.h);
-      ctx.fillRect(cropRect.x + cropRect.w, cropRect.y, canvas.width - (cropRect.x + cropRect.w), cropRect.h);
-    }
-  }
-
-  cropBtn.onclick = () => {
-    if (!cropRect || !image) {
-      alert(window.alertTranslations.alertDragCropArea);
-      return;
-    }
-    const cropCanvas = document.createElement('canvas');
-    cropCanvas.width = cropRect.w;
-    cropCanvas.height = cropRect.h;
-    const cropCtx = cropCanvas.getContext('2d');
-    cropCtx.drawImage(image, cropRect.x, cropRect.y, cropRect.w, cropRect.h, 0, 0, cropRect.w, cropRect.h);
-
-    cropCanvas.toBlob((blob) => {
+    const croppedCanvas = cropper.getCroppedCanvas();
+    croppedCanvas.toBlob((blob) => {
       const url = URL.createObjectURL(blob);
       const a = document.createElement('a');
       a.href = url;
-      
-      // Generate new filename
+
       const nameParts = originalFilename.split('.');
       const extension = nameParts.pop();
       const baseName = nameParts.join('.');
       const newFilename = `${baseName}_cropped.${extension}`;
 
-      a.download = newFilename; // Use the new filename
+      a.download = newFilename;
       a.click();
       URL.revokeObjectURL(url);
-    }, 'image/jpeg', 0.9);
+    }, 'image/jpeg', 0.9); // You can adjust format and quality
   };
 }
