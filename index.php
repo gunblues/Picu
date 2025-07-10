@@ -47,14 +47,14 @@ function getTranslation($key) {
 <meta property="og:url" content="https://picu.app/"> <!-- Replace with your actual website URL -->
 <meta property="og:title" content="<?php echo getTranslation('ogTitle'); ?>">
 <meta property="og:description" content="<?php echo getTranslation('ogDescription'); ?>">
-<meta property="og:image" content="<?php echo getTranslation('ogImage'); ?>">
+<meta property="og:image" content="https://picu.app/picu-og-image.jpg">
 
 <!-- Twitter -->
 <meta property="twitter:card" content="summary_large_image">
 <meta property="twitter:url" content="https://picu.app/"> <!-- Replace with your actual website URL -->
 <meta property="twitter:title" content="<?php echo getTranslation('twitterTitle'); ?>">
 <meta property="twitter:description" content="<?php echo getTranslation('twitterDescription'); ?>">
-<meta property="twitter:image" content="<?php echo getTranslation('twitterImage'); ?>">
+<meta property="twitter:image" content="https://picu.app/picu-twitter-image.jpg">
 
 </head>
 <body>
