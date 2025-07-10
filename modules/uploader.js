@@ -162,6 +162,7 @@ export function initUploader() {
           dataUrl: ev.target.result,
           type: file.type
         });
+        const newIndex = window.imageDataList.length - 1; // Move this line here
         window.selectedIndices.add(newIndex);
         renderUploadedList();
         updateCompressList();
