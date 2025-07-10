@@ -46,26 +46,47 @@ export function initCropTool() {
   });
   ratioButtons[ratioButtons.length - 1].classList.add('active'); // 預設自由比例
 
-  canvas.onmousedown = (e) => {
+  // Helper to get coordinates from mouse or touch event
+  function getCoordinates(e) {
+    const rect = canvas.getBoundingClientRect();
+    let clientX, clientY;
+
+    if (e.touches && e.touches.length > 0) {
+      clientX = e.touches[0].clientX;
+      clientY = e.touches[0].clientY;
+    } else {
+      clientX = e.clientX;
+      clientY = e.clientY;
+    }
+
+    return {
+      x: clientX - rect.left,
+      y: clientY - rect.top
+    };
+  }
+
+  canvas.onmousedown = canvas.ontouchstart = (e) => {
     if (!image) {
       alert(window.alertTranslations.alertSelectImage);
       return;
     }
+    e.preventDefault(); // Prevent scrolling on touch devices
     isDragging = true;
-    const rect = canvas.getBoundingClientRect();
-    startX = e.clientX - rect.left;
-    startY = e.clientY - rect.top;
+    const coords = getCoordinates(e);
+    startX = coords.x;
+    startY = coords.y;
     endX = startX;
     endY = startY;
     cropRect = null;
     draw();
   };
 
-  canvas.onmousemove = (e) => {
+  canvas.onmousemove = canvas.ontouchmove = (e) => {
     if (!isDragging) return;
-    const rect = canvas.getBoundingClientRect();
-    let mouseX = Math.min(Math.max(e.clientX - rect.left, 0), canvas.width);
-    let mouseY = Math.min(Math.max(e.clientY - rect.top, 0), canvas.height);
+    e.preventDefault(); // Prevent scrolling on touch devices
+    const coords = getCoordinates(e);
+    let mouseX = Math.min(Math.max(coords.x, 0), canvas.width);
+    let mouseY = Math.min(Math.max(coords.y, 0), canvas.height);
 
     if (aspectRatio) {
       const dx = mouseX - startX;
@@ -103,7 +124,7 @@ export function initCropTool() {
     draw();
   };
 
-  canvas.onmouseup = (e) => {
+  canvas.onmouseup = canvas.ontouchend = canvas.ontouchcancel = (e) => {
     if (!isDragging) return;
     isDragging = false;
     draw();
