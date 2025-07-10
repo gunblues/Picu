@@ -153,7 +153,14 @@ export function initCropTool() {
       const url = URL.createObjectURL(blob);
       const a = document.createElement('a');
       a.href = url;
-      a.download = 'cropped_image.jpg';
+      
+      // Generate new filename
+      const nameParts = originalFilename.split('.');
+      const extension = nameParts.pop();
+      const baseName = nameParts.join('.');
+      const newFilename = `${baseName}_cropped.${extension}`;
+
+      a.download = newFilename; // Use the new filename
       a.click();
       URL.revokeObjectURL(url);
     }, 'image/jpeg', 0.9);
