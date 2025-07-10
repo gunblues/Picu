@@ -70,7 +70,7 @@ export function initCompressTool() {
       worker.onmessage = (event) => {
         const { status, index, compressedData, message } = event.data;
         if (status === 'success') {
-          compressedResults[index] = { filename:selectedImages[index].name, blob: new Uint8Array(compressedData) };
+          compressedResults[index] = { filename:selectedImages[index].name, blob: new Uint8Array(compressedData), originalType: selectedImages[index].type }; // Add originalType
         } else {
           console.error(`壓縮圖片 ${selectedImages[index].name} 失敗:`, message);
         }
@@ -80,7 +80,9 @@ export function initCompressTool() {
           workers.forEach(w => w.terminate());
 
           compressList.innerHTML = '<span>打包中...</span>';
-          compressedResults.forEach(({ filename, blob }) => {
+          compressedResults.forEach(({ filename, blob, originalType }) => { // Add originalType to destructuring
+            const format = selectedFormat === 'original' ? originalType : selectedFormat; // Determine format for each image
+            const fileExtension = format.split('/')[1]; // Get extension for each image
             const name = filename.replace(/\.[^/.]+$/, `.${fileExtension}`);
             zip.file(name, blob);
           });

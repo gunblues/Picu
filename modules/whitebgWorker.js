@@ -1,5 +1,5 @@
 onmessage = function (e) {
-  const { imageData, width, height, shadow, border, index } = e.data;
+  const { imageData, width, height, shadow, border, index, originalType } = e.data; // Receive originalType
 
   try {
     const canvas = new OffscreenCanvas(width, height);
@@ -41,7 +41,7 @@ onmessage = function (e) {
         ctx.strokeRect(x, y, imgWidth, imgHeight);
       }
 
-      canvas.convertToBlob({ type: 'image/jpeg', quality: 0.9 }).then(blob => {
+      canvas.convertToBlob({ type: originalType, quality: 0.9 }).then(blob => { // Use originalType
         blob.arrayBuffer().then(buffer => {
           postMessage({ status: 'success', index, whitebgData: buffer });
         });

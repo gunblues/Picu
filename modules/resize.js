@@ -105,6 +105,7 @@ export function initResizeTool() {
         width,
         height,
         index: i,
+        originalType: selectedImages[i].type // Pass originalType
       }, [imageData.data.buffer]);
     }
   };

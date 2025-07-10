@@ -1,5 +1,5 @@
 onmessage = function (e) {
-  const { imageData, width, height, index } = e.data;
+  const { imageData, width, height, index, originalType } = e.data; // Receive originalType
 
   try {
     const canvas = new OffscreenCanvas(imageData.width, imageData.height);
@@ -11,7 +11,7 @@ onmessage = function (e) {
       const resizeCtx = resizeCanvas.getContext('2d');
       resizeCtx.drawImage(bitmap, 0, 0, width, height);
 
-      resizeCanvas.convertToBlob({ type: 'image/jpeg', quality: 0.9 }).then(blob => {
+      resizeCanvas.convertToBlob({ type: originalType, quality: 0.9 }).then(blob => { // Use originalType
         blob.arrayBuffer().then(buffer => {
           postMessage({ status: 'success', index, resizedData: buffer });
         });

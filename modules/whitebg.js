@@ -98,6 +98,7 @@ export function initWhiteBgTool() {
         shadow,
         border,
         index: i,
+        originalType: selectedImages[i].type // Pass originalType
       }, [imageData.data.buffer]);
     }
   };
