@@ -17,6 +17,7 @@ export function initRemoveBgTool() {
     if (currentOutputImg) {
       currentOutputImg.src = dataUrl;
       currentOutputImg.style.display = 'block';
+      canvas.style.display = 'none'; // 確保 canvas 隱藏
     }
   });
 
@@ -29,6 +30,10 @@ export function initRemoveBgTool() {
 
     const img = new Image();
     img.crossOrigin = 'anonymous';
+
+    // 隱藏 outputImg，顯示 canvas
+    outputImg.style.display = 'none';
+    canvas.style.display = 'block';
 
     img.onload = async () => {
       canvas.width = img.width;
@@ -83,9 +88,12 @@ function onResults(results) {
   // **重要**：在非同步回呼中，重新獲取最新的元素參照來更新
   const currentOutputImg = document.getElementById('removebg-output');
   if (currentOutputImg) {
+    // 清除舊的圖片，確保只顯示一張
+    currentOutputImg.src = ''; // 清空 src
     currentOutputImg.src = canvas.toDataURL('image/png');
     currentOutputImg.style.opacity = '1';
     currentOutputImg.style.display = 'block';
+    canvas.style.display = 'none'; // 隱藏 canvas
   }
   
   // 恢復滑鼠樣式
