@@ -58,6 +58,20 @@ function getTranslation($key) {
 <meta property="twitter:description" content="<?php echo getTranslation('twitterDescription'); ?>">
 <meta property="twitter:image" content="https://picu.app/picu-twitter-image.jpg">
 
+<!-- 多國語言 hreflang 標籤 -->
+<link rel="alternate" hreflang="en" href="https://picu.app/en/" />
+<link rel="alternate" hreflang="zh" href="https://picu.app/zh/" />
+<link rel="alternate" hreflang="ja" href="https://picu.app/ja/" />
+<link rel="alternate" hreflang="ko" href="https://picu.app/ko/" />
+<link rel="alternate" hreflang="es" href="https://picu.app/es/" />
+<link rel="alternate" hreflang="hi" href="https://picu.app/hi/" />
+<link rel="alternate" hreflang="ar" href="https://picu.app/ar/" />
+<link rel="alternate" hreflang="fr" href="https://picu.app/fr/" />
+<link rel="alternate" hreflang="bn" href="https://picu.app/bn/" />
+<link rel="alternate" hreflang="pt" href="https://picu.app/pt/" />
+<link rel="alternate" hreflang="ru" href="https://picu.app/ru/" />
+<link rel="alternate" hreflang="x-default" href="https://picu.app/" />
+
 <script async src="https://pagead2.googlesyndication.com/pagead/js/adsbygoogle.js?client=pub-1004943414433052"
      crossorigin="anonymous"></script>
 <!-- Google tag (gtag.js) -->
