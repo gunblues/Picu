@@ -30,10 +30,11 @@ console.log(`Replaced CSS: style.css -> ${newCssPath}`);
 
 // 替换 JavaScript 引用
 // Regex to match:
-// <script type="module" src="./main.js"></script>
-// <script type="module" src="/dist/assets/main.HASH.js"></script>
-const jsRegex = /<script type="module" src="(?:\.\/|\/dist\/assets\/)?main(?:\.[a-zA-Z0-9]+)?\.js(?:\?[a-zA-Z0-9=.]+)?"><\/script>/g;
-indexContent = indexContent.replace(jsRegex, `<script type="module" src="${newJsPath}">`);
+// <script type="module" src="./main.js">
+// <script type="module" src="/dist/assets/main.HASH.js">
+// 注意：这里不再匹配 </script> 闭合标签
+const jsRegex = /<script type="module" src="(?:\.\/|\/dist\/assets\/)?main(?:\.[a-zA-Z0-9]+)?\.js(?:\?[a-zA-Z0-9=.]+)?">/g;
+indexContent = indexContent.replace(jsRegex, `<script type="module" src="${newJsPath}"></script>`); // <-- 這裡確保替換字串包含完整的 </script>
 console.log(`Replaced JS: main.js -> ${newJsPath}`);
 
 fs.writeFileSync(indexPath, indexContent, 'utf8');
