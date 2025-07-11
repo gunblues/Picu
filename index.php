@@ -39,6 +39,8 @@ function getTranslation($key) {
 <link rel="stylesheet" href="/dist/assets/style.B5aEvsmp.css">
 <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/cropperjs/1.5.12/cropper.min.css">
 <script src="https://cdnjs.cloudflare.com/ajax/libs/cropperjs/1.5.12/cropper.min.js"></script>
+<script src="https://cdnjs.cloudflare.com/ajax/libs/cropperjs/1.5.12/cropper.min.js"></script>
+<script src="https://cdn.jsdelivr.net/npm/@mediapipe/selfie_segmentation/selfie_segmentation.js"></script>
 
 <!-- SEO Meta Tags -->
 <meta name="description" content="<?php echo getTranslation('seoDescription'); ?>">
@@ -108,6 +110,7 @@ function getTranslation($key) {
       <button data-tab="whitebg"><?php echo getTranslation('tabWhitebg'); ?></button>
       <button data-tab="enhance"><?php echo getTranslation('tabEnhance'); ?></button>
       <button data-tab="crop"><?php echo getTranslation('tabCrop'); ?></button>
+      <button data-tab="removebg"><?php echo getTranslation('tabRemovebg'); ?></button>
     </div>
 
     <div id="compress" class="tab-content active">
@@ -215,6 +218,14 @@ function getTranslation($key) {
       <div id="crop-canvas"></div>
       <button id="crop-btn"><?php echo getTranslation('cropBtn'); ?></button>
     </div>
+
+	<div id="removebg" class="tab-content">
+	  <h3><?php echo getTranslation('removebgTitle'); ?></h3>
+	  <button id="removebg-btn"><?php echo getTranslation('removebgBtn'); ?></button><br><br>
+	  <canvas id="removebg-canvas" style="max-width:100%;"></canvas><br>
+	  <img id="removebg-output" style="display:none; max-width:100%;" alt="Result">
+	</div>
+
   </div>
 </main>
 
@@ -227,9 +238,10 @@ function getTranslation($key) {
         alertSelectImageForWhiteBg: "<?php echo getTranslation('alertSelectImageForWhiteBg'); ?>",
         alertSelectImageForCompress: "<?php echo getTranslation('alertSelectImageForCompress'); ?>",
         alertSelectImageForResize: "<?php echo getTranslation('alertSelectImageForResize'); ?>",
+        alertSelectImageForRemoveBg: "<?php echo getTranslation('alertSelectImageForRemoveBg'); ?>",
     };
 </script>
-<script type="module" src="/dist/assets/main.D9DSgDgu.js"></script>
+<script type="module" src="/dist/assets/main.csO6G1PQ.js"></script>
 
 </body>
 </html>

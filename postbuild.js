@@ -14,23 +14,23 @@ if (!fs.existsSync(manifestPath)) {
 const manifest = JSON.parse(fs.readFileSync(manifestPath, 'utf8'));
 let indexContent = fs.readFileSync(indexPath, 'utf8');
 
-// 取得 hashed 檔案路徑
+// Get hashed paths from manifest
 const cssPath = `/dist/${manifest['style.css']['file']}`;
 const jsFileName = manifest['main.js']['file'];
 const jsPath = `/dist/${jsFileName}`;
 const jsFullPath = path.resolve(distPath, jsFileName);
 
-// 替換 CSS 引用
-const cssRegex = /<link rel="stylesheet" href="(?:\.\/|\/dist\/assets\/)?style(?:\.[a-zA-Z0-9]+)?\.css(?:\?[a-zA-Z0-9=.]+)?">/g;
+// Replace CSS
+const cssRegex = /<link rel="stylesheet" href="[^"]*style\.[a-zA-Z0-9_-]+\.css[^"]*">/g;
 indexContent = indexContent.replace(cssRegex, `<link rel="stylesheet" href="${cssPath}">`);
 console.log(`✅ CSS replaced: ${cssPath}`);
 
-// 替換 JS 引用
-const jsRegex = /<script type="module" src="(?:\.\/|\/dist\/assets\/)?main(?:\.[a-zA-Z0-9]+)?\.js(?:\?[a-zA-Z0-9=.]+)?"><\/script>/g;
+// Replace JS
+const jsRegex = /<script type="module" src="[^"]*main\.[a-zA-Z0-9_-]+\.js[^"]*"><\/script>/g;
 indexContent = indexContent.replace(jsRegex, `<script type="module" src="${jsPath}"></script>`);
 console.log(`✅ JS replaced: ${jsPath}`);
 
-// 混淆 JS
+// Obfuscate JS
 if (fs.existsSync(jsFullPath)) {
   const originalJsCode = fs.readFileSync(jsFullPath, 'utf8');
   const obfuscatedCode = JavaScriptObfuscator.obfuscate(originalJsCode, {
@@ -48,6 +48,7 @@ if (fs.existsSync(jsFullPath)) {
   console.warn(`⚠️ JS file not found for obfuscation: ${jsFullPath}`);
 }
 
-// 寫入 index.php
+// Write updated index.php
 fs.writeFileSync(indexPath, indexContent, 'utf8');
 console.log('✅ index.php updated.');
+
