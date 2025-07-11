@@ -205,7 +205,7 @@ function getTranslation($key) {
         alertSelectImageForResize: "<?php echo getTranslation('alertSelectImageForResize'); ?>",
     };
 </script>
-<script type="module" src="/dist/assets/main.B23jJeCX.js">
+<script type="module" src="/dist/assets/main.KCmJK3qB.js">
 
 </body>
 </html>
