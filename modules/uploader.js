@@ -58,15 +58,27 @@ export function initUploader() {
       img.style.left = '0';
 
       img.onclick = () => {
+        // 處理選中狀態
         uploadedList.querySelectorAll('img').forEach(i => i.classList.remove('selected'));
         img.classList.add('selected');
         window.selectedForCrop = index;
+
+        // **兼容舊模式**：直接呼叫函式，確保 crop 和 enhance 功能正常
         if (typeof window.loadImageToCrop === 'function') {
-          window.loadImageToCrop(dataUrl, item.name); // Pass item.name
+          window.loadImageToCrop(dataUrl, item.name);
         }
         if (typeof window.loadImageToEnhance === 'function') {
-          window.loadImageToEnhance(dataUrl, item.name); // Pass item.name
+          window.loadImageToEnhance(dataUrl, item.name);
         }
+
+        // **支援新模式**：觸發全域事件，供 removebg 等模組使用
+        const event = new CustomEvent('image-selected', { 
+          detail: { 
+            dataUrl: dataUrl,
+            name: item.name
+          }
+        });
+        window.dispatchEvent(event);
       };
 
       // ✅ 刪除按鈕

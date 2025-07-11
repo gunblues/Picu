@@ -4,13 +4,25 @@ let canvas, ctx, outputImg;
 
 export function initRemoveBgTool() {
   const removebgBtn = document.getElementById('removebg-btn');
+  const uploadedList = document.getElementById('uploaded-list');
   canvas = document.getElementById('removebg-canvas');
   ctx = canvas.getContext('2d');
   outputImg = document.getElementById('removebg-output');
 
+  // 監聽全域的 image-selected 事件，用於預覽圖片
+  window.addEventListener('image-selected', (event) => {
+    const { dataUrl } = event.detail;
+    // **重要**：每次都重新獲取最新的元素參照，防止因 DOM 操作導致參照失效
+    const currentOutputImg = document.getElementById('removebg-output');
+    if (currentOutputImg) {
+      currentOutputImg.src = dataUrl;
+      currentOutputImg.style.display = 'block';
+    }
+  });
+
+  // "Remove Background" 按鈕的點擊事件
   removebgBtn.onclick = async () => {
-    const selected = document.querySelector('#uploaded-list img.selected');
-    if (!selected) {
+    if (!outputImg.src || outputImg.style.display === 'none') {
       alert(window.alertTranslations.alertSelectImageForRemoveBg);
       return;
     }
@@ -19,21 +31,22 @@ export function initRemoveBgTool() {
     img.crossOrigin = 'anonymous';
 
     img.onload = async () => {
-      // 清空 canvas 和 output 圖片
-      ctx.clearRect(0, 0, canvas.width, canvas.height);
-      outputImg.src = '';
-      outputImg.style.display = 'none';
-
       canvas.width = img.width;
       canvas.height = img.height;
       ctx.drawImage(img, 0, 0);
 
-      if (!selfieSegmentation) await loadMediaPipe();
+      if (!selfieSegmentation) {
+        await loadMediaPipe();
+      }
+      
+      // 添加加載指示器
+      outputImg.style.opacity = '0.5';
+      document.body.style.cursor = 'wait';
+
       await selfieSegmentation.send({ image: img });
     };
 
-    // 強制刷新，確保同一張圖也會觸發 onload
-    img.src = selected.src + '?t=' + Date.now();
+    img.src = outputImg.src;
   };
 }
 
@@ -47,14 +60,34 @@ async function loadMediaPipe() {
 }
 
 function onResults(results) {
+  // 獲取分割蒙版
   const mask = results.segmentationMask;
+  
+  // 確保 canvas 尺寸與圖片一致
+  canvas.width = results.image.width;
+  canvas.height = results.image.height;
+
+  // 清空畫布
   ctx.clearRect(0, 0, canvas.width, canvas.height);
 
+  // 繪製蒙版
   ctx.drawImage(mask, 0, 0, canvas.width, canvas.height);
+  
+  // 使用 'source-in' 操作，只保留原圖中與蒙版重疊的部分（即前景）
   ctx.globalCompositeOperation = 'source-in';
   ctx.drawImage(results.image, 0, 0, canvas.width, canvas.height);
+  
+  // 重置混合模式
   ctx.globalCompositeOperation = 'source-over';
 
-  outputImg.src = canvas.toDataURL('image/png');
-  outputImg.style.display = 'block';
+  // **重要**：在非同步回呼中，重新獲取最新的元素參照來更新
+  const currentOutputImg = document.getElementById('removebg-output');
+  if (currentOutputImg) {
+    currentOutputImg.src = canvas.toDataURL('image/png');
+    currentOutputImg.style.opacity = '1';
+    currentOutputImg.style.display = 'block';
+  }
+  
+  // 恢復滑鼠樣式
+  document.body.style.cursor = 'default';
 }
