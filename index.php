@@ -221,7 +221,8 @@ function getTranslation($key) {
 
 	<div id="removebg" class="tab-content">
 	  <h3><?php echo getTranslation('removebgTitle'); ?></h3>
-	  <button id="removebg-btn"><?php echo getTranslation('removebgBtn'); ?></button><br><br>
+	  <button id="removebg-btn"><?php echo getTranslation('removebgBtn'); ?></button>
+	<button id="download-removebg-btn" style="display:none;"><?php echo getTranslation('downloadBtn'); ?></button><br><br>
 	  <canvas id="removebg-canvas" style="display:none; max-width:100%;"></canvas><br>
 	  <img id="removebg-output" style="display:none; max-width:100%;" alt="Result">
 	</div>
@@ -241,7 +242,7 @@ function getTranslation($key) {
         alertSelectImageForRemoveBg: "<?php echo getTranslation('alertSelectImageForRemoveBg'); ?>",
     };
 </script>
-<script type="module" src="/dist/assets/main.BLXJ46qH.js"></script>
+<script type="module" src="/dist/assets/main.BCy7fidS.js"></script>
 
 </body>
 </html>

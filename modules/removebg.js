@@ -1,9 +1,10 @@
 
 let selfieSegmentation;
-let canvas, ctx, outputImg;
+let canvas, ctx, outputImg, downloadRemovebgBtn; // 新增 downloadRemovebgBtn
 
 export function initRemoveBgTool() {
   const removebgBtn = document.getElementById('removebg-btn');
+  downloadRemovebgBtn = document.getElementById('download-removebg-btn'); // 移除 const
   const uploadedList = document.getElementById('uploaded-list');
   canvas = document.getElementById('removebg-canvas');
   ctx = canvas.getContext('2d');
@@ -53,6 +54,20 @@ export function initRemoveBgTool() {
 
     img.src = outputImg.src;
   };
+
+  // "Download" 按鈕的點擊事件
+  downloadRemovebgBtn.onclick = () => {
+    if (outputImg.src && outputImg.style.display !== 'none') {
+      const link = document.createElement('a');
+      link.href = outputImg.src;
+      link.download = 'removed-background.png'; // 下載檔案名
+      document.body.appendChild(link);
+      link.click();
+      document.body.removeChild(link);
+    } else {
+      alert(window.alertTranslations.alertNoImageToDownload); // 假設有這個翻譯鍵
+    }
+  };
 }
 
 async function loadMediaPipe() {
@@ -94,6 +109,7 @@ function onResults(results) {
     currentOutputImg.style.opacity = '1';
     currentOutputImg.style.display = 'block';
     canvas.style.display = 'none'; // 隱藏 canvas
+    downloadRemovebgBtn.style.display = 'inline-block'; // 顯示下載按鈕
   }
   
   // 恢復滑鼠樣式

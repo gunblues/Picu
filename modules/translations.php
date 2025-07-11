@@ -62,6 +62,8 @@ $translations = [
   'removebgTitle' => 'Remove Background',
   'removebgBtn' => 'Remove Background',
     'alertSelectImageForRemoveBg' => 'Please select an image to remove background',
+    'downloadBtn' => 'Download',
+    'alertNoImageToDownload' => 'No image to download.',
   ],
 
   'zh' => [
@@ -125,6 +127,8 @@ $translations = [
   'removebgTitle' => '去背（MediaPipe）',
   'removebgBtn' => '去背',
     'alertSelectImageForRemoveBg' => '請先選取要去背的圖片',
+    'downloadBtn' => '下載',
+    'alertNoImageToDownload' => '沒有圖片可以下載。',
   ],
 
   'ja' => [
@@ -188,6 +192,8 @@ $translations = [
   'removebgTitle' => '背景を削除（MediaPipe）',
   'removebgBtn' => '背景を削除',
     'alertSelectImageForRemoveBg' => '背景を削除する画像を選択してください',
+    'downloadBtn' => 'ダウンロード',
+    'alertNoImageToDownload' => 'ダウンロードする画像がありません。',
   ],
 
   'ko' => [
@@ -250,6 +256,8 @@ $translations = [
   'removebgTitle' => '배경 제거',
   'removebgBtn' => '배경 제거',
     'alertSelectImageForRemoveBg' => '배경을 제거할 이미지를 선택하세요',
+    'downloadBtn' => '다운로드',
+    'alertNoImageToDownload' => '다운로드할 이미지가 없습니다.',
   ],
 
   'es' => [
@@ -313,6 +321,8 @@ $translations = [
   'removebgTitle' => 'Quitar fondo',
   'removebgBtn' => 'Quitar fondo',
     'alertSelectImageForRemoveBg' => 'Por favor selecciona una imagen para eliminar el fondo',
+    'downloadBtn' => 'Descargar',
+    'alertNoImageToDownload' => 'No hay imagen para descargar.',
   ],
 
   'hi' => [
@@ -376,6 +386,8 @@ $translations = [
   'removebgTitle' => 'पृष्ठभूमि हटाएं',
   'removebgBtn' => 'पृष्ठभूमि हटाएं',
     'alertSelectImageForRemoveBg' => 'कृपया पृष्ठभूमि हटाने के लिए एक छवि चुनें',
+    'downloadBtn' => 'डाउनलोड करें',
+    'alertNoImageToDownload' => 'डाउनलोड करने के लिए कोई छवि नहीं है।',
   ],
 
   'ar' => [
@@ -438,6 +450,8 @@ $translations = [
   'removebgTitle' => 'إزالة الخلفية',
   'removebgBtn' => 'إزالة الخلفية',
     'alertSelectImageForRemoveBg' => 'يرجى اختيار صورة لإزالة الخلفية',
+    'downloadBtn' => 'تنزيل',
+    'alertNoImageToDownload' => 'لا توجد صورة لتنزيلها.',
   ],
 
   'fr' => [
@@ -501,6 +515,8 @@ $translations = [
   'removebgTitle' => 'Supprimer l’arrière-plan',
   'removebgBtn' => 'Supprimer l’arrière-plan',
     'alertSelectImageForRemoveBg' => 'Veuillez sélectionner une image pour supprimer l’arrière-plan',
+    'downloadBtn' => 'Télécharger',
+    'alertNoImageToDownload' => 'Aucune image à télécharger.',
   ],
 
   'bn' => [
@@ -564,6 +580,8 @@ $translations = [
   'removebgTitle' => 'পটভূমি সরান',
   'removebgBtn' => 'পটভূমি সরান',
     'alertSelectImageForRemoveBg' => 'পটভূমি অপসারণ করতে একটি ছবি নির্বাচন করুন',
+    'downloadBtn' => 'ডাউনলোড করুন',
+    'alertNoImageToDownload' => 'ডাউনলোড করার জন্য কোন ছবি নেই।',
   ],
 
   'pt' => [
@@ -627,6 +645,8 @@ $translations = [
   'removebgTitle' => 'Remover fundo',
   'removebgBtn' => 'Remover fundo',
     'alertSelectImageForRemoveBg' => 'Por favor selecione uma imagem para remover o fundo',
+    'downloadBtn' => 'Baixar',
+    'alertNoImageToDownload' => 'Nenhuma imagem para baixar.',
   ],
 
 ];
