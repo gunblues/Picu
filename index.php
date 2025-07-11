@@ -60,6 +60,16 @@ function getTranslation($key) {
 
 <script async src="https://pagead2.googlesyndication.com/pagead/js/adsbygoogle.js?client=pub-1004943414433052"
      crossorigin="anonymous"></script>
+<!-- Google tag (gtag.js) -->
+<script async src="https://www.googletagmanager.com/gtag/js?id=G-JD2JJ5NEJX"></script>
+<script>
+  window.dataLayer = window.dataLayer || [];
+  function gtag(){dataLayer.push(arguments);}
+  gtag('js', new Date());
+
+  gtag('config', 'G-JD2JJ5NEJX');
+</script>
+
 </head>
 <body>
 
