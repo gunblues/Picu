@@ -36,7 +36,7 @@ function getTranslation($key) {
 <title><?php echo getTranslation('title'); ?></title>
 <link rel="icon" href="🐣" />
 <script src="https://cdnjs.cloudflare.com/ajax/libs/jszip/3.10.1/jszip.min.js"></script>
-<link rel="stylesheet" href="/dist/assets/style.qwquVEUu.css">
+<link rel="stylesheet" href="/dist/assets/style.1QpTPT2k.css">
 <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/cropperjs/1.5.12/cropper.min.css">
 <script src="https://cdnjs.cloudflare.com/ajax/libs/cropperjs/1.5.12/cropper.min.js"></script>
 
@@ -205,7 +205,7 @@ function getTranslation($key) {
         alertSelectImageForResize: "<?php echo getTranslation('alertSelectImageForResize'); ?>",
     };
 </script>
-<script type="module" src="/dist/assets/main.KCmJK3qB.js"></script>
+<script type="module" src="/dist/assets/main.D9DSgDgu.js"></script>
 
 </body>
 </html>

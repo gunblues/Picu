@@ -1,11 +1,13 @@
 export function initCropTool() {
   const imageElement = document.createElement('img');
   imageElement.id = 'image-to-crop';
-  imageElement.style.maxWidth = '100%'; // Ensure image fits within container
-  imageElement.style.display = 'block'; // Remove extra space below image
-  
-  const cropCanvasContainer = document.getElementById('crop-canvas'); // This was a canvas, now it will hold the image
-  cropCanvasContainer.innerHTML = ''; // Clear existing canvas
+  imageElement.style.width = '100%';
+  imageElement.style.maxHeight = '80vh';
+  imageElement.style.objectFit = 'contain';
+  imageElement.style.display = 'block';
+
+  const cropCanvasContainer = document.getElementById('crop-canvas');
+  cropCanvasContainer.innerHTML = '';
   cropCanvasContainer.appendChild(imageElement);
 
   const toolbar = document.getElementById('crop-toolbar');
@@ -19,58 +21,58 @@ export function initCropTool() {
     originalFilename = filename || 'image';
     imageElement.src = dataUrl;
 
-    if (cropper) {
-      cropper.destroy();
-    }
+    imageElement.onload = () => {
+      const waitUntilImageReady = () => {
+        if (imageElement.clientWidth > 0 && imageElement.clientHeight > 0) {
+          if (cropper) {
+            cropper.destroy();
+          }
 
-    cropper = new Cropper(imageElement, {
-      aspectRatio: NaN, // Free ratio by default
-      viewMode: 2, // Restrict the canvas to not exceed the container
-      autoCropArea: 0.8, // 80% of the image
-      background: false, // Hide the grid background
-      ready() {
-        // Set initial active ratio button
-        ratioButtons.forEach(btn => btn.classList.remove('active'));
-        toolbar.querySelector('button[data-ratio="custom"]').classList.add('active');
-      }
-    });
+          cropper = new Cropper(imageElement, {
+            aspectRatio: 1,
+            viewMode: 1,
+            responsive: true,
+            autoCropArea: 1,
+          });
+        } else {
+          requestAnimationFrame(waitUntilImageReady);
+        }
+      };
+
+      requestAnimationFrame(waitUntilImageReady);
+    };
   };
 
-  ratioButtons.forEach(btn => {
-    btn.onclick = () => {
-      ratioButtons.forEach(b => b.classList.remove('active'));
-      btn.classList.add('active');
-      const val = btn.dataset.ratio;
-      if (val === 'custom') {
-        cropper.setAspectRatio(NaN); // Free ratio
-      } else {
-        const parts = val.split('/');
-        const aspectRatio = parseFloat(parts[0]) / parseFloat(parts[1]);
-        cropper.setAspectRatio(aspectRatio);
+  function parseRatio(ratioStr) {
+    if (ratioStr === 'free') return NaN;
+    const parts = ratioStr.split('/');
+    return parts.length === 2
+      ? parseFloat(parts[0]) / parseFloat(parts[1])
+      : parseFloat(ratioStr);
+  }
+
+  ratioButtons.forEach(button => {
+    button.addEventListener('click', () => {
+      const ratio = button.dataset.ratio;
+      if (cropper) {
+        cropper.setAspectRatio(parseRatio(ratio));
       }
-    };
+
+      ratioButtons.forEach(btn => btn.classList.remove('active'));
+      button.classList.add('active');
+    });
   });
 
-  cropBtn.onclick = () => {
-    if (!cropper || !imageElement.src) {
-      alert(window.alertTranslations.alertSelectImage);
-      return;
+  cropBtn.addEventListener('click', () => {
+    if (cropper) {
+      const canvas = cropper.getCroppedCanvas();
+      canvas.toBlob(blob => {
+        const link = document.createElement('a');
+        link.href = URL.createObjectURL(blob);
+        link.download = `${originalFilename}_cropped.png`;
+        link.click();
+      }, 'image/png');
     }
-
-    const croppedCanvas = cropper.getCroppedCanvas();
-    croppedCanvas.toBlob((blob) => {
-      const url = URL.createObjectURL(blob);
-      const a = document.createElement('a');
-      a.href = url;
-
-      const nameParts = originalFilename.split('.');
-      const extension = nameParts.pop();
-      const baseName = nameParts.join('.');
-      const newFilename = `${baseName}_cropped.${extension}`;
-
-      a.download = newFilename;
-      a.click();
-      URL.revokeObjectURL(url);
-    }, 'image/jpeg', 0.9); // You can adjust format and quality
-  };
+  });
 }
+
