@@ -7,6 +7,7 @@ import { initResizeTool } from './modules/resize.js';
 
 
 window.onload = () => {
+  console.log('main.js loaded and window.onload executed!'); // Add this line
   
   initUploader();
   initCropTool();
