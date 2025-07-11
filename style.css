@@ -276,3 +276,12 @@ input[type="range"] {
   display: block;
 }
 
+#enhance-canvas {
+  max-width: 100%;
+  height: auto;
+  display: block;
+  margin: 1em auto;
+  background-color: #f8f8f8;
+  border-radius: 8px;
+  border: 1px solid #ccc;
+}
