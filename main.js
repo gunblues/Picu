@@ -2,6 +2,7 @@ import { initUploader } from './modules/uploader.js';
 import { initCropTool } from './modules/crop.js';
 import { initCompressTool } from './modules/compress.js';
 import { initWhiteBgTool } from './modules/whitebg.js';
+import { initRemoveBgTool } from './modules/removebg.js';
 import { initEnhanceTool } from './modules/enhance.js';
 import { initResizeTool } from './modules/resize.js';
 
@@ -13,6 +14,7 @@ window.onload = () => {
   initCropTool();
   initCompressTool();
   initWhiteBgTool();
+initRemoveBgTool();
   initEnhanceTool();
   initResizeTool(); 
 
