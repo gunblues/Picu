@@ -25,7 +25,7 @@ export function initCropTool() {
 
     cropper = new Cropper(imageElement, {
       aspectRatio: NaN, // Free ratio by default
-      viewMode: 1, // Restrict the crop box to not exceed the canvas
+      viewMode: 2, // Restrict the canvas to not exceed the container
       autoCropArea: 0.8, // 80% of the image
       background: false, // Hide the grid background
       ready() {
