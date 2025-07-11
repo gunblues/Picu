@@ -12,30 +12,20 @@ if (!fs.existsSync(manifestPath)) {
 const manifest = JSON.parse(fs.readFileSync(manifestPath, 'utf8'));
 let indexContent = fs.readFileSync(indexPath, 'utf8');
 
-// 获取新的 CSS 和 JS 路径
+// 取得新的 CSS 和 JS 雜湊檔路徑
 const newCssPath = `/dist/${manifest['style.css']['file']}`;
 const newJsPath = `/dist/${manifest['main.js']['file']}`;
 
-// 替换 CSS 引用
-// Regex to match:
-// <link rel="stylesheet" href="style.css">
-// <link rel="stylesheet" href="/dist/assets/style.HASH.css">
-// The `(?:...)` creates a non-capturing group.
-// `\.` matches a literal dot.
-// `[a-zA-Z0-9]+` matches the hash.
-// `\?` matches a literal question mark.
+// 取代 CSS
 const cssRegex = /<link rel="stylesheet" href="(?:\.\/|\/dist\/assets\/)?style(?:\.[a-zA-Z0-9]+)?\.css(?:\?[a-zA-Z0-9=.]+)?">/g;
 indexContent = indexContent.replace(cssRegex, `<link rel="stylesheet" href="${newCssPath}">`);
 console.log(`Replaced CSS: style.css -> ${newCssPath}`);
 
-// 替换 JavaScript 引用
-// Regex to match:
-// <script type="module" src="./main.js">
-// <script type="module" src="/dist/assets/main.HASH.js">
-// 注意：这里不再匹配 </script> 闭合标签
-const jsRegex = /<script type="module" src="(?:\.\/|\/dist\/assets\/)?main(?:\.[a-zA-Z0-9]+)?\.js(?:\?[a-zA-Z0-9=.]+)?">/g;
-indexContent = indexContent.replace(jsRegex, `<script type="module" src="${newJsPath}"></script>`); // <-- 這裡確保替換字串包含完整的 </script>
+// 取代 JS：這次包含整個 <script> 標籤
+const jsRegex = /<script type="module" src="(?:\.\/|\/dist\/assets\/)?main(?:\.[a-zA-Z0-9]+)?\.js(?:\?[a-zA-Z0-9=.]+)?"><\/script>/g;
+indexContent = indexContent.replace(jsRegex, `<script type="module" src="${newJsPath}"></script>`);
 console.log(`Replaced JS: main.js -> ${newJsPath}`);
 
+// 寫回 index.php
 fs.writeFileSync(indexPath, indexContent, 'utf8');
 console.log('index.php updated with hashed asset paths.');
