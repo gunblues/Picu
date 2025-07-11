@@ -19,6 +19,7 @@
   "homepage": "https://bitbucket.org/gunblues/picu#readme",
   "description": "",
   "devDependencies": {
+    "javascript-obfuscator": "^4.1.1",
     "vite": "^7.0.4"
   }
 }
