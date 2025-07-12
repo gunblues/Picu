@@ -136,7 +136,7 @@ function getTranslation($key) {
           <input id="compress-max-dimension" type="number" min="1" placeholder="<?php echo getTranslation('autoPlaceholder'); ?>">
         </div>
       </div>
-      <div id="compress-list"></div>
+      
       <button id="compress-btn"><?php echo getTranslation('compressBtn'); ?></button>
       <div id="compress-progress-container" style="width: 100%; background-color: #e0e0e0; border-radius: 5px; margin-top: 10px; overflow: hidden; display: none;">
         <div id="compress-progress-bar" style="height: 20px; width: 0%; background-color: #4CAF50; border-radius: 5px; text-align: center; line-height: 20px; color: white;"></div>
@@ -251,7 +251,7 @@ function getTranslation($key) {
         compressSummaryReduction: "<?php echo getTranslation('compressSummaryReduction'); ?>", // New translation key
     };
 </script>
-<script type="module" src="/dist/assets/main.DRh0Y9dv.js"></script>
+<script type="module" src="/dist/assets/main.DQU-Aicf.js"></script>
 
 </body>
 </html>

@@ -2,7 +2,7 @@ import imageCompression from 'browser-image-compression';
 
 export function initCompressTool() {
   const compressBtn = document.getElementById('compress-btn');
-  const compressList = document.getElementById('compress-list');
+  const compressList = document.getElementById('compress-list'); // Keep this for now, will remove in index.php
   const compressQualityInput = document.getElementById('compress-quality');
   const compressQualityValueSpan = document.getElementById('compress-quality-value');
   const compressFormatSelect = document.getElementById('compress-format');
@@ -39,12 +39,16 @@ export function initCompressTool() {
   };
 
   window.updateCompressSelection = (selectedItems) => {
-    compressList.innerHTML = '';
-    selectedItems.forEach((item, i) => {
-      const span = document.createElement('span');
-      span.textContent = item.name || `圖片 ${i + 1}`;
-      compressList.appendChild(span);
-    });
+    // 更新按鈕文字，顯示選中檔案數量
+    const selectedCount = selectedItems.length;
+    // 提供一個預設值，以防 window.appTranslations.compressBtn 尚未載入
+    const originalButtonText = window.appTranslations && window.appTranslations.compressBtn ? window.appTranslations.compressBtn : 'Compress & Download Selected'; 
+    if (selectedCount > 0) {
+      compressBtn.textContent = `${originalButtonText} (${selectedCount})`;
+    } else {
+      compressBtn.textContent = originalButtonText;
+    }
+
     updateOriginalSizeInfo();
   };
 
@@ -66,7 +70,7 @@ export function initCompressTool() {
 
     if (selectedImages.length === 0) return;
 
-    compressList.innerHTML = ''; // Clear previous messages
+    // compressList.innerHTML = ''; // Clear previous messages - no longer needed here
     progressBarContainer.style.display = 'block'; // Show progress bar
     progressBar.style.width = '0%';
     progressBar.textContent = `0% (${window.appTranslations.compressing})`;
@@ -91,9 +95,9 @@ export function initCompressTool() {
       URL.revokeObjectURL(originalImage.src); // 釋放 URL 物件
 
       const options = {
-        maxSizeMB: Infinity, // 恢復為 Infinity，讓尺寸縮放優先
-        maxWidthOrHeight: maxDimension, // 使用新的 maxDimension
-        useWebWorker: true, // 啟用 Web Worker
+        maxSizeMB: Infinity, 
+        maxWidthOrHeight: maxDimension, 
+        useWebWorker: true, 
         fileType: selectedFormat,
         initialQuality: quality,
       };
