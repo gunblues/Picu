@@ -221,28 +221,6 @@ export function initUploader() {
           }
         };
         img.src = ev.target.result;
-        // window.imageDataList.push({ 
-        //   name: file.name,
-        //   dataUrl: ev.target.result,
-        //   type: file.type,
-        //   size: file.size // Add original file size
-        // });
-        const newIndex = window.imageDataList.length - 1; // Move this line here
-        window.selectedIndices.add(newIndex);
-        renderUploadedList();
-        updateBatchProcessingList();
-
-        // If this is the first image uploaded, automatically select it for crop/enhance
-        if (window.imageDataList.length === 1) {
-          // Simulate a click on the newly added image to trigger selection and loading
-          // This needs to be done after the image element is rendered in the DOM
-          setTimeout(() => {
-            const firstImageElement = uploadedList.querySelector('.img-container img');
-            if (firstImageElement) {
-              firstImageElement.click();
-            }
-          }, 0); // Use setTimeout to ensure the element is in the DOM
-        }
       };
       reader.readAsDataURL(file);
     });

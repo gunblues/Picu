@@ -251,7 +251,7 @@ function getTranslation($key) {
         compressSummaryReduction: "<?php echo getTranslation('compressSummaryReduction'); ?>", // New translation key
     };
 </script>
-<script type="module" src="/dist/assets/main.CNCtZ46E.js"></script>
+<script type="module" src="/dist/assets/main.CyhlraxH.js"></script>
 
 </body>
 </html>

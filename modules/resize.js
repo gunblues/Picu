@@ -39,23 +39,16 @@ export function initResizeTool() {
       img.src = dataUrl;
       await new Promise(resolve => img.onload = resolve);
 
-      const canvas = document.createElement('canvas');
-      canvas.width = img.width;
-      canvas.height = img.height;
-      const ctx = canvas.getContext('2d');
-      ctx.drawImage(img, 0, 0);
-
-      const imageData = ctx.getImageData(0, 0, canvas.width, canvas.height);
-
       const worker = new Worker('./modules/resizeWorker.js');
       workers.push(worker);
 
       worker.onmessage = (event) => {
         const { status, index, resizedData, message } = event.data;
         if (status === 'success') {
-          resizedResults[index] = { filename: selectedImages[index].name, blob: new Uint8Array(resizedData) };
+          resizedResults[index] = { filename: selectedImages[index].name, blob: new Blob([resizedData], { type: selectedImages[index].type }) };
         } else {
           console.error(`調整圖片 ${selectedImages[index].name} 失敗:`, message);
+          resizePreview.innerHTML = `處理圖片 ${selectedImages[index].name} 失敗: ${message}`;
         }
 
         completedCount++;
@@ -99,7 +92,7 @@ export function initResizeTool() {
       };
 
       worker.postMessage({
-        imageData,
+        dataUrl: dataUrl,
         width,
         height,
         index: i,

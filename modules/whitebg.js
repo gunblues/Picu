@@ -27,23 +27,16 @@ export function initWhiteBgTool() {
       img.src = dataUrl;
       await new Promise(resolve => img.onload = resolve);
 
-      const canvas = document.createElement('canvas');
-      canvas.width = img.width;
-      canvas.height = img.height;
-      const ctx = canvas.getContext('2d');
-      ctx.drawImage(img, 0, 0);
-
-      const imageData = ctx.getImageData(0, 0, canvas.width, canvas.height);
-
       const worker = new Worker('./modules/whitebgWorker.js');
       workers.push(worker);
 
       worker.onmessage = (event) => {
         const { status, index, whitebgData, message } = event.data;
         if (status === 'success') {
-          whitebgResults[index] = { filename: selectedImages[index].name, blob: new Uint8Array(whitebgData) };
+          whitebgResults[index] = { filename: selectedImages[index].name, blob: new Blob([whitebgData], { type: selectedImages[index].type }) };
         } else {
           console.error(`製作白底圖 ${selectedImages[index].name} 失敗:`, message);
+          preview.innerHTML = `處理圖片 ${selectedImages[index].name} 失敗: ${message}`;
         }
 
         completedCount++;
@@ -87,14 +80,14 @@ export function initWhiteBgTool() {
       };
 
       worker.postMessage({
-        imageData,
+        dataUrl: dataUrl,
         width,
         height,
         shadow,
         border,
         index: i,
         originalType: selectedImages[i].type
-      }, [imageData.data.buffer]);
+      });
     }
   };
 }
