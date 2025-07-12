@@ -19,7 +19,11 @@
   "homepage": "https://bitbucket.org/gunblues/picu#readme",
   "description": "",
   "devDependencies": {
+    "@squoosh/cli": "^0.7.1",
     "javascript-obfuscator": "^4.1.1",
     "vite": "^7.0.4"
+  },
+  "dependencies": {
+    "browser-image-compression": "^2.0.2"
   }
 }

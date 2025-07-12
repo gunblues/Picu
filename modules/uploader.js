@@ -181,7 +181,8 @@ export function initUploader() {
             type: file.type,
             size: file.size, // Add original file size
             width: img.width, // Add original image width
-            height: img.height // Add original image height
+            height: img.height, // Add original image height
+            file: file // Store the original file object
           });
           const newIndex = window.imageDataList.length - 1; // Move this line here
           window.selectedIndices.add(newIndex);

@@ -1,17 +1,17 @@
 
 
+import imageCompression from 'browser-image-compression';
+
 export function initCompressTool() {
   const compressBtn = document.getElementById('compress-btn');
   const compressList = document.getElementById('compress-list');
   const compressQualityInput = document.getElementById('compress-quality');
   const compressQualityValueSpan = document.getElementById('compress-quality-value');
   const compressFormatSelect = document.getElementById('compress-format');
-  const compressSizeEstimateDiv = document.getElementById('compress-size-estimate');
+  const compressSizeInfoDiv = document.getElementById('compress-size-info');
+  const progressBarContainer = document.getElementById('compress-progress-container');
+  const progressBar = document.getElementById('compress-progress-bar');
 
-  const resizeWidthInput = document.getElementById('compress-resize-width');
-  const resizeHeightInput = document.getElementById('compress-resize-height');
-
-  // Helper to format bytes to a readable string
   function formatBytes(bytes, decimals = 2) {
     if (bytes === 0) return '0 Bytes';
     const k = 1024;
@@ -21,105 +21,33 @@ export function initCompressTool() {
     return parseFloat((bytes / Math.pow(k, i)).toFixed(dm)) + ' ' + sizes[i];
   }
 
-  function updateSizeEstimate() {
-    if (!window.selectedIndices || window.selectedIndices.size === 0) {
-      compressSizeEstimateDiv.textContent = '';
+  function updateOriginalSizeInfo() {
+    const selectedImages = Array.from(window.selectedIndices)
+      .map(i => window.imageDataList[i])
+      .filter(Boolean);
+
+    if (selectedImages.length === 0) {
+      compressSizeInfoDiv.innerHTML = '';
       return;
     }
 
-    let totalOriginalSize = 0;
-    let totalEstimatedSize = 0;
-
-    const quality = parseFloat(compressQualityInput.value) / 100;
-    const selectedFormat = compressFormatSelect.value;
-    const resizeWidth = parseInt(resizeWidthInput?.value || 0) || null;
-    const resizeHeight = parseInt(resizeHeightInput?.value || 0) || null;
-
-    Array.from(window.selectedIndices).forEach(index => {
-      const image = window.imageDataList[index];
-      if (!image || !image.size || !image.width || !image.height) {
-        return; // Skip if essential data is missing
-      }
-
-      totalOriginalSize += image.size;
-
-      let estimatedImageSize = image.size;
-
-      // 1. Apply quality factor (non-linear approximation)
-      // A simple heuristic: lower quality reduces size, but not linearly.
-      // For example, quality 50 might not be half the size.
-      // Let's use a more aggressive reduction for lower quality.
-      estimatedImageSize *= (0.3 + 0.7 * quality); // This makes 100% quality result in 1x, 0% quality in 0.3x
-
-      // 2. Apply resize factor
-      if (resizeWidth || resizeHeight) {
-        let newWidth = resizeWidth || image.width;
-        let newHeight = resizeHeight || image.height;
-
-        if (resizeWidth && !resizeHeight) {
-          newHeight = image.height * (newWidth / image.width);
-        } else if (resizeHeight && !resizeWidth) {
-          newWidth = image.width * (newHeight / image.height);
-        }
-        
-        const originalArea = image.width * image.height;
-        const newArea = newWidth * newHeight;
-        if (originalArea > 0) {
-          estimatedImageSize *= (newArea / originalArea);
-        }
-      }
-
-      // 3. Apply format conversion factor
-      // These are rough estimates and can vary greatly based on image content
-      if (selectedFormat !== 'original' && selectedFormat !== image.type) {
-        if (image.type.includes('png') && selectedFormat.includes('jpeg')) {
-          estimatedImageSize *= 0.2; // PNG to JPEG often results in significant reduction
-        } else if (image.type.includes('png') && selectedFormat.includes('webp')) {
-          estimatedImageSize *= 0.15; // PNG to WebP even more reduction
-        } else if (image.type.includes('jpeg') && selectedFormat.includes('webp')) {
-          estimatedImageSize *= 0.7; // JPEG to WebP usually some reduction
-        }
-        // Add other format conversions as needed
-      }
-      
-      totalEstimatedSize += estimatedImageSize;
-    });
-
-    // Ensure estimated size is not negative or zero if original was positive
-    if (totalOriginalSize > 0 && totalEstimatedSize <= 0) {
-        totalEstimatedSize = 1; // Smallest possible positive value
-    }
-
-    const reduction = totalOriginalSize > 0 ? ((totalOriginalSize - totalEstimatedSize) / totalOriginalSize) * 100 : 0;
-    const reductionText = reduction > 0 ? ` (預計減少 ${reduction.toFixed(1)}%)` : '';
-
-    compressSizeEstimateDiv.textContent = `預估總大小：從 ${formatBytes(totalOriginalSize)} 變為 ${formatBytes(totalEstimatedSize)}${reductionText}`;
+    const totalOriginalSize = selectedImages.reduce((sum, img) => sum + (img.file.size || 0), 0);
+    compressSizeInfoDiv.innerHTML = `${window.appTranslations.totalOriginalSizeLabel} <strong>${formatBytes(totalOriginalSize)}</strong>`;
   }
 
-  // Display quality value and update estimate
   compressQualityInput.oninput = () => {
     compressQualityValueSpan.textContent = compressQualityInput.value;
-    updateSizeEstimate();
   };
 
-  // Update estimate when format or resize dimensions change
-  compressFormatSelect.onchange = updateSizeEstimate;
-  resizeWidthInput.oninput = updateSizeEstimate;
-  resizeHeightInput.oninput = updateSizeEstimate;
-
-  // Update selection list (called by uploader)
   window.updateCompressSelection = (selectedItems) => {
     compressList.innerHTML = '';
     selectedItems.forEach((item, i) => {
       const span = document.createElement('span');
-      span.textContent = item.name || `圖片 ${i + 1}`; // Use item.name instead of item.filename
+      span.textContent = item.name || `圖片 ${i + 1}`;
       compressList.appendChild(span);
     });
-    updateSizeEstimate(); // Update estimate when selection changes
+    updateOriginalSizeInfo();
   };
-
-  // Initial estimate calculation when the tool is initialized
-  updateSizeEstimate();
 
   compressBtn.onclick = async () => {
     if (!window.selectedIndices || window.selectedIndices.size === 0) {
@@ -127,98 +55,78 @@ export function initCompressTool() {
       return;
     }
 
-    const quality = parseFloat(compressQualityInput.value) / 100;
+    const quality = parseInt(compressQualityInput.value, 10) / 100;
     const selectedFormat = compressFormatSelect.value;
 
-    const resizeWidth = parseInt(resizeWidthInput?.value || 0) || null;
-    const resizeHeight = parseInt(resizeHeightInput?.value || 0) || null;
+    const selectedImages = Array.from(window.selectedIndices)
+      .map(i => window.imageDataList[i])
+      .filter(Boolean);
 
-    const selectedImages = Array.from(window.selectedIndices).map(i => {
-      return window.imageDataList[i];
-    });
+    if (selectedImages.length === 0) return;
+
+    compressList.innerHTML = ''; // Clear previous messages
+    progressBarContainer.style.display = 'block'; // Show progress bar
+    progressBar.style.width = '0%';
+    progressBar.textContent = `0% (${window.appTranslations.compressing})`;
 
     const zip = new JSZip();
-    const workers = [];
-    const compressedResults = new Array(selectedImages.length);
-    let completedCount = 0;
+    let processedCount = 0;
+    let totalOriginalSize = 0;
+    let totalCompressedSize = 0;
 
-    compressList.innerHTML = '<span>處理中...請稍候</span>';
+    for (const image of selectedImages) {
+      totalOriginalSize += image.file.size;
 
-    for (let i = 0; i < selectedImages.length; i++) {
-      const { dataUrl, name, type: originalType } = selectedImages[i]; // Use name instead of filename
-      const format = selectedFormat === 'original' ? originalType : selectedFormat;
-      const fileExtension = format.split('/')[1];
-      const img = new Image();
-      img.src = dataUrl;
-      await new Promise(resolve => img.onload = resolve);
-
-      const canvas = document.createElement('canvas');
-      canvas.width = img.width;
-      canvas.height = img.height;
-      const ctx = canvas.getContext('2d');
-      ctx.drawImage(img, 0, 0);
-
-      const imageData = ctx.getImageData(0, 0, canvas.width, canvas.height);
-
-      const worker = new Worker('./modules/compressWorker.js');
-      workers.push(worker);
-
-      worker.onmessage = (event) => {
-        const { status, index, compressedData, message } = event.data;
-        if (status === 'success') {
-          compressedResults[index] = { filename:selectedImages[index].name, blob: new Uint8Array(compressedData), originalType: selectedImages[index].type }; // Add originalType
-        } else {
-          console.error(`壓縮圖片 ${selectedImages[index].name} 失敗:`, message);
-        }
-
-        completedCount++;
-        if (completedCount === selectedImages.length) {
-          workers.forEach(w => w.terminate());
-
-          compressList.innerHTML = '<span>打包中...</span>';
-          compressedResults.forEach(({ filename, blob, originalType }) => { // Add originalType to destructuring
-            const format = selectedFormat === 'original' ? originalType : selectedFormat; // Determine format for each image
-            const fileExtension = format.split('/')[1]; // Get extension for each image
-            const name = filename.replace(/\.[^/.]+$/, `.${fileExtension}`);
-            zip.file(name, blob);
-          });
-
-          if (selectedImages.length === 1) {
-            const { filename, blob } = compressedResults[0];
-            const originalNameWithoutExt = filename.split('.').slice(0, -1).join('.');
-            const newFilename = `${originalNameWithoutExt}_compressed.${fileExtension}`;
-
-            const url = URL.createObjectURL(new Blob([blob]));
-            const link = document.createElement('a');
-            link.href = url;
-            link.download = newFilename;
-            link.click();
-            URL.revokeObjectURL(url);
-            compressList.innerHTML = '';
-          } else {
-            zip.generateAsync({ type: 'blob' }).then(blob => {
-              const link = document.createElement('a');
-              link.href = URL.createObjectURL(blob);
-              link.download = 'compressed_images.zip';
-              link.click();
-              URL.revokeObjectURL(link.href);
-              compressList.innerHTML = '';
-            }).catch(err => {
-              console.error('生成ZIP失敗:', err);
-              compressList.innerHTML = '<span>打包失敗</span>';
-            });
-          }
-        }
+      const options = {
+        maxSizeMB: Infinity,
+        maxWidthOrHeight: Infinity,
+        useWebWorker: false,
+        fileType: selectedFormat,
+        initialQuality: quality,
       };
 
-      worker.postMessage({
-        imageData,
-        quality,
-        format,
-        index: i,
-        resizeWidth,
-        resizeHeight
-      }, [imageData.data.buffer]);
+      try {
+        const compressedFile = await imageCompression(image.file, options);
+        const finalBlob = compressedFile.size < image.file.size ? compressedFile : image.file;
+        totalCompressedSize += finalBlob.size;
+
+        const fileExtension = selectedFormat.split('/')[1];
+        const finalFilename = image.file.name.replace(/\.[^/.]+$/, `.${fileExtension}`);
+
+        zip.file(finalFilename, finalBlob);
+
+      } catch (error) {
+        console.error(`壓縮圖片 ${image.name} 失敗:`, error);
+        zip.file(image.file.name, image.file);
+        totalCompressedSize += image.file.size;
+      }
+
+      processedCount++;
+      const progress = Math.round((processedCount / selectedImages.length) * 100);
+      progressBar.style.width = `${progress}%`;
+      progressBar.textContent = `${progress}% (${window.appTranslations.compressing})`;
+    }
+
+    // All images processed, now handle download
+    progressBarContainer.style.display = 'none'; // Hide progress bar
+    const reduction = totalOriginalSize > 0 ? ((totalOriginalSize - totalCompressedSize) / totalOriginalSize) * 100 : 0;
+    compressSizeInfoDiv.innerHTML = window.appTranslations.compressSummary.replace('%s', formatBytes(totalOriginalSize)).replace('%s', formatBytes(totalCompressedSize)) + window.appTranslations.compressSummaryReduction.replace('%s', reduction.toFixed(1));
+
+    if (selectedImages.length === 1) {
+      const singleResultFile = Object.values(zip.files)[0];
+      const blob = await singleResultFile.async('blob');
+      const link = document.createElement('a');
+      link.href = URL.createObjectURL(blob);
+      link.download = singleResultFile.name;
+      link.click();
+      URL.revokeObjectURL(link.href);
+    } else {
+      const blob = await zip.generateAsync({ type: 'blob' });
+      const link = document.createElement('a');
+      link.href = URL.createObjectURL(blob);
+      link.download = 'picu_compressed_images.zip';
+      link.click();
+      URL.revokeObjectURL(link.href);
     }
   };
 }

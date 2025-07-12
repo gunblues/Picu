@@ -118,7 +118,7 @@ function getTranslation($key) {
     </div>
 
     <div id="compress" class="tab-content active">
-      <div id="compress-size-estimate" style="margin-top: 10px; margin-bottom: 10px;"></div>
+      <div id="compress-size-info" style="margin-top: 10px; margin-bottom: 10px; font-weight: bold;"></div>
       <div class="tool-controls">
         <div class="control-group">
           <label for="compress-quality"><?php echo getTranslation('qualityLabel'); ?> <span id="compress-quality-value">70</span></label>
@@ -127,7 +127,6 @@ function getTranslation($key) {
         <div class="control-group">
           <label for="compress-format"><?php echo getTranslation('formatLabel'); ?></label>
           <select id="compress-format">
-            <option value="original"><?php echo getTranslation('originalFormat'); ?></option>
             <option value="image/jpeg">JPEG</option>
             <option value="image/webp">WEBP</option>
           </select>
@@ -143,6 +142,9 @@ function getTranslation($key) {
       </div>
       <div id="compress-list"></div>
       <button id="compress-btn"><?php echo getTranslation('compressBtn'); ?></button>
+      <div id="compress-progress-container" style="width: 100%; background-color: #e0e0e0; border-radius: 5px; margin-top: 10px; overflow: hidden; display: none;">
+        <div id="compress-progress-bar" style="height: 20px; width: 0%; background-color: #4CAF50; border-radius: 5px; text-align: center; line-height: 20px; color: white;"></div>
+      </div>
     </div>
 
     <div id="resize" class="tab-content">
@@ -241,8 +243,19 @@ function getTranslation($key) {
         alertSelectImageForResize: "<?php echo getTranslation('alertSelectImageForResize'); ?>",
         alertSelectImageForRemoveBg: "<?php echo getTranslation('alertSelectImageForRemoveBg'); ?>",
     };
+    window.appTranslations = {
+        compressEstimateTotalSize: "<?php echo getTranslation('compressEstimateTotalSize'); ?>",
+        compressEstimatedReduction: "<?php echo getTranslation('compressEstimatedReduction'); ?>",
+        compressActualTotalSize: "<?php echo getTranslation('compressActualTotalSize'); ?>",
+        compressActualReduction: "<?php echo getTranslation('compressActualReduction'); ?>",
+        compressing: "<?php echo getTranslation('compressing'); ?>", // New translation key
+        packing: "<?php echo getTranslation('packing'); ?>", // New translation key
+        totalOriginalSizeLabel: "<?php echo getTranslation('totalOriginalSizeLabel'); ?>", // New translation key
+        compressSummary: "<?php echo getTranslation('compressSummary'); ?>", // New translation key
+        compressSummaryReduction: "<?php echo getTranslation('compressSummaryReduction'); ?>", // New translation key
+    };
 </script>
-<script type="module" src="/dist/assets/main.CbvVgxXv.js"></script>
+<script type="module" src="/dist/assets/main.WiChTKsN.js"></script>
 
 </body>
 </html>
