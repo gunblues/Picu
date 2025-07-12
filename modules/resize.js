@@ -3,8 +3,10 @@ export function initResizeTool() {
   const resizeWidthInput = document.getElementById('resize-width');
   const resizeHeightInput = document.getElementById('resize-height');
   const resizePreview = document.getElementById('resize-preview');
+  const resizeProgressBarContainer = document.getElementById('resize-progress-container');
+  const resizeProgressBar = document.getElementById('resize-progress-bar');
 
-  if (!resizeBtn || !resizeWidthInput || !resizeHeightInput) {
+  if (!resizeBtn || !resizeWidthInput || !resizeHeightInput || !resizeProgressBarContainer || !resizeProgressBar) {
     console.warn('Resize tool UI not found.');
     return;
   }
@@ -27,7 +29,10 @@ export function initResizeTool() {
       return window.imageDataList[i];
     });
 
-    resizePreview.innerHTML = '處理中...請稍候';
+    resizePreview.innerHTML = ''; // Clear previous messages
+    resizeProgressBarContainer.style.display = 'block';
+    resizeProgressBar.style.width = '0%';
+    resizeProgressBar.textContent = '0%';
 
     const workers = [];
     const resizedResults = new Array(selectedImages.length);
@@ -52,8 +57,13 @@ export function initResizeTool() {
         }
 
         completedCount++;
+        const progress = Math.round((completedCount / selectedImages.length) * 100);
+        resizeProgressBar.style.width = `${progress}%`;
+        resizeProgressBar.textContent = `${progress}%`;
+
         if (completedCount === selectedImages.length) {
           workers.forEach(w => w.terminate());
+          resizeProgressBarContainer.style.display = 'none';
 
           if (selectedImages.length === 1) {
             const { filename, blob } = resizedResults[0];
@@ -70,7 +80,8 @@ export function initResizeTool() {
             resizePreview.innerHTML = '';
           } else {
             const zip = new JSZip();
-            resizePreview.innerHTML = '<span>打包中...</span>';
+            // Hide progress bar during zipping
+            resizeProgressBarContainer.style.display = 'none';
             resizedResults.forEach(({ filename, blob }) => {
               const name = filename.replace(/\.[^/.]+$/, `.${filename.split('.').pop()}`);
               zip.file(name, blob);
@@ -85,7 +96,8 @@ export function initResizeTool() {
               resizePreview.innerHTML = '';
             }).catch(err => {
               console.error('生成ZIP失敗:', err);
-              resizePreview.innerHTML = '<span>打包失敗</span>';
+            }).finally(() => {
+              resizeProgressBarContainer.style.display = 'none'; // Ensure progress bar is hidden even on error
             });
           }
         }

@@ -156,6 +156,9 @@ function getTranslation($key) {
         </div>
       </div>
       <button id="resize-btn"><?php echo getTranslation('resizeBtn'); ?></button>
+      <div id="resize-progress-container" style="width: 100%; background-color: #e0e0e0; border-radius: 5px; margin-top: 10px; overflow: hidden; display: none;">
+        <div id="resize-progress-bar" style="height: 20px; width: 0%; background-color: #4CAF50; border-radius: 5px; text-align: center; line-height: 20px; color: white;"></div>
+      </div>
       <div id="resize-preview"></div>
     </div>
 
@@ -175,6 +178,9 @@ function getTranslation($key) {
             </div>
         </div>
       <button id="whitebg-btn"><?php echo getTranslation('whitebgBtn'); ?></button>
+      <div id="whitebg-progress-container" style="width: 100%; background-color: #e0e0e0; border-radius: 5px; margin-top: 10px; overflow: hidden; display: none;">
+        <div id="whitebg-progress-bar" style="height: 20px; width: 0%; background-color: #4CAF50; border-radius: 5px; text-align: center; line-height: 20px; color: white;"></div>
+      </div>
       <div id="whitebg-preview"></div>
     </div>
 
@@ -251,7 +257,7 @@ function getTranslation($key) {
         compressSummaryReduction: "<?php echo getTranslation('compressSummaryReduction'); ?>", // New translation key
     };
 </script>
-<script type="module" src="/dist/assets/main.CyhlraxH.js"></script>
+<script type="module" src="/dist/assets/main.BQvchuCz.js"></script>
 
 </body>
 </html>

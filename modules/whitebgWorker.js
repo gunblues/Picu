@@ -2,9 +2,9 @@ onmessage = async function (e) {
   const { dataUrl, width, height, shadow, border, index, originalType } = e.data; // Receive dataUrl
 
   try {
-    const img = new Image();
-    img.src = dataUrl;
-    await new Promise(resolve => img.onload = resolve);
+    // Convert dataUrl to Blob using a helper function
+    const blob = dataURLtoBlob(dataUrl);
+    const imageBitmap = await createImageBitmap(blob);
 
     const canvas = new OffscreenCanvas(width, height);
     const ctx = canvas.getContext('2d');
@@ -14,9 +14,9 @@ onmessage = async function (e) {
     ctx.fillRect(0, 0, width, height);
 
     // 計算圖片縮放比例並置中
-    const ratio = Math.min(width / img.width, height / img.height);
-    const imgWidth = img.width * ratio;
-    const imgHeight = img.height * ratio;
+    const ratio = Math.min(width / imageBitmap.width, height / imageBitmap.height);
+    const imgWidth = imageBitmap.width * ratio;
+    const imgHeight = imageBitmap.height * ratio;
     const x = (width - imgWidth) / 2;
     const y = (height - imgHeight) / 2;
 
@@ -33,7 +33,7 @@ onmessage = async function (e) {
       ctx.shadowOffsetY = 0;
     }
 
-    ctx.drawImage(img, x, y, imgWidth, imgHeight);
+    ctx.drawImage(imageBitmap, x, y, imgWidth, imgHeight);
 
     // 浮框
     if (border) {
@@ -43,8 +43,8 @@ onmessage = async function (e) {
       ctx.strokeRect(x, y, imgWidth, imgHeight);
     }
 
-    const blob = await canvas.convertToBlob({ type: originalType, quality: 0.9 }); // Use originalType
-    const buffer = await blob.arrayBuffer();
+    const outputBlob = await canvas.convertToBlob({ type: originalType, quality: 0.9 }); // Use originalType
+    const buffer = await outputBlob.arrayBuffer();
     postMessage({ status: 'success', index, whitebgData: buffer });
 
   } catch (error) {
@@ -52,14 +52,15 @@ onmessage = async function (e) {
   }
 };
 
-// Remove createImageBitmapFromData as it's no longer needed
-// function createImageBitmapFromData(imageData) {
-//   return new Promise((resolve) => {
-//     const canvas = new OffscreenCanvas(imageData.width, imageData.height);
-//     const ctx = canvas.getContext('2d');
-//     ctx.putImageData(imageData, 0, 0);
-//     canvas.convertToBlob().then(blob => {
-//       createImageBitmap(blob).then(resolve);
-//     });
-//   });
-// }
+// Helper function to convert data URL to Blob
+function dataURLtoBlob(dataurl) {
+    const arr = dataurl.split(',');
+    const mime = arr[0].match(/:(.*?);/)[1];
+    const bstr = atob(arr[1]);
+    let n = bstr.length;
+    const u8arr = new Uint8Array(n);
+    while (n--) {
+        u8arr[n] = bstr.charCodeAt(n);
+    }
+    return new Blob([u8arr], { type: mime });
+}

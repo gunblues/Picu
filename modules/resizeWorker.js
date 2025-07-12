@@ -2,16 +2,17 @@ onmessage = async function (e) {
   const { dataUrl, width, height, index, originalType } = e.data; // Receive dataUrl
 
   try {
-    const img = new Image();
-    img.src = dataUrl;
-    await new Promise(resolve => img.onload = resolve);
+    // Convert dataUrl to Blob, then to ImageBitmap
+    const response = await fetch(dataUrl);
+    const blob = await response.blob();
+    const imageBitmap = await createImageBitmap(blob);
 
     const resizeCanvas = new OffscreenCanvas(width, height);
     const resizeCtx = resizeCanvas.getContext('2d');
-    resizeCtx.drawImage(img, 0, 0, width, height);
+    resizeCtx.drawImage(imageBitmap, 0, 0, width, height);
 
-    const blob = await resizeCanvas.convertToBlob({ type: originalType, quality: 0.9 }); // Use originalType
-    const buffer = await blob.arrayBuffer();
+    const outputBlob = await resizeCanvas.convertToBlob({ type: originalType, quality: 0.9 }); // Use originalType
+    const buffer = await outputBlob.arrayBuffer();
     postMessage({ status: 'success', index, resizedData: buffer });
 
   } catch (error) {

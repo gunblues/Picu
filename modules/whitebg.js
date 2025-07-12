@@ -1,6 +1,8 @@
 export function initWhiteBgTool() {
   const btn = document.getElementById('whitebg-btn');
   const preview = document.getElementById('whitebg-preview');
+  const whitebgProgressBarContainer = document.getElementById('whitebg-progress-container');
+  const whitebgProgressBar = document.getElementById('whitebg-progress-bar');
 
   btn.onclick = async () => {
     if (!window.selectedIndices || window.selectedIndices.size === 0) {
@@ -15,7 +17,10 @@ export function initWhiteBgTool() {
 
     const selectedImages = Array.from(window.selectedIndices).map(i => window.imageDataList[i]);
 
-    preview.innerHTML = '製作中...請稍候';
+    preview.innerHTML = ''; // Clear previous messages
+    whitebgProgressBarContainer.style.display = 'block';
+    whitebgProgressBar.style.width = '0%';
+    whitebgProgressBar.textContent = '0%';
 
     const workers = [];
     const whitebgResults = new Array(selectedImages.length);
@@ -23,9 +28,6 @@ export function initWhiteBgTool() {
 
     for (let i = 0; i < selectedImages.length; i++) {
       const { dataUrl, name } = selectedImages[i];
-      const img = new Image();
-      img.src = dataUrl;
-      await new Promise(resolve => img.onload = resolve);
 
       const worker = new Worker('./modules/whitebgWorker.js');
       workers.push(worker);
@@ -40,8 +42,13 @@ export function initWhiteBgTool() {
         }
 
         completedCount++;
+        const progress = Math.round((completedCount / selectedImages.length) * 100);
+        whitebgProgressBar.style.width = `${progress}%`;
+        whitebgProgressBar.textContent = `${progress}%`;
+
         if (completedCount === selectedImages.length) {
           workers.forEach(w => w.terminate());
+          whitebgProgressBarContainer.style.display = 'none';
 
           if (selectedImages.length === 1) {
             const { filename, blob } = whitebgResults[0];
@@ -58,7 +65,8 @@ export function initWhiteBgTool() {
             preview.innerHTML = '';
           } else {
             const zip = new JSZip();
-            preview.innerHTML = '<span>打包中...</span>';
+            // Hide progress bar during zipping
+            whitebgProgressBarContainer.style.display = 'none';
             whitebgResults.forEach(({ filename, blob }) => {
               const name = filename.replace(/\.[^/.]+$/, `.${filename.split('.').pop()}`);
               zip.file(name, blob);
@@ -73,14 +81,15 @@ export function initWhiteBgTool() {
               preview.innerHTML = '';
             }).catch(err => {
               console.error('生成ZIP失敗:', err);
-              preview.innerHTML = '<span>打包失敗</span>';
+            }).finally(() => {
+              whitebgProgressBarContainer.style.display = 'none'; // Ensure progress bar is hidden even on error
             });
           }
         }
       };
 
       worker.postMessage({
-        dataUrl: dataUrl,
+        dataUrl,
         width,
         height,
         shadow,
