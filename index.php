@@ -97,7 +97,7 @@ function getTranslation($key) {
   <h1>🐣<?php echo getTranslation('title'); ?></h1>
 
   <div class="section" id="upload-section">
-    <h2><?php echo getTranslation('uploadTitle'); ?></h2>
+    
     <div id="upload-area" tabindex="0"><?php echo getTranslation('uploadArea'); ?></div>
     <input id="file-input" type="file" accept="image/*" multiple style="display:none" />
     <div id="uploaded-list" aria-label="已上傳圖片列表"></div>
