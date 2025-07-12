@@ -34,13 +34,17 @@ function getTranslation($key) {
 <meta charset="UTF-8" />
 <meta name="viewport" content="width=device-width, initial-scale=1" />
 <title><?php echo getTranslation('title'); ?></title>
-<link rel="icon" href="🐣" />
-<script src="https://cdnjs.cloudflare.com/ajax/libs/jszip/3.10.1/jszip.min.js"></script>
+<!-- Favicon -->
+<link rel="icon" type="image/png" sizes="32x32" href="/icons/favicon-32x32.png">
+<link rel="icon" type="image/png" sizes="16x16" href="/icons/favicon-16x16.png">
+<link rel="apple-touch-icon" sizes="180x180" href="/icons/apple-touch-icon.png">
+<link rel="manifest" href="/icons/site.webmanifest">
+
 <link rel="stylesheet" href="/dist/assets/style.B5aEvsmp.css">
-<link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/cropperjs/1.5.12/cropper.min.css">
-<script src="https://cdnjs.cloudflare.com/ajax/libs/cropperjs/1.5.12/cropper.min.js"></script>
-<script src="https://cdnjs.cloudflare.com/ajax/libs/cropperjs/1.5.12/cropper.min.js"></script>
-<script src="https://cdn.jsdelivr.net/npm/@mediapipe/selfie_segmentation/selfie_segmentation.js"></script>
+<link rel="stylesheet" href="lib/cropper.min.css">
+<script src="lib/jszip.min.js" defer></script>
+<script src="lib/cropper.min.js" defer></script>
+<script src="lib/selfie_segmentation.js" defer></script>
 
 <!-- SEO Meta Tags -->
 <meta name="description" content="<?php echo getTranslation('seoDescription'); ?>">
@@ -90,7 +94,7 @@ function getTranslation($key) {
 <body>
 
 <main>
-  <h1><?php echo getTranslation('title'); ?></h1>
+  <h1>🐣<?php echo getTranslation('title'); ?></h1>
 
   <div class="section" id="upload-section">
     <h2><?php echo getTranslation('uploadTitle'); ?></h2>

@@ -2,7 +2,7 @@
 
 $translations = [
   'en' => [
-'title' => '🐣 Picu Image Tool',
+'title' => 'Picu Image Tool',
     'uploadTitle' => 'Upload Images',
     'uploadArea' => 'Click or drag images here (multiple images supported)',
     'selectAll' => 'Select All',
@@ -67,7 +67,7 @@ $translations = [
   ],
 
   'zh' => [
-'title' => '🐣 Picu 圖片處理工具',
+'title' => 'Picu 圖片處理工具',
     'uploadTitle' => '上傳圖片',
     'uploadArea' => '點擊或拖曳圖片到此 (可一次多張)',
     'selectAll' => '全選圖片',
@@ -132,7 +132,7 @@ $translations = [
   ],
 
   'ja' => [
-'title' => '🐣 Picu 画像ツール',
+'title' => 'Picu 画像ツール',
     'uploadTitle' => '画像をアップロード',
     'uploadArea' => 'クリックまたはドラッグして画像を追加 (複数可)',
     'selectAll' => 'すべて選択',
@@ -197,7 +197,7 @@ $translations = [
   ],
 
   'ko' => [
-'title' => '🐣 Picu 이미지 도구',
+'title' => 'Picu 이미지 도구',
     'uploadTitle' => '이미지 업로드',
     'uploadArea' => '클릭하거나 이미지를 드래그하세요 (여러 장 가능)',
     'selectAll' => '모두 선택',
@@ -261,7 +261,7 @@ $translations = [
   ],
 
   'es' => [
-'title' => '🐣 Picu Herramienta de Imagen',
+'title' => 'Picu Herramienta de Imagen',
     'uploadTitle' => 'Subir Imágenes',
     'uploadArea' => 'Haz clic o arrastra imágenes aquí (se admiten varias)',
     'selectAll' => 'Seleccionar Todo',
@@ -326,7 +326,7 @@ $translations = [
   ],
 
   'hi' => [
-'title' => '🐣 पिकु छवि उपकरण',
+'title' => 'पिकु छवि उपकरण',
     'uploadTitle' => 'छवियाँ अपलोड करें',
     'uploadArea' => 'छवियों को यहां क्लिक करें या खींचें (एक से अधिक समर्थित)',
     'selectAll' => 'सभी चुनें',
@@ -391,7 +391,7 @@ $translations = [
   ],
 
   'ar' => [
-'title' => '🐣 أداة الصور Picu',
+'title' => 'أداة الصور Picu',
     'uploadTitle' => 'تحميل الصور',
     'uploadArea' => 'انقر أو اسحب الصور هنا (يدعم متعدد)',
     'selectAll' => 'تحديد الكل',
@@ -455,7 +455,7 @@ $translations = [
   ],
 
   'fr' => [
-'title' => '🐣 Outil d\'image Picu',
+'title' => 'Outil d\'image Picu',
     'uploadTitle' => 'Télécharger des images',
     'uploadArea' => 'Cliquez ou faites glisser des images ici (plusieurs prises en charge)',
     'selectAll' => 'Tout sélectionner',
@@ -520,7 +520,7 @@ $translations = [
   ],
 
   'bn' => [
-'title' => '🐣 পিকু চিত্র সরঞ্জাম',
+'title' => 'পিকু চিত্র সরঞ্জাম',
     'uploadTitle' => 'চিত্র আপলোড করুন',
     'uploadArea' => 'এখানে চিত্র ক্লিক করুন বা টেনে আনুন (একাধিক সমর্থিত)',
     'selectAll' => 'সব নির্বাচন করুন',
@@ -585,7 +585,7 @@ $translations = [
   ],
 
   'pt' => [
-'title' => '🐣 Ferramenta de Imagem Picu',
+'title' => 'Ferramenta de Imagem Picu',
     'uploadTitle' => 'Carregar Imagens',
     'uploadArea' => 'Clique ou arraste imagens aqui (várias suportadas)',
     'selectAll' => 'Selecionar Tudo',
