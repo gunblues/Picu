@@ -6,24 +6,120 @@ export function initCompressTool() {
   const compressQualityInput = document.getElementById('compress-quality');
   const compressQualityValueSpan = document.getElementById('compress-quality-value');
   const compressFormatSelect = document.getElementById('compress-format');
+  const compressSizeEstimateDiv = document.getElementById('compress-size-estimate');
 
   const resizeWidthInput = document.getElementById('compress-resize-width');
   const resizeHeightInput = document.getElementById('compress-resize-height');
 
-  // 顯示品質數值
+  // Helper to format bytes to a readable string
+  function formatBytes(bytes, decimals = 2) {
+    if (bytes === 0) return '0 Bytes';
+    const k = 1024;
+    const dm = decimals < 0 ? 0 : decimals;
+    const sizes = ['Bytes', 'KB', 'MB', 'GB', 'TB'];
+    const i = Math.floor(Math.log(bytes) / Math.log(k));
+    return parseFloat((bytes / Math.pow(k, i)).toFixed(dm)) + ' ' + sizes[i];
+  }
+
+  function updateSizeEstimate() {
+    if (!window.selectedIndices || window.selectedIndices.size === 0) {
+      compressSizeEstimateDiv.textContent = '';
+      return;
+    }
+
+    let totalOriginalSize = 0;
+    let totalEstimatedSize = 0;
+
+    const quality = parseFloat(compressQualityInput.value) / 100;
+    const selectedFormat = compressFormatSelect.value;
+    const resizeWidth = parseInt(resizeWidthInput?.value || 0) || null;
+    const resizeHeight = parseInt(resizeHeightInput?.value || 0) || null;
+
+    Array.from(window.selectedIndices).forEach(index => {
+      const image = window.imageDataList[index];
+      if (!image || !image.size || !image.width || !image.height) {
+        return; // Skip if essential data is missing
+      }
+
+      totalOriginalSize += image.size;
+
+      let estimatedImageSize = image.size;
+
+      // 1. Apply quality factor (non-linear approximation)
+      // A simple heuristic: lower quality reduces size, but not linearly.
+      // For example, quality 50 might not be half the size.
+      // Let's use a more aggressive reduction for lower quality.
+      estimatedImageSize *= (0.3 + 0.7 * quality); // This makes 100% quality result in 1x, 0% quality in 0.3x
+
+      // 2. Apply resize factor
+      if (resizeWidth || resizeHeight) {
+        let newWidth = resizeWidth || image.width;
+        let newHeight = resizeHeight || image.height;
+
+        if (resizeWidth && !resizeHeight) {
+          newHeight = image.height * (newWidth / image.width);
+        } else if (resizeHeight && !resizeWidth) {
+          newWidth = image.width * (newHeight / image.height);
+        }
+        
+        const originalArea = image.width * image.height;
+        const newArea = newWidth * newHeight;
+        if (originalArea > 0) {
+          estimatedImageSize *= (newArea / originalArea);
+        }
+      }
+
+      // 3. Apply format conversion factor
+      // These are rough estimates and can vary greatly based on image content
+      if (selectedFormat !== 'original' && selectedFormat !== image.type) {
+        if (image.type.includes('png') && selectedFormat.includes('jpeg')) {
+          estimatedImageSize *= 0.2; // PNG to JPEG often results in significant reduction
+        } else if (image.type.includes('png') && selectedFormat.includes('webp')) {
+          estimatedImageSize *= 0.15; // PNG to WebP even more reduction
+        } else if (image.type.includes('jpeg') && selectedFormat.includes('webp')) {
+          estimatedImageSize *= 0.7; // JPEG to WebP usually some reduction
+        }
+        // Add other format conversions as needed
+      }
+      
+      totalEstimatedSize += estimatedImageSize;
+    });
+
+    // Ensure estimated size is not negative or zero if original was positive
+    if (totalOriginalSize > 0 && totalEstimatedSize <= 0) {
+        totalEstimatedSize = 1; // Smallest possible positive value
+    }
+
+    const reduction = totalOriginalSize > 0 ? ((totalOriginalSize - totalEstimatedSize) / totalOriginalSize) * 100 : 0;
+    const reductionText = reduction > 0 ? ` (預計減少 ${reduction.toFixed(1)}%)` : '';
+
+    compressSizeEstimateDiv.textContent = `預估總大小：從 ${formatBytes(totalOriginalSize)} 變為 ${formatBytes(totalEstimatedSize)}${reductionText}`;
+  }
+
+  // Display quality value and update estimate
   compressQualityInput.oninput = () => {
     compressQualityValueSpan.textContent = compressQualityInput.value;
+    updateSizeEstimate();
   };
 
-  // 更新選擇清單（由 uploader 呼叫）
+  // Update estimate when format or resize dimensions change
+  compressFormatSelect.onchange = updateSizeEstimate;
+  resizeWidthInput.oninput = updateSizeEstimate;
+  resizeHeightInput.oninput = updateSizeEstimate;
+
+  // Update selection list (called by uploader)
   window.updateCompressSelection = (selectedItems) => {
     compressList.innerHTML = '';
     selectedItems.forEach((item, i) => {
       const span = document.createElement('span');
-      span.textContent = item.filename || `圖片 ${i + 1}`;
+      span.textContent = item.name || `圖片 ${i + 1}`; // Use item.name instead of item.filename
       compressList.appendChild(span);
     });
+    updateSizeEstimate(); // Update estimate when selection changes
   };
+
+  // Initial estimate calculation when the tool is initialized
+  updateSizeEstimate();
 
   compressBtn.onclick = async () => {
     if (!window.selectedIndices || window.selectedIndices.size === 0) {
@@ -49,7 +145,7 @@ export function initCompressTool() {
     compressList.innerHTML = '<span>處理中...請稍候</span>';
 
     for (let i = 0; i < selectedImages.length; i++) {
-      const { dataUrl, filename, type: originalType } = selectedImages[i];
+      const { dataUrl, name, type: originalType } = selectedImages[i]; // Use name instead of filename
       const format = selectedFormat === 'original' ? originalType : selectedFormat;
       const fileExtension = format.split('/')[1];
       const img = new Image();

@@ -128,7 +128,11 @@ export function initUploader() {
 
   function updateCompressList() {
     if (typeof window.updateCompressSelection === 'function') {
-      window.updateCompressSelection(Array.from(window.selectedIndices).map(i => window.imageDataList[i].dataUrl));
+      window.updateCompressSelection(
+        Array.from(window.selectedIndices)
+             .filter(i => window.imageDataList[i] !== undefined) // Filter out undefined items
+             .map(i => window.imageDataList[i])
+      );
     }
   }
 
@@ -169,11 +173,40 @@ export function initUploader() {
       if (!file.type.startsWith('image/')) return;
       const reader = new FileReader();
       reader.onload = (ev) => {
-        window.imageDataList.push({ 
-          name: file.name,
-          dataUrl: ev.target.result,
-          type: file.type
-        });
+        const img = new Image();
+        img.onload = () => {
+          window.imageDataList.push({ 
+            name: file.name,
+            dataUrl: ev.target.result,
+            type: file.type,
+            size: file.size, // Add original file size
+            width: img.width, // Add original image width
+            height: img.height // Add original image height
+          });
+          const newIndex = window.imageDataList.length - 1; // Move this line here
+          window.selectedIndices.add(newIndex);
+          renderUploadedList();
+          updateCompressList();
+
+          // If this is the first image uploaded, automatically select it for crop/enhance
+          if (window.imageDataList.length === 1) {
+            // Simulate a click on the newly added image to trigger selection and loading
+            // This needs to be done after the image element is rendered in the DOM
+            setTimeout(() => {
+              const firstImageElement = uploadedList.querySelector('.img-container img');
+              if (firstImageElement) {
+                firstImageElement.click();
+              }
+            }, 0); // Use setTimeout to ensure the element is in the DOM
+          }
+        };
+        img.src = ev.target.result;
+        // window.imageDataList.push({ 
+        //   name: file.name,
+        //   dataUrl: ev.target.result,
+        //   type: file.type,
+        //   size: file.size // Add original file size
+        // });
         const newIndex = window.imageDataList.length - 1; // Move this line here
         window.selectedIndices.add(newIndex);
         renderUploadedList();

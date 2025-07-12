@@ -118,7 +118,7 @@ function getTranslation($key) {
     </div>
 
     <div id="compress" class="tab-content active">
-      <h3><?php echo getTranslation('compressTitle'); ?></h3>
+      <div id="compress-size-estimate" style="margin-top: 10px; margin-bottom: 10px;"></div>
       <div class="tool-controls">
         <div class="control-group">
           <label for="compress-quality"><?php echo getTranslation('qualityLabel'); ?> <span id="compress-quality-value">70</span></label>
@@ -162,7 +162,6 @@ function getTranslation($key) {
     </div>
 
     <div id="whitebg" class="tab-content">
-      <h3><?php echo getTranslation('whitebgTitle'); ?></h3>
         <div class="tool-controls">
             <div class="control-group">
                 <label for="whitebg-width"><?php echo getTranslation('widthLabel'); ?></label>
@@ -182,7 +181,6 @@ function getTranslation($key) {
     </div>
 
     <div id="enhance" class="tab-content">
-      <h3><?php echo getTranslation('enhanceTitle'); ?></h3>
       <div class="tool-controls">
         <div class="control-group">
           <label for="brightness"><?php echo getTranslation('brightnessLabel'); ?> <span id="brightness-value">0</span></label>
@@ -212,7 +210,6 @@ function getTranslation($key) {
     </div>
 
     <div id="crop" class="tab-content">
-      <h3><?php echo getTranslation('cropTitle'); ?></h3>
       <div id="crop-toolbar">
         <button data-ratio="1/1"><?php echo getTranslation('ratio1x1'); ?></button>
         <button data-ratio="4/3"><?php echo getTranslation('ratio4x3'); ?></button>
@@ -224,9 +221,8 @@ function getTranslation($key) {
     </div>
 
 	<div id="removebg" class="tab-content">
-	  <h3><?php echo getTranslation('removebgTitle'); ?></h3>
 	  <button id="removebg-btn"><?php echo getTranslation('removebgBtn'); ?></button>
-	<button id="download-removebg-btn" style="display:none;"><?php echo getTranslation('downloadBtn'); ?></button><br><br>
+	  <button id="download-removebg-btn" style="display:none;"><?php echo getTranslation('downloadBtn'); ?></button><br><br>
 	  <canvas id="removebg-canvas" style="display:none; max-width:100%;"></canvas><br>
 	  <img id="removebg-output" style="display:none; max-width:100%;" alt="Result">
 	</div>
@@ -246,7 +242,7 @@ function getTranslation($key) {
         alertSelectImageForRemoveBg: "<?php echo getTranslation('alertSelectImageForRemoveBg'); ?>",
     };
 </script>
-<script type="module" src="/dist/assets/main.DOM_yePi.js"></script>
+<script type="module" src="/dist/assets/main.CbvVgxXv.js"></script>
 
 </body>
 </html>
