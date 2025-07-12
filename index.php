@@ -132,12 +132,8 @@ function getTranslation($key) {
           </select>
         </div>
         <div class="control-group">
-          <label for="compress-resize-width"><?php echo getTranslation('widthLabel'); ?></label>
-          <input id="compress-resize-width" type="number" min="1" placeholder="<?php echo getTranslation('autoPlaceholder'); ?>">
-        </div>
-        <div class="control-group">
-          <label for="compress-resize-height"><?php echo getTranslation('heightLabel'); ?></label>
-          <input id="compress-resize-height" type="number" min="1" placeholder="<?php echo getTranslation('autoPlaceholder'); ?>">
+          <label for="compress-max-dimension"><?php echo getTranslation('maxDimensionLabel'); ?></label>
+          <input id="compress-max-dimension" type="number" min="1" placeholder="<?php echo getTranslation('autoPlaceholder'); ?>">
         </div>
       </div>
       <div id="compress-list"></div>
@@ -255,7 +251,7 @@ function getTranslation($key) {
         compressSummaryReduction: "<?php echo getTranslation('compressSummaryReduction'); ?>", // New translation key
     };
 </script>
-<script type="module" src="/dist/assets/main.WiChTKsN.js"></script>
+<script type="module" src="/dist/assets/main.DRh0Y9dv.js"></script>
 
 </body>
 </html>

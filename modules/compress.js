@@ -1,5 +1,3 @@
-
-
 import imageCompression from 'browser-image-compression';
 
 export function initCompressTool() {
@@ -11,6 +9,7 @@ export function initCompressTool() {
   const compressSizeInfoDiv = document.getElementById('compress-size-info');
   const progressBarContainer = document.getElementById('compress-progress-container');
   const progressBar = document.getElementById('compress-progress-bar');
+  const compressMaxDimensionInput = document.getElementById('compress-max-dimension');
 
   function formatBytes(bytes, decimals = 2) {
     if (bytes === 0) return '0 Bytes';
@@ -57,6 +56,9 @@ export function initCompressTool() {
 
     const quality = parseInt(compressQualityInput.value, 10) / 100;
     const selectedFormat = compressFormatSelect.value;
+    const maxDimension = parseInt(compressMaxDimensionInput.value, 10) || Infinity;
+
+    console.log('壓縮選項 - maxDimension:', maxDimension, 'quality:', quality, 'format:', selectedFormat);
 
     const selectedImages = Array.from(window.selectedIndices)
       .map(i => window.imageDataList[i])
@@ -77,18 +79,43 @@ export function initCompressTool() {
     for (const image of selectedImages) {
       totalOriginalSize += image.file.size;
 
+      // 讀取原始圖片尺寸
+      const originalImage = new Image();
+      const originalImageLoadPromise = new Promise(resolve => {
+        originalImage.onload = () => resolve();
+        originalImage.src = URL.createObjectURL(image.file);
+      });
+      await originalImageLoadPromise;
+      const originalWidth = originalImage.width;
+      const originalHeight = originalImage.height;
+      URL.revokeObjectURL(originalImage.src); // 釋放 URL 物件
+
       const options = {
-        maxSizeMB: Infinity,
-        maxWidthOrHeight: Infinity,
-        useWebWorker: false,
+        maxSizeMB: Infinity, // 恢復為 Infinity，讓尺寸縮放優先
+        maxWidthOrHeight: maxDimension, // 使用新的 maxDimension
+        useWebWorker: true, // 啟用 Web Worker
         fileType: selectedFormat,
         initialQuality: quality,
       };
+
+      console.log(`處理圖片: ${image.file.name}, 原始尺寸: ${originalWidth}x${originalHeight}, 原始大小: ${formatBytes(image.file.size)}`);
+      console.log('傳遞給 imageCompression 的選項:', options);
 
       try {
         const compressedFile = await imageCompression(image.file, options);
         const finalBlob = compressedFile.size < image.file.size ? compressedFile : image.file;
         totalCompressedSize += finalBlob.size;
+
+        // 為了獲取壓縮後圖片的尺寸，我們需要將 Blob 轉換為 Image 物件
+        const img = new Image();
+        const imgLoadPromise = new Promise(resolve => {
+          img.onload = () => resolve();
+          img.src = URL.createObjectURL(finalBlob);
+        });
+        await imgLoadPromise;
+
+        console.log(`壓縮後圖片: ${finalBlob.name}, 尺寸: ${img.width}x${img.height}, 大小: ${formatBytes(finalBlob.size)}`);
+        URL.revokeObjectURL(img.src); // 釋放 URL 物件
 
         const fileExtension = selectedFormat.split('/')[1];
         const finalFilename = image.file.name.replace(/\.[^/.]+$/, `.${fileExtension}`);
