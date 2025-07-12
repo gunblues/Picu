@@ -44,7 +44,7 @@ function getTranslation($key) {
 <link rel="stylesheet" href="lib/cropper.min.css">
 <script src="lib/jszip.min.js" defer></script>
 <script src="lib/cropper.min.js" defer></script>
-<script src="lib/selfie_segmentation.js" defer></script>
+<script src="https://cdn.jsdelivr.net/npm/@mediapipe/selfie_segmentation/selfie_segmentation.js" defer></script>
 
 <!-- SEO Meta Tags -->
 <meta name="description" content="<?php echo getTranslation('seoDescription'); ?>">
@@ -246,7 +246,7 @@ function getTranslation($key) {
         alertSelectImageForRemoveBg: "<?php echo getTranslation('alertSelectImageForRemoveBg'); ?>",
     };
 </script>
-<script type="module" src="/dist/assets/main.BCy7fidS.js"></script>
+<script type="module" src="/dist/assets/main.BcKU10YN.js"></script>
 
 </body>
 </html>

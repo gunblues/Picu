@@ -4,6 +4,9 @@ let canvas, ctx, outputImg, downloadRemovebgBtn; // 新增 downloadRemovebgBtn
 
 export function initRemoveBgTool() {
   const removebgBtn = document.getElementById('removebg-btn');
+  const originalRemoveBgBtnText = removebgBtn.textContent;
+  let isModelLoading = false;
+  let isModelLoaded = false;
   downloadRemovebgBtn = document.getElementById('download-removebg-btn'); // 移除 const
   const uploadedList = document.getElementById('uploaded-list');
   canvas = document.getElementById('removebg-canvas');
@@ -29,6 +32,32 @@ export function initRemoveBgTool() {
       return;
     }
 
+    if (!isModelLoaded && !isModelLoading) {
+      isModelLoading = true;
+      removebgBtn.textContent = window.alertTranslations.loadingModelMessage;
+      removebgBtn.disabled = true;
+      try {
+        await loadMediaPipe();
+        isModelLoaded = true;
+        console.log('MediaPipe model loaded successfully.');
+      } catch (error) {
+        console.error('Failed to load MediaPipe model:', error);
+        alert('模型載入失敗，請重試。');
+        removebgBtn.textContent = window.getTranslation('removebgBtn'); // 假設有這個翻譯鍵
+        removebgBtn.disabled = false;
+        isModelLoading = false;
+        return;
+      }
+      removebgBtn.textContent = originalRemoveBgBtnText;
+      removebgBtn.disabled = false;
+      isModelLoading = false;
+    }
+
+    if (!isModelLoaded) {
+      // 如果模型還沒載入完成，則不執行去背操作
+      return;
+    }
+
     const img = new Image();
     img.crossOrigin = 'anonymous';
 
@@ -40,10 +69,6 @@ export function initRemoveBgTool() {
       canvas.width = img.width;
       canvas.height = img.height;
       ctx.drawImage(img, 0, 0);
-
-      if (!selfieSegmentation) {
-        await loadMediaPipe();
-      }
       
       // 添加加載指示器
       outputImg.style.opacity = '0.5';

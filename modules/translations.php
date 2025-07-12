@@ -647,6 +647,7 @@ $translations = [
     'alertSelectImageForRemoveBg' => 'Por favor selecione uma imagem de retrato para remover o fundo',
     'downloadBtn' => 'Baixar',
     'alertNoImageToDownload' => 'Nenhuma imagem para baixar.',
+    'loadingModelMessage' => 'Carregando modelo pela primeira vez, por favor aguarde...',
   ],
 
 ];
