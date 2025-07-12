@@ -14,9 +14,17 @@ onmessage = async function (e) {
     ctx.fillRect(0, 0, width, height);
 
     // 計算圖片縮放比例並置中
-    const ratio = Math.min(width / imageBitmap.width, height / imageBitmap.height);
-    const imgWidth = imageBitmap.width * ratio;
-    const imgHeight = imageBitmap.height * ratio;
+    let imgWidth = imageBitmap.width;
+    let imgHeight = imageBitmap.height;
+
+    // 如果圖片比目標畫布大，則縮小圖片以適應畫布
+    if (imgWidth > width || imgHeight > height) {
+      const ratio = Math.min(width / imgWidth, height / imgHeight);
+      imgWidth *= ratio;
+      imgHeight *= ratio;
+    }
+
+    // 計算置中位置
     const x = (width - imgWidth) / 2;
     const y = (height - imgHeight) / 2;
 
