@@ -5,7 +5,7 @@ const initializedTools = {};
 
 window.onload = () => {
   console.log('main.js loaded and window.onload executed!');
-  
+
   initUploader(); // Uploader is always initialized
 
   // Tab 切換邏輯

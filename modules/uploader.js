@@ -32,11 +32,16 @@ export function initUploader() {
         if (e.target.checked) {
           window.selectedIndices.add(index);
           img.classList.add('selected');
+        
+          const selectedItems = Array.from(window.selectedIndices)
+            .map(i => window.imageDataList[i])
+            .filter(Boolean);
+
         } else {
           window.selectedIndices.delete(index);
           img.classList.remove('selected');
         }
-        updateCompressList();
+        updateBatchProcessingList();
       };
 
       // label 元素現在只用於包裹 checkbox，或者可以移除
@@ -114,7 +119,7 @@ export function initUploader() {
           window.selectedForCrop -= 1;
         }
         renderUploadedList();
-        updateCompressList();
+        updateBatchProcessingList();
       };
 
       // 將所有元素直接添加到 container
@@ -126,9 +131,23 @@ export function initUploader() {
     });
   }
 
-  function updateCompressList() {
+  function updateBatchProcessingList() {
     if (typeof window.updateCompressSelection === 'function') {
       window.updateCompressSelection(
+        Array.from(window.selectedIndices)
+             .filter(i => window.imageDataList[i] !== undefined) // Filter out undefined items
+             .map(i => window.imageDataList[i])
+      );
+    }
+    if (typeof window.updateResizeSelection === 'function') {
+      window.updateResizeSelection(
+        Array.from(window.selectedIndices)
+             .filter(i => window.imageDataList[i] !== undefined) // Filter out undefined items
+             .map(i => window.imageDataList[i])
+      );
+    }
+    if (typeof window.updateWhitebgSelection === 'function') {
+      window.updateWhitebgSelection(
         Array.from(window.selectedIndices)
              .filter(i => window.imageDataList[i] !== undefined) // Filter out undefined items
              .map(i => window.imageDataList[i])
@@ -139,13 +158,13 @@ export function initUploader() {
   selectAllBtn.onclick = () => {
     window.imageDataList.forEach((_, idx) => window.selectedIndices.add(idx));
     renderUploadedList();
-    updateCompressList();
+    updateBatchProcessingList();
   };
 
   deselectAllBtn.onclick = () => {
     window.selectedIndices.clear();
     renderUploadedList();
-    updateCompressList();
+    updateBatchProcessingList();
   };
 
   uploadArea.onclick = () => fileInput.click();
@@ -187,7 +206,7 @@ export function initUploader() {
           const newIndex = window.imageDataList.length - 1; // Move this line here
           window.selectedIndices.add(newIndex);
           renderUploadedList();
-          updateCompressList();
+          updateBatchProcessingList();
 
           // If this is the first image uploaded, automatically select it for crop/enhance
           if (window.imageDataList.length === 1) {
@@ -211,7 +230,7 @@ export function initUploader() {
         const newIndex = window.imageDataList.length - 1; // Move this line here
         window.selectedIndices.add(newIndex);
         renderUploadedList();
-        updateCompressList();
+        updateBatchProcessingList();
 
         // If this is the first image uploaded, automatically select it for crop/enhance
         if (window.imageDataList.length === 1) {

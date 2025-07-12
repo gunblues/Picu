@@ -1,5 +1,3 @@
-
-
 export function initWhiteBgTool() {
   const btn = document.getElementById('whitebg-btn');
   const preview = document.getElementById('whitebg-preview');
@@ -9,16 +7,13 @@ export function initWhiteBgTool() {
       alert(window.alertTranslations.alertSelectImageForWhiteBg);
       return;
     }
-    const selectedImages = Array.from(window.selectedIndices).map(i => window.imageDataList[i]);
-    if (selectedImages.length === 0) {
-      alert(window.alertTranslations.alertSelectImageForWhiteBg);
-      return;
-    }
 
     const width = parseInt(document.getElementById('whitebg-width').value) || 1000;
     const height = parseInt(document.getElementById('whitebg-height').value) || 1000;
     const shadow = document.getElementById('whitebg-shadow').checked;
     const border = document.getElementById('whitebg-border').checked;
+
+    const selectedImages = Array.from(window.selectedIndices).map(i => window.imageDataList[i]);
 
     preview.innerHTML = '製作中...請稍候';
 
@@ -98,16 +93,21 @@ export function initWhiteBgTool() {
         shadow,
         border,
         index: i,
-        originalType: selectedImages[i].type // Pass originalType
+        originalType: selectedImages[i].type
       }, [imageData.data.buffer]);
     }
   };
-
-  function loadImageAsync(dataUrl) {
-    return new Promise((resolve) => {
-      const img = new Image();
-      img.onload = () => resolve(img);
-      img.src = dataUrl;
-    });
-  }
 }
+
+// ✅ 註冊並立即更新 White Background 按鈕文字
+window.updateWhitebgSelection = (selectedItems) => {
+  const whitebgBtn = document.getElementById('whitebg-btn');
+  if (whitebgBtn) {
+    const count = selectedItems.length;
+    whitebgBtn.textContent = `Add White Background (${count})`;
+  }
+};
+
+// ✅ 初始化呼叫一次
+const selectedItems = Array.from(window.selectedIndices || []).map(i => window.imageDataList?.[i]).filter(Boolean);
+window.updateWhitebgSelection(selectedItems);

@@ -1,5 +1,3 @@
-
-
 export function initResizeTool() {
   const resizeBtn = document.getElementById('resize-btn');
   const resizeWidthInput = document.getElementById('resize-width');
@@ -105,16 +103,21 @@ export function initResizeTool() {
         width,
         height,
         index: i,
-        originalType: selectedImages[i].type // Pass originalType
-      }, [imageData.data.buffer]);
-    }
+        originalType: selectedImages[i].type
+      });
+    };
   };
-
-  function loadImageAsync(dataUrl) {
-    return new Promise((resolve) => {
-      const img = new Image();
-      img.onload = () => resolve(img);
-      img.src = dataUrl;
-    });
-  }
 }
+
+// ✅ 註冊並立即執行 Resize 選取圖片更新按鈕
+window.updateResizeSelection = (selectedItems) => {
+  const resizeBtn = document.getElementById('resize-btn');
+  if (resizeBtn) {
+    const count = selectedItems.length;
+    resizeBtn.textContent = `Resize & Download Selected (${count})`;
+  }
+};
+
+// ✅ 初始化呼叫一次
+const selectedItems = Array.from(window.selectedIndices || []).map(i => window.imageDataList?.[i]).filter(Boolean);
+window.updateResizeSelection(selectedItems);
