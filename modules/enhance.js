@@ -111,4 +111,10 @@ export function initEnhanceTool() {
       URL.revokeObjectURL(url);
     }, 'image/png');
   };
+
+  // Check if an image is already selected when the tool initializes
+  if (window.selectedForCrop !== null && window.imageDataList[window.selectedForCrop]) {
+    const initialImageData = window.imageDataList[window.selectedForCrop];
+    window.loadImageToEnhance(initialImageData.dataUrl, initialImageData.name);
+  }
 }

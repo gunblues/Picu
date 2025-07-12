@@ -58,6 +58,18 @@ export function initCropTool() {
     };
   });
 
+  // Check if an image is already selected when the tool initializes
+  if (window.selectedForCrop !== null && window.imageDataList[window.selectedForCrop]) {
+    const initialImageData = window.imageDataList[window.selectedForCrop];
+    const event = new CustomEvent('image-selected', { 
+      detail: { 
+        dataUrl: initialImageData.dataUrl,
+        name: initialImageData.name
+      }
+    });
+    window.dispatchEvent(event);
+  }
+
   function parseRatio(ratioStr) {
     if (ratioStr === 'free') return NaN;
     const parts = ratioStr.split('/');

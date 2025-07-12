@@ -93,6 +93,18 @@ export function initRemoveBgTool() {
       alert(window.alertTranslations.alertNoImageToDownload); // 假設有這個翻譯鍵
     }
   };
+
+  // Check if an image is already selected when the tool initializes
+  if (window.selectedForCrop !== null && window.imageDataList[window.selectedForCrop]) {
+    const initialImageData = window.imageDataList[window.selectedForCrop];
+    const event = new CustomEvent('image-selected', { 
+      detail: { 
+        dataUrl: initialImageData.dataUrl,
+        name: initialImageData.name
+      }
+    });
+    window.dispatchEvent(event);
+  }
 }
 
 async function loadMediaPipe() {
@@ -140,3 +152,5 @@ function onResults(results) {
   // 恢復滑鼠樣式
   document.body.style.cursor = 'default';
 }
+
+  

@@ -246,7 +246,7 @@ function getTranslation($key) {
         alertSelectImageForRemoveBg: "<?php echo getTranslation('alertSelectImageForRemoveBg'); ?>",
     };
 </script>
-<script type="module" src="/dist/assets/main.BcKU10YN.js"></script>
+<script type="module" src="/dist/assets/main.DOM_yePi.js"></script>
 
 </body>
 </html>
