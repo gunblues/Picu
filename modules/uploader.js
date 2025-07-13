@@ -16,6 +16,20 @@ export function initUploader() {
       const container = document.createElement('div');
       container.className = 'img-container';
 
+      // Add dimensions display
+      const dimensionsDiv = document.createElement('div');
+      dimensionsDiv.className = 'image-dimensions';
+      dimensionsDiv.textContent = `${item.width}x${item.height} (${item.name.split('.').pop()})`;
+      dimensionsDiv.style.position = 'absolute';
+      dimensionsDiv.style.bottom = '5px';
+      dimensionsDiv.style.right = '5px';
+      dimensionsDiv.style.background = 'rgba(0, 0, 0, 0.7)';
+      dimensionsDiv.style.color = 'white';
+      dimensionsDiv.style.padding = '2px 5px';
+      dimensionsDiv.style.borderRadius = '3px';
+      dimensionsDiv.style.fontSize = '12px';
+      dimensionsDiv.style.zIndex = '3';
+
       const checkbox = document.createElement('input');
       checkbox.type = 'checkbox';
       checkbox.dataset.index = index;
@@ -115,7 +129,8 @@ export function initUploader() {
         );
         if (window.selectedForCrop === index) {
           window.selectedForCrop = null;
-        } else if (window.selectedForCrop > index) {
+        }
+        else if (window.selectedForCrop > index) {
           window.selectedForCrop -= 1;
         }
         renderUploadedList();
@@ -126,6 +141,7 @@ export function initUploader() {
       container.appendChild(img); // 先添加圖片，讓它在底部
       container.appendChild(checkbox); // 再添加 checkbox，讓它在圖片上方
       container.appendChild(label); // 添加 label (如果需要，可以移除)
+      container.appendChild(dimensionsDiv); // Add dimensions div
       container.appendChild(delBtn); // 最后添加删除按钮
       uploadedList.appendChild(container);
     });
