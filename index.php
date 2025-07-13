@@ -144,8 +144,6 @@ function getTranslation($key) {
     </div>
 
     <div id="resize" class="tab-content">
-      <h3><?php echo getTranslation('resizeTitle'); ?></h3>
-
       <fieldset>
         <legend>
           <label>
