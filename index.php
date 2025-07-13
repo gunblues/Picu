@@ -145,16 +145,42 @@ function getTranslation($key) {
 
     <div id="resize" class="tab-content">
       <h3><?php echo getTranslation('resizeTitle'); ?></h3>
-      <div class="tool-controls">
-        <div class="control-group">
-            <label for="resize-width"><?php echo getTranslation('widthLabel'); ?></label>
-            <input id="resize-width" type="number" min="1">
+
+      <fieldset>
+        <legend>
+          <label>
+            <input type="radio" name="resize-mode" value="pixel" checked> <?php echo getTranslation('resizeModePixel'); ?>
+          </label>
+        </legend>
+        <div id="pixel-options" class="tool-controls">
+          <div class="control-group">
+              <label for="resize-width"><?php echo getTranslation('widthLabel'); ?></label>
+              <input id="resize-width" type="number" min="1">
+          </div>
+          <div class="control-group">
+              <label for="resize-height"><?php echo getTranslation('heightLabel'); ?></label>
+              <input id="resize-height" type="number" min="1">
+          </div>
+          <div class="control-group checkbox-group">
+              <label><input type="checkbox" id="aspect-ratio-checkbox" checked> <?php echo getTranslation('maintainAspectRatio'); ?></label>
+              <label><input type="checkbox" id="no-enlarge-checkbox"> <?php echo getTranslation('noEnlargeSmaller'); ?></label>
+          </div>
         </div>
-        <div class="control-group">
-            <label for="resize-height"><?php echo getTranslation('heightLabel'); ?></label>
-            <input id="resize-height" type="number" min="1">
+      </fieldset>
+
+      <fieldset>
+        <legend>
+          <label>
+            <input type="radio" name="resize-mode" value="percentage"> <?php echo getTranslation('resizeModePercentage'); ?> <span id="percentage-value">75%</span>
+          </label>
+        </legend>
+        <div id="percentage-options" class="tool-controls">
+          <div class="control-group">
+            <input type="range" id="percentage-slider" min="1" max="100" value="75">
+          </div>
         </div>
-      </div>
+      </fieldset>
+
       <button id="resize-btn"><?php echo getTranslation('resizeBtn'); ?></button>
       <div id="resize-progress-container" style="width: 100%; background-color: #e0e0e0; border-radius: 5px; margin-top: 10px; overflow: hidden; display: none;">
         <div id="resize-progress-bar" style="height: 20px; width: 0%; background-color: #4CAF50; border-radius: 5px; text-align: center; line-height: 20px; color: white;"></div>
@@ -257,7 +283,7 @@ function getTranslation($key) {
         compressSummaryReduction: "<?php echo getTranslation('compressSummaryReduction'); ?>", // New translation key
     };
 </script>
-<script type="module" src="/dist/assets/main.BQvchuCz.js"></script>
+<script type="module" src="/dist/assets/main.XtQmAP0y.js"></script>
 
 </body>
 </html>
