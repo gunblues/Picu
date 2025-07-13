@@ -129,6 +129,8 @@ async function loadMediaPipe() {
 }
 
 function onResults(results) {
+  const addWhiteBgCheckbox = document.getElementById('removebg-white-bg');
+
   // 獲取分割蒙版
   const mask = results.segmentationMask;
   
@@ -139,12 +141,20 @@ function onResults(results) {
   // 清空畫布
   ctx.clearRect(0, 0, canvas.width, canvas.height);
 
-  // 繪製蒙版
+  // Draw the mask first to define the clipping area
   ctx.drawImage(mask, 0, 0, canvas.width, canvas.height);
-  
-  // 使用 'source-in' 操作，只保留原圖中與蒙版重疊的部分（即前景）
+
+  // Use 'source-in' to isolate the foreground
   ctx.globalCompositeOperation = 'source-in';
   ctx.drawImage(results.image, 0, 0, canvas.width, canvas.height);
+
+  // If the user wants a white background, draw it behind the foreground
+  if (addWhiteBgCheckbox && addWhiteBgCheckbox.checked) {
+    // Use 'destination-over' to draw behind the existing content
+    ctx.globalCompositeOperation = 'destination-over';
+    ctx.fillStyle = 'white';
+    ctx.fillRect(0, 0, canvas.width, canvas.height);
+  }
   
   // 重置混合模式
   ctx.globalCompositeOperation = 'source-over';

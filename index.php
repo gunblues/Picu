@@ -40,7 +40,7 @@ function getTranslation($key) {
 <link rel="apple-touch-icon" sizes="180x180" href="/icons/apple-touch-icon.png">
 <link rel="manifest" href="/icons/site.webmanifest">
 
-<link rel="stylesheet" href="/dist/assets/style.DIyJpY0g.css">
+<link rel="stylesheet" href="/dist/assets/style.D_T1WkYD.css">
 <link rel="stylesheet" href="lib/cropper.min.css">
 <script src="lib/jszip.min.js" defer></script>
 <script src="lib/cropper.min.js" defer></script>
@@ -250,8 +250,13 @@ function getTranslation($key) {
     </div>
 
 	<div id="removebg" class="tab-content">
-	  <button id="removebg-btn"><?php echo getTranslation('removebgBtn'); ?></button>
-	  <button id="download-removebg-btn" style="display:none;"><?php echo getTranslation('downloadBtn'); ?></button><br><br>
+      <div class="tool-controls">
+        <div class="control-group checkbox-group">
+          <label><input type="checkbox" id="removebg-white-bg" /> <span><?php echo getTranslation('addWhiteBackground'); ?></span></label>
+        </div>
+		<button id="removebg-btn"><?php echo getTranslation('removebgBtn'); ?></button>
+	    <button id="download-removebg-btn" style="display:none;"><?php echo getTranslation('downloadBtn'); ?></button><br><br>
+      </div>
       <div id="removebg-progress-container" style="width: 100%; background-color: #e0e0e0; border-radius: 5px; margin-top: 10px; overflow: hidden; display: none;">
         <div id="removebg-progress-bar" style="height: 20px; width: 0%; background-color: #4CAF50; border-radius: 5px; text-align: center; line-height: 20px; color: white;"></div>
       </div>
@@ -285,7 +290,7 @@ function getTranslation($key) {
         compressSummaryReduction: "<?php echo getTranslation('compressSummaryReduction'); ?>", // New translation key
     };
 </script>
-<script type="module" src="/dist/assets/main.Cf_nj-0y.js"></script>
+<script type="module" src="/dist/assets/main.C8GxlwFP.js"></script>
 
 </body>
 </html>

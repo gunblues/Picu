@@ -37,7 +37,7 @@ if (fs.existsSync(jsFullPath)) {
     stringArrayThreshold: 0.75
   }).getObfuscatedCode();
 
-  fs.writeFileSync(jsFullPath, originalJsCode, 'utf8');
+  fs.writeFileSync(jsFullPath, obfuscatedCode, 'utf8');
   console.log('🎯 JS obfuscated successfully.');
 } else {
   console.warn(`⚠️ JS file not found for obfuscation: ${jsFullPath}`);
