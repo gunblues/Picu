@@ -81,6 +81,8 @@ $translations = [
     'compressing' => 'Processing...', 
     'packing' => 'Packing...', 
     'totalOriginalSizeLabel' => 'Total Original Size:',
+    'privacyTitle' => 'Privacy First',
+    'privacyNotice' => 'Picu is a privacy-focused image tool website. All image processing is done in your browser, and no images or personal information will ever be uploaded to the server.',
   ],
 
   'zh' => [
@@ -163,6 +165,8 @@ $translations = [
     'compressing' => '處理中...', 
     'packing' => '打包中...', 
     'totalOriginalSizeLabel' => '總原始大小:',
+    'privacyTitle' => '隱私至上',
+    'privacyNotice' => 'Picu 是一款重視隱私的圖片工具網站，所有圖片處理皆在您的瀏覽器中完成，絕不會將圖片或任何個人資訊上傳至伺服器。',
   ],
 
   'ja' => [
@@ -245,6 +249,8 @@ $translations = [
     'compressing' => '処理中...', 
     'packing' => '圧縮中...', 
     'totalOriginalSizeLabel' => '合計オリジナルサイズ:',
+    'privacyTitle' => 'プライバシー第一',
+    'privacyNotice' => 'Picuはプライバシーを重視した画像ツールサイトです。すべての画像処理はブラウザ内で完結し、画像や個人情報がサーバーにアップロードされることは一切ありません。',
   ],
 
   'ko' => [
@@ -327,6 +333,8 @@ $translations = [
     'compressing' => '처리 중...', 
     'packing' => '압축 중...', 
     'totalOriginalSizeLabel' => '총 원본 크기:',
+    'privacyTitle' => '개인 정보 보호 우선',
+    'privacyNotice' => 'Picu는 개인 정보 보호를 중시하는 이미지 도구 웹사이트입니다. 모든 이미지 처리는 브라우저에서 이루어지며, 이미지나 개인 정보는 서버에 업로드되지 않습니다.',
   ],
 
   'es' => [
@@ -409,6 +417,8 @@ $translations = [
     'compressing' => 'Procesando...', 
     'packing' => 'Empaquetando...', 
     'totalOriginalSizeLabel' => 'Tamaño original total:',
+    'privacyTitle' => 'Privacidad Primero',
+    'privacyNotice' => 'Picu es un sitio web de herramientas de imagen centrado en la privacidad. Todo el procesamiento de imágenes se realiza en su navegador y nunca se cargarán imágenes ni información personal en el servidor.',
   ],
 
   'hi' => [
@@ -491,6 +501,8 @@ $translations = [
     'compressing' => 'प्रसंस्करण हो रहा है...', 
     'packing' => 'पैकिंग हो रही है...', 
     'totalOriginalSizeLabel' => 'कुल मूल आकार:',
+    'privacyTitle' => 'गोपनीयता पहले',
+    'privacyNotice' => 'पिकु एक गोपनीयता-केंद्रित छवि उपकरण वेबसाइट है। सभी छवि प्रसंस्करण आपके ब्राउज़र में किया जाता है, और कोई भी चित्र या व्यक्तिगत जानकारी कभी भी सर्वर पर अपलोड नहीं की जाएगी।',
   ],
 
   'ar' => [
@@ -572,6 +584,8 @@ $translations = [
     'compressing' => 'جاري المعالجة...', 
     'packing' => 'جاري التعبئة...', 
     'totalOriginalSizeLabel' => 'إجمالي الحجم الأصلي:',
+    'privacyTitle' => 'الخصوصية أولاً',
+    'privacyNotice' => 'Picu هو موقع ويب لأدوات الصور يركز على الخصوصية. تتم معالجة جميع الصور في متصفحك ، ولن يتم تحميل أي صور أو معلومات شخصية على الخادم.',
   ],
 
   'bn' => [
@@ -653,6 +667,8 @@ $translations = [
     'compressing' => 'প্রসেসিং হচ্ছে...', 
     'packing' => 'প্যাকেজিং হচ্ছে...', 
     'totalOriginalSizeLabel' => 'মোট আসল আকার:',
+    'privacyTitle' => 'গোপনীয়তা প্রথম',
+    'privacyNotice' => 'Picu একটি গোপনীয়তা-কেন্দ্রিক চিত্র সরঞ্জাম ওয়েবসাইট। সমস্ত চিত্র প্রক্রিয়াকরণ আপনার ব্রাউজারে করা হয়, এবং কোনও চিত্র বা ব্যক্তিগত তথ্য সার্ভারে আপলোড করা হবে না।',
   ],
 
   'pt' => [
@@ -736,6 +752,8 @@ $translations = [
     'compressing' => 'Processando...', 
     'packing' => 'Empacotando...', 
     'totalOriginalSizeLabel' => 'Tamanho original total:',
+    'privacyTitle' => 'Privacidade em Primeiro Lugar',
+    'privacyNotice' => 'Picu é um site de ferramentas de imagem focado na privacidade. Todo o processamento de imagens é feito no seu navegador, e nenhuma imagem ou informação pessoal será carregada para o servidor.',
   ],
 
   'fr' => [

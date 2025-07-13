@@ -40,7 +40,7 @@ function getTranslation($key) {
 <link rel="apple-touch-icon" sizes="180x180" href="/icons/apple-touch-icon.png">
 <link rel="manifest" href="/icons/site.webmanifest">
 
-<link rel="stylesheet" href="/dist/assets/style.D_T1WkYD.css">
+<link rel="stylesheet" href="/dist/assets/style.CLGy8Ncu.css">
 <link rel="stylesheet" href="lib/cropper.min.css">
 <script src="lib/jszip.min.js" defer></script>
 <script src="lib/cropper.min.js" defer></script>
@@ -266,6 +266,11 @@ function getTranslation($key) {
 
   </div>
 </main>
+
+<div class="section" id="privacy-section">
+    <h3><?php echo getTranslation('privacyTitle'); ?></h3>
+    <p><?php echo getTranslation('privacyNotice'); ?></p>
+</div>
 
 <script>
     window.alertTranslations = {

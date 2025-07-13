@@ -8,8 +8,7 @@ body {
 }
 
 main {
-  max-width: 1200px;
-  margin: 0 auto;
+  /* max-width and margin moved to .section */
 }
 
 h1 {
@@ -25,7 +24,8 @@ h3 {
 }
 
 .section {
-  margin-bottom: 2em;
+  max-width: 1200px;
+  margin: 0 auto 2em auto; /* Added max-width and auto margins for centering, and kept bottom margin */
   padding: 1.5em;
   background: white;
   border-radius: 12px;
