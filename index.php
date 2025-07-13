@@ -235,6 +235,7 @@ function getTranslation($key) {
       </div>
       <canvas id="enhance-canvas"></canvas>
       <button id="enhance-download-btn"><?php echo getTranslation('enhanceBtn'); ?></button>
+      <button id="enhance-reset-btn"><?php echo getTranslation('resetBtn'); ?></button>
     </div>
 
     <div id="crop" class="tab-content">
@@ -281,7 +282,7 @@ function getTranslation($key) {
         compressSummaryReduction: "<?php echo getTranslation('compressSummaryReduction'); ?>", // New translation key
     };
 </script>
-<script type="module" src="/dist/assets/main.68R4EpOo.js"></script>
+<script type="module" src="/dist/assets/main.BkGE0iT5.js"></script>
 
 </body>
 </html>

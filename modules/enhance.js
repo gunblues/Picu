@@ -10,11 +10,27 @@ export function initEnhanceTool() {
   const filterSelect = document.getElementById('filter');
   const enhanceCanvas = document.getElementById('enhance-canvas');
   const enhanceDownloadBtn = document.getElementById('enhance-download-btn');
+  const enhanceResetBtn = document.getElementById('enhance-reset-btn');
   const ctx = enhanceCanvas.getContext('2d');
 
   let currentImage = null;
   let originalImage = null;
   let originalFilename = 'image'; // Add a variable to store the original filename
+
+  // Function to reset sliders to default values
+  const resetEnhancements = () => {
+    brightnessSlider.value = 0;
+    brightnessValueSpan.textContent = 0;
+    saturationSlider.value = 100;
+    saturationValueSpan.textContent = 100;
+    contrastSlider.value = 100;
+    contrastValueSpan.textContent = 100;
+    filterSelect.value = 'none';
+    applyEnhancements();
+  };
+
+  // Event listener for reset button
+  enhanceResetBtn.onclick = resetEnhancements;
 
   // 更新數值顯示與觸發套用
   brightnessSlider.oninput = () => {
@@ -42,15 +58,7 @@ export function initEnhanceTool() {
       originalFilename = filename || 'image'; // Store the filename
 
       // 重設調整參數
-      brightnessSlider.value = 0;
-      brightnessValueSpan.textContent = 0;
-      saturationSlider.value = 100;
-      saturationValueSpan.textContent = 100;
-      contrastSlider.value = 100;
-      contrastValueSpan.textContent = 100;
-      filterSelect.value = 'none';
-
-      applyEnhancements();
+      resetEnhancements(); // Use the new reset function
     };
     originalImage.onerror = (e) => {
       console.error('Error loading original image:', e);
@@ -76,8 +84,18 @@ export function initEnhanceTool() {
     ];
 
     if (filterType === 'blur') {
+      if (!CSS.supports('filter', 'blur(1px)')) {
+        alert(window.alertTranslations.alertFilterNotSupported);
+        filterSelect.value = 'none';
+        return;
+      }
       filterParts.push('blur(2px)');
     } else if (filterType !== 'none') {
+      if (!CSS.supports('filter', `${filterType}(1)`)) {
+        alert(window.alertTranslations.alertFilterNotSupported);
+        filterSelect.value = 'none';
+        return;
+      }
       filterParts.push(`${filterType}(1)`);
     }
 
