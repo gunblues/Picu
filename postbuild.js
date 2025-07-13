@@ -28,14 +28,14 @@ console.log(`✅ JS replaced: ${jsPath}`);
 // Obfuscate JS
 if (fs.existsSync(jsFullPath)) {
   const originalJsCode = fs.readFileSync(jsFullPath, 'utf8');
-  //const obfuscatedCode = JavaScriptObfuscator.obfuscate(originalJsCode, {
-  //  compact: true,
-  //  controlFlowFlattening: true,
-  //  deadCodeInjection: true,
-  //  stringArray: true,
-  //  stringArrayEncoding: ['base64'],
-  //  stringArrayThreshold: 0.75
-  //}).getObfuscatedCode();
+  const obfuscatedCode = JavaScriptObfuscator.obfuscate(originalJsCode, {
+    compact: true,
+    controlFlowFlattening: true,
+    deadCodeInjection: true,
+    stringArray: true,
+    stringArrayEncoding: ['base64'],
+    stringArrayThreshold: 0.75
+  }).getObfuscatedCode();
 
   fs.writeFileSync(jsFullPath, originalJsCode, 'utf8');
   console.log('🎯 JS obfuscated successfully.');
