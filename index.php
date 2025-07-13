@@ -252,6 +252,9 @@ function getTranslation($key) {
 	<div id="removebg" class="tab-content">
 	  <button id="removebg-btn"><?php echo getTranslation('removebgBtn'); ?></button>
 	  <button id="download-removebg-btn" style="display:none;"><?php echo getTranslation('downloadBtn'); ?></button><br><br>
+      <div id="removebg-progress-container" style="width: 100%; background-color: #e0e0e0; border-radius: 5px; margin-top: 10px; overflow: hidden; display: none;">
+        <div id="removebg-progress-bar" style="height: 20px; width: 0%; background-color: #4CAF50; border-radius: 5px; text-align: center; line-height: 20px; color: white;"></div>
+      </div>
 	  <canvas id="removebg-canvas" style="display:none; max-width:100%;"></canvas><br>
 	  <img id="removebg-output" style="display:none; max-width:100%;" alt="Result">
 	</div>
@@ -282,7 +285,7 @@ function getTranslation($key) {
         compressSummaryReduction: "<?php echo getTranslation('compressSummaryReduction'); ?>", // New translation key
     };
 </script>
-<script type="module" src="/dist/assets/main.BkGE0iT5.js"></script>
+<script type="module" src="/dist/assets/main.Cf_nj-0y.js"></script>
 
 </body>
 </html>

@@ -1,17 +1,21 @@
 
 let selfieSegmentation;
 let canvas, ctx, outputImg, downloadRemovebgBtn; // 新增 downloadRemovebgBtn
+let removebgProgressBarContainer, removebgProgressBar;
 
 export function initRemoveBgTool() {
   const removebgBtn = document.getElementById('removebg-btn');
   const originalRemoveBgBtnText = removebgBtn.textContent;
   let isModelLoading = false;
   let isModelLoaded = false;
-  downloadRemovebgBtn = document.getElementById('download-removebg-btn'); // 移除 const
+  downloadRemovebgBtn = document.getElementById('download-removebg-btn');
   const uploadedList = document.getElementById('uploaded-list');
   canvas = document.getElementById('removebg-canvas');
   ctx = canvas.getContext('2d');
   outputImg = document.getElementById('removebg-output');
+
+  removebgProgressBarContainer = document.getElementById('removebg-progress-container');
+  removebgProgressBar = document.getElementById('removebg-progress-bar');
 
   // 監聽全域的 image-selected 事件，用於預覽圖片
   window.addEventListener('image-selected', (event) => {
@@ -22,6 +26,7 @@ export function initRemoveBgTool() {
       currentOutputImg.src = dataUrl;
       currentOutputImg.style.display = 'block';
       canvas.style.display = 'none'; // 確保 canvas 隱藏
+      removebgProgressBarContainer.style.display = 'none'; // Hide progress bar on new image selection
     }
   });
 
@@ -36,6 +41,9 @@ export function initRemoveBgTool() {
       isModelLoading = true;
       removebgBtn.textContent = window.alertTranslations.loadingModelMessage;
       removebgBtn.disabled = true;
+      removebgProgressBarContainer.style.display = 'block';
+      removebgProgressBar.style.width = '0%';
+      removebgProgressBar.textContent = '0%';
       try {
         await loadMediaPipe();
         isModelLoaded = true;
@@ -43,9 +51,10 @@ export function initRemoveBgTool() {
       } catch (error) {
         console.error('Failed to load MediaPipe model:', error);
         alert('模型載入失敗，請重試。');
-        removebgBtn.textContent = window.getTranslation('removebgBtn'); // 假設有這個翻譯鍵
+        removebgBtn.textContent = originalRemoveBgBtnText;
         removebgBtn.disabled = false;
         isModelLoading = false;
+        removebgProgressBarContainer.style.display = 'none';
         return;
       }
       removebgBtn.textContent = originalRemoveBgBtnText;
@@ -73,6 +82,9 @@ export function initRemoveBgTool() {
       // 添加加載指示器
       outputImg.style.opacity = '0.5';
       document.body.style.cursor = 'wait';
+      removebgProgressBarContainer.style.display = 'block';
+      removebgProgressBar.style.width = '50%'; // Simulate progress
+      removebgProgressBar.textContent = '50%';
 
       await selfieSegmentation.send({ image: img });
     };
@@ -151,6 +163,11 @@ function onResults(results) {
   
   // 恢復滑鼠樣式
   document.body.style.cursor = 'default';
+  removebgProgressBar.style.width = '100%'; // Set to 100% on completion
+  removebgProgressBar.textContent = '100%';
+  setTimeout(() => {
+    removebgProgressBarContainer.style.display = 'none'; // Hide after a short delay
+  }, 500);
 }
 
   
