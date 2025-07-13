@@ -120,8 +120,7 @@ input[type="submit"]:hover {
 #tabs {
   border-bottom: 2px solid #e0e0e0;
   display: flex;
-  overflow-x: auto; /* Makes tabs scrollable on mobile */
-  -webkit-overflow-scrolling: touch; /* Smooth scrolling on iOS */
+  flex-wrap: wrap; /* Allow tabs to wrap to the next line */
 }
 
 #tabs button {
@@ -131,7 +130,7 @@ input[type="submit"]:hover {
   font-weight: 600;
   color: #777;
   border-bottom: 3px solid transparent;
-  white-space: nowrap; /* Prevents wrapping */
+  white-space: normal; /* Allow text to wrap */
   margin-top: 0;
   border-radius: 0;
 }

@@ -40,7 +40,7 @@ function getTranslation($key) {
 <link rel="apple-touch-icon" sizes="180x180" href="/icons/apple-touch-icon.png">
 <link rel="manifest" href="/icons/site.webmanifest">
 
-<link rel="stylesheet" href="/dist/assets/style.B5aEvsmp.css">
+<link rel="stylesheet" href="/dist/assets/style.DIyJpY0g.css">
 <link rel="stylesheet" href="lib/cropper.min.css">
 <script src="lib/jszip.min.js" defer></script>
 <script src="lib/cropper.min.js" defer></script>
