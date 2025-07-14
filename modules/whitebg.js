@@ -4,16 +4,102 @@ export function initWhiteBgTool() {
   const whitebgProgressBarContainer = document.getElementById('whitebg-progress-container');
   const whitebgProgressBar = document.getElementById('whitebg-progress-bar');
 
+  // New preview elements
+  const whitebgPreviewContainer = document.getElementById('whitebg-preview-container');
+  const whitebgPreviewImage = document.getElementById('whitebg-preview-image');
+  const whitebgWidthInput = document.getElementById('whitebg-width');
+  const whitebgHeightInput = document.getElementById('whitebg-height');
+  const whitebgShadowCheckbox = document.getElementById('whitebg-shadow');
+  const whitebgBorderCheckbox = document.getElementById('whitebg-border');
+
+  let previewWorker = null; // To manage the worker for preview
+
+  // Debounce function to limit how often the preview is generated
+  const debounce = (func, delay) => {
+    let timeout;
+    return function(...args) {
+      const context = this;
+      clearTimeout(timeout);
+      timeout = setTimeout(() => func.apply(context, args), delay);
+    };
+  };
+
+  const generatePreview = async () => {
+    const selectedImageIndices = Array.from(window.selectedIndices || []);
+    if (selectedImageIndices.length !== 1) {
+      whitebgPreviewContainer.style.display = 'none';
+      whitebgPreviewImage.src = '';
+      return;
+    }
+
+    const selectedImage = window.imageDataList[selectedImageIndices[0]];
+    if (!selectedImage) {
+      whitebgPreviewContainer.style.display = 'none';
+      whitebgPreviewImage.src = '';
+      return;
+    }
+
+    whitebgPreviewContainer.style.display = 'block';
+    whitebgPreviewImage.src = ''; // Clear previous preview
+
+    const width = parseInt(whitebgWidthInput.value) || 1000;
+    const height = parseInt(whitebgHeightInput.value) || 1000;
+    const shadow = whitebgShadowCheckbox.checked;
+    const border = whitebgBorderCheckbox.checked;
+
+    // Terminate previous worker if exists
+    if (previewWorker) {
+      previewWorker.terminate();
+    }
+
+    previewWorker = new Worker('./modules/whitebgWorker.js');
+
+    previewWorker.onmessage = (event) => {
+      const { status, whitebgData, message } = event.data;
+      if (status === 'success') {
+        const blob = new Blob([whitebgData], { type: selectedImage.type });
+        const url = URL.createObjectURL(blob);
+        whitebgPreviewImage.src = url;
+        whitebgPreviewImage.onload = () => URL.revokeObjectURL(url); // Clean up object URL
+      } else {
+        console.error('生成預覽失敗:', message);
+        whitebgPreviewImage.src = '';
+      }
+    };
+
+    previewWorker.postMessage({
+      dataUrl: selectedImage.dataUrl,
+      width,
+      height,
+      shadow,
+      border,
+      index: 0, // For preview, we only process one image
+      originalType: selectedImage.type
+    });
+  };
+
+  const debouncedGeneratePreview = debounce(generatePreview, 300); // Debounce by 300ms
+
+  // Add event listeners to controls
+  whitebgWidthInput.addEventListener('input', debouncedGeneratePreview);
+  whitebgHeightInput.addEventListener('input', debouncedGeneratePreview);
+  whitebgShadowCheckbox.addEventListener('change', debouncedGeneratePreview);
+  whitebgBorderCheckbox.addEventListener('change', debouncedGeneratePreview);
+
   btn.onclick = async () => {
     if (!window.selectedIndices || window.selectedIndices.size === 0) {
       alert(window.alertTranslations.alertSelectImageForWhiteBg);
       return;
     }
 
-    const width = parseInt(document.getElementById('whitebg-width').value) || 1000;
-    const height = parseInt(document.getElementById('whitebg-height').value) || 1000;
-    const shadow = document.getElementById('whitebg-shadow').checked;
-    const border = document.getElementById('whitebg-border').checked;
+    // Hide preview when actual processing starts
+    whitebgPreviewContainer.style.display = 'none';
+    whitebgPreviewImage.src = '';
+
+    const width = parseInt(whitebgWidthInput.value) || 1000;
+    const height = parseInt(whitebgHeightInput.value) || 1000;
+    const shadow = whitebgShadowCheckbox.checked;
+    const border = whitebgBorderCheckbox.checked;
 
     const selectedImages = Array.from(window.selectedIndices).map(i => window.imageDataList[i]);
 
@@ -107,6 +193,25 @@ window.updateWhitebgSelection = (selectedItems) => {
   if (whitebgBtn) {
     const count = selectedItems.length;
     whitebgBtn.textContent = `Add White Background (${count})`;
+  }
+  // Trigger preview update when selection changes
+  const selectedImageIndices = Array.from(window.selectedIndices || []);
+  if (selectedImageIndices.length === 1) {
+    // Only generate preview if whitebg tab is active
+    const whitebgTab = document.getElementById('whitebg');
+    if (whitebgTab && whitebgTab.classList.contains('active')) {
+      const whitebgWidthInput = document.getElementById('whitebg-width');
+      const whitebgHeightInput = document.getElementById('whitebg-height');
+      const whitebgShadowCheckbox = document.getElementById('whitebg-shadow');
+      const whitebgBorderCheckbox = document.getElementById('whitebg-border');
+      // Manually trigger input event to generate preview immediately on selection change
+      whitebgWidthInput.dispatchEvent(new Event('input'));
+    }
+  } else {
+    const whitebgPreviewContainer = document.getElementById('whitebg-preview-container');
+    const whitebgPreviewImage = document.getElementById('whitebg-preview-image');
+    if (whitebgPreviewContainer) whitebgPreviewContainer.style.display = 'none';
+    if (whitebgPreviewImage) whitebgPreviewImage.src = '';
   }
 };
 

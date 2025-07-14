@@ -39,6 +39,11 @@ window.onload = () => {
             case 'whitebg':
               const { initWhiteBgTool } = await import('./modules/whitebg.js');
               initWhiteBgTool();
+              // Manually trigger preview generation when whitebg tab is activated
+              const whitebgWidthInput = document.getElementById('whitebg-width');
+              if (whitebgWidthInput) {
+                whitebgWidthInput.dispatchEvent(new Event('input'));
+              }
               break;
             case 'enhance':
               const { initEnhanceTool } = await import('./modules/enhance.js');

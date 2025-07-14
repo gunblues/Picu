@@ -201,6 +201,9 @@ function getTranslation($key) {
                 <label><input type="checkbox" id="whitebg-border" /> <span class="data-i18n-key-addBorder"><?php echo getTranslation('addBorder'); ?></span></label>
             </div>
         </div>
+      <div id="whitebg-preview-container" style="margin-top: 15px; text-align: center; display: none;">
+            <img id="whitebg-preview-image" style="max-width: 100%; height: auto; border: 1px solid #eee; box-shadow: 0 2px 5px rgba(0,0,0,0.1);" alt="White Background Preview">
+        </div>
       <button id="whitebg-btn"><?php echo getTranslation('whitebgBtn'); ?></button>
       <div id="whitebg-progress-container" style="width: 100%; background-color: #e0e0e0; border-radius: 5px; margin-top: 10px; overflow: hidden; display: none;">
         <div id="whitebg-progress-bar" style="height: 20px; width: 0%; background-color: #4CAF50; border-radius: 5px; text-align: center; line-height: 20px; color: white;"></div>
@@ -295,7 +298,7 @@ function getTranslation($key) {
         compressSummaryReduction: "<?php echo getTranslation('compressSummaryReduction'); ?>", // New translation key
     };
 </script>
-<script type="module" src="/dist/assets/main.C8GxlwFP.js"></script>
+<script type="module" src="/dist/assets/main.DWUXKEM_.js"></script>
 
 </body>
 </html>
