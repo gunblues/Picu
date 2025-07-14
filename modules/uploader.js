@@ -169,6 +169,13 @@ export function initUploader() {
              .map(i => window.imageDataList[i])
       );
     }
+    if (typeof window.updateRotateSelection === 'function') {
+      window.updateRotateSelection(
+        Array.from(window.selectedIndices)
+             .filter(i => window.imageDataList[i] !== undefined) // Filter out undefined items
+             .map(i => window.imageDataList[i])
+      );
+    }
   }
 
   selectAllBtn.onclick = () => {

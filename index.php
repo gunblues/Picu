@@ -112,6 +112,7 @@ function getTranslation($key) {
       <button data-tab="compress" class="active"><?php echo getTranslation('tabCompress'); ?></button>
       <button data-tab="resize"><?php echo getTranslation('tabResize'); ?></button>
       <button data-tab="whitebg"><?php echo getTranslation('tabWhitebg'); ?></button>
+      <button data-tab="rotate"><?php echo getTranslation('tabRotate'); ?></button>
       <button data-tab="enhance"><?php echo getTranslation('tabEnhance'); ?></button>
       <button data-tab="crop"><?php echo getTranslation('tabCrop'); ?></button>
       <button data-tab="removebg"><?php echo getTranslation('tabRemovebg'); ?></button>
@@ -201,7 +202,7 @@ function getTranslation($key) {
                 <label><input type="checkbox" id="whitebg-border" /> <span class="data-i18n-key-addBorder"><?php echo getTranslation('addBorder'); ?></span></label>
             </div>
         </div>
-      <div id="whitebg-preview-container" style="margin-top: 15px; text-align: center; display: none;">
+        <div id="whitebg-preview-container" style="margin-top: 15px; text-align: center; display: none;">
             <img id="whitebg-preview-image" style="max-width: 100%; height: auto; border: 1px solid #eee; box-shadow: 0 2px 5px rgba(0,0,0,0.1);" alt="White Background Preview">
         </div>
       <button id="whitebg-btn"><?php echo getTranslation('whitebgBtn'); ?></button>
@@ -209,6 +210,28 @@ function getTranslation($key) {
         <div id="whitebg-progress-bar" style="height: 20px; width: 0%; background-color: #4CAF50; border-radius: 5px; text-align: center; line-height: 20px; color: white;"></div>
       </div>
       <div id="whitebg-preview"></div>
+    </div>
+
+    <div id="rotate" class="tab-content">
+        <div class="tool-controls">
+            <div class="control-group">
+                <label><?php echo getTranslation('rotateLabel'); ?></label>
+                <button id="rotate-left-btn"><?php echo getTranslation('rotateLeft'); ?></button>
+                <button id="rotate-right-btn"><?php echo getTranslation('rotateRight'); ?></button>
+            </div>
+            <div class="control-group">
+                <label><?php echo getTranslation('flipLabel'); ?></label>
+                <button id="flip-horizontal-btn"><?php echo getTranslation('flipHorizontal'); ?></button>
+                <button id="flip-vertical-btn"><?php echo getTranslation('flipVertical'); ?></button>
+            </div>
+        </div>
+        <div id="rotate-preview-container" style="margin-top: 15px; text-align: center; display: none;">
+            <img id="rotate-preview-image" style="max-width: 100%; height: auto; border: 1px solid #eee; box-shadow: 0 2px 5px rgba(0,0,0,0.1);" alt="Rotate Preview">
+        </div>
+        <button id="rotate-btn"><?php echo getTranslation('rotateBtn'); ?></button>
+        <div id="rotate-progress-container" style="width: 100%; background-color: #e0e0e0; border-radius: 5px; margin-top: 10px; overflow: hidden; display: none;">
+            <div id="rotate-progress-bar" style="height: 20px; width: 0%; background-color: #4CAF50; border-radius: 5px; text-align: center; line-height: 20px; color: white;"></div>
+        </div>
     </div>
 
     <div id="enhance" class="tab-content">
@@ -298,7 +321,7 @@ function getTranslation($key) {
         compressSummaryReduction: "<?php echo getTranslation('compressSummaryReduction'); ?>", // New translation key
     };
 </script>
-<script type="module" src="/dist/assets/main.DWUXKEM_.js"></script>
+<script type="module" src="/dist/assets/main.kW-jKusj.js"></script>
 
 </body>
 </html>

@@ -45,6 +45,11 @@ window.onload = () => {
                 whitebgWidthInput.dispatchEvent(new Event('input'));
               }
               break;
+            case 'rotate':
+              const { initRotateTool } = await import('./modules/rotate.js');
+              initRotateTool();
+              // The updateRotateSelection function will handle preview generation
+              break;
             case 'enhance':
               const { initEnhanceTool } = await import('./modules/enhance.js');
               initEnhanceTool();
