@@ -1,11 +1,13 @@
 let currentRotation = 0; // 0, 90, 180, 270 degrees
 let currentFlipHorizontal = false;
 let currentFlipVertical = false;
+let operationSequence = [];
 
 function resetRotateState() {
   currentRotation = 0;
   currentFlipHorizontal = false;
   currentFlipVertical = false;
+  operationSequence = [];
 }
 
 const debounce = (func, delay) => {
@@ -20,13 +22,28 @@ const debounce = (func, delay) => {
 const generatePreview = async () => {
   const rotatePreviewContainer = document.getElementById('rotate-preview-container');
   const rotatePreviewImage = document.getElementById('rotate-preview-image');
+  const rotateOperationSequenceDiv = document.getElementById('rotate-operation-sequence');
 
   const selectedImageIndices = Array.from(window.selectedIndices || []);
-  if (selectedImageIndices.length !== 1) {
+  if (selectedImageIndices.length === 0) {
     rotatePreviewContainer.style.display = 'none';
     rotatePreviewImage.src = '';
+    rotateOperationSequenceDiv.style.display = 'none';
+    rotateOperationSequenceDiv.textContent = '';
     return;
   }
+
+  if (selectedImageIndices.length > 1) {
+    rotatePreviewContainer.style.display = 'none';
+    rotatePreviewImage.src = '';
+    rotateOperationSequenceDiv.style.display = 'block';
+    rotateOperationSequenceDiv.textContent = operationSequence.join(' → ');
+    return;
+  }
+
+  // If only one image is selected, show preview and hide sequence
+  rotateOperationSequenceDiv.style.display = 'none';
+  rotateOperationSequenceDiv.textContent = '';
 
   const selectedImage = window.imageDataList[selectedImageIndices[0]];
   if (!selectedImage) {
@@ -87,21 +104,25 @@ export function initRotateTool() {
 
   rotateLeftBtn.addEventListener('click', () => {
     currentRotation = (currentRotation - 90 + 360) % 360;
+    operationSequence.push('Rotate Left');
     debouncedGeneratePreview();
   });
 
   rotateRightBtn.addEventListener('click', () => {
     currentRotation = (currentRotation + 90) % 360;
+    operationSequence.push('Rotate Right');
     debouncedGeneratePreview();
   });
 
   flipHorizontalBtn.addEventListener('click', () => {
     currentFlipHorizontal = !currentFlipHorizontal;
+    operationSequence.push('Flip Horizontal');
     debouncedGeneratePreview();
   });
 
   flipVerticalBtn.addEventListener('click', () => {
     currentFlipVertical = !currentFlipVertical;
+    operationSequence.push('Flip Vertical');
     debouncedGeneratePreview();
   });
 
@@ -199,6 +220,7 @@ export function initRotateTool() {
 
 window.updateRotateSelection = (selectedItems) => {
   const rotateBtn = document.getElementById('rotate-btn');
+  const rotateOperationSequenceDiv = document.getElementById('rotate-operation-sequence');
   if (rotateBtn) {
     const count = selectedItems.length;
     rotateBtn.textContent = `Rotate (${count})`;
@@ -210,11 +232,24 @@ window.updateRotateSelection = (selectedItems) => {
       // Directly call generatePreview when selection changes and tab is active
       window.generateRotatePreview();
     }
+  } else if (selectedImageIndices.length > 1) {
+    if (rotateOperationSequenceDiv) {
+      rotateOperationSequenceDiv.style.display = 'block';
+      rotateOperationSequenceDiv.textContent = operationSequence.join(' → ');
+    }
+    const rotatePreviewContainer = document.getElementById('rotate-preview-container');
+    const rotatePreviewImage = document.getElementById('rotate-preview-image');
+    if (rotatePreviewContainer) rotatePreviewContainer.style.display = 'none';
+    if (rotatePreviewImage) rotatePreviewImage.src = '';
   } else {
     const rotatePreviewContainer = document.getElementById('rotate-preview-container');
     const rotatePreviewImage = document.getElementById('rotate-preview-image');
     if (rotatePreviewContainer) rotatePreviewContainer.style.display = 'none';
     if (rotatePreviewImage) rotatePreviewImage.src = '';
+    if (rotateOperationSequenceDiv) {
+      rotateOperationSequenceDiv.style.display = 'none';
+      rotateOperationSequenceDiv.textContent = '';
+    }
   }
 };
 

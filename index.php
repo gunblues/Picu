@@ -225,6 +225,7 @@ function getTranslation($key) {
                 <button id="flip-vertical-btn"><?php echo getTranslation('flipVertical'); ?></button>
             </div>
         </div>
+        <div id="rotate-operation-sequence" style="margin-top: 10px; font-weight: bold; text-align: center; display: none;"></div>
         <div id="rotate-preview-container" style="margin-top: 15px; text-align: center; display: none;">
             <img id="rotate-preview-image" style="max-width: 100%; height: auto; border: 1px solid #eee; box-shadow: 0 2px 5px rgba(0,0,0,0.1);" alt="Rotate Preview">
         </div>
@@ -321,7 +322,7 @@ function getTranslation($key) {
         compressSummaryReduction: "<?php echo getTranslation('compressSummaryReduction'); ?>", // New translation key
     };
 </script>
-<script type="module" src="/dist/assets/main.kW-jKusj.js"></script>
+<script type="module" src="/dist/assets/main.C8xtNgX7.js"></script>
 
 </body>
 </html>
