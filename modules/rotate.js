@@ -10,6 +10,8 @@ function resetRotateState() {
   operationSequence = [];
 }
 
+window.resetRotateState = resetRotateState; // Expose globally
+
 const debounce = (func, delay) => {
   let timeout;
   return function(...args) {

@@ -210,6 +210,10 @@ export function initUploader() {
   };
 
   function handleFiles(files) {
+    // Clear rotate operation sequence when new files are uploaded
+    if (typeof window.resetRotateState === 'function') {
+      window.resetRotateState();
+    }
     const fileArr = Array.from(files);
     fileArr.forEach(file => {
       if (!file.type.startsWith('image/')) return;
