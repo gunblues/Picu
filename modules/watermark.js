@@ -278,7 +278,12 @@ export function initWatermarkTool() {
     });
 
     if (fontSizeInput) fontSizeInput.addEventListener('input', e => {
-        watermarkTextConfig.fontSize = parseInt(e.target.value);
+        const newSize = parseInt(e.target.value);
+        watermarkTextConfig.fontSize = newSize;
+        const fontSizeLabel = document.getElementById('watermark-font-size-value');
+        if (fontSizeLabel) {
+            fontSizeLabel.textContent = newSize;
+        }
         updateWatermarkPreview();
     });
 
