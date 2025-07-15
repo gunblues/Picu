@@ -1,6 +1,4 @@
 import { initUploader } from './modules/uploader.js';
-import { setWatermarkPreviewImage } from './modules/watermark.js';
-
 
 const initializedTools = {};
 
@@ -64,27 +62,15 @@ window.onload = () => {
               initRemoveBgTool();
               break;
             case 'watermark':
-  const { initWatermarkTool } = await import('./modules/watermark.js');
+              const watermarkModule = await import('./modules/watermark.js');
+              watermarkModule.initWatermarkTool();
 
-  const checkReady = () => {
-    const canvas = document.getElementById('watermark-preview-canvas');
-    const text = document.getElementById('watermark-overlay-text');
-    const img = document.getElementById('watermark-overlay-image');
-    const container = document.getElementById('watermark-preview-container');
-
-    if (canvas && text && img && container) {
-      initWatermarkTool();
-    } else {
-      setTimeout(checkReady, 50);
-    }
-  };
-  checkReady();
                // If there are already selected images, update the watermark preview
                if (window.selectedIndices.size > 0 && window.imageDataList.length > 0) {
                  const firstSelectedIndex = Array.from(window.selectedIndices)[0];
                  const imageData = window.imageDataList[firstSelectedIndex];
                  if (imageData) {
-                   setWatermarkPreviewImage(imageData);
+                   watermarkModule.setWatermarkPreviewImage(imageData);
                  }
                }
                break;
@@ -104,11 +90,12 @@ window.onload = () => {
   }
 
   // Listen for image-selected event to update watermark preview
-  window.addEventListener('image-selected', (event) => {
+  window.addEventListener('image-selected', async (event) => {
     // Only update if the watermark tab is currently active
     const watermarkTabButton = document.querySelector('#tabs button[data-tab="watermark"]');
     if (watermarkTabButton && watermarkTabButton.classList.contains('active')) {
-      setWatermarkPreviewImage(event.detail);
+        const watermarkModule = await import('./modules/watermark.js');
+        watermarkModule.setWatermarkPreviewImage(event.detail);
     }
   });
 };
