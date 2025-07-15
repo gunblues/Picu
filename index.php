@@ -234,7 +234,7 @@ function getTranslation($key) {
         <div id="watermark-preview-container" style="position: relative; width: 100%; max-width: 600px; margin: 20px auto; border: 1px solid #ccc; overflow: hidden;">
             <canvas id="watermark-preview-canvas" style="display: block; max-width: 100%; height: auto;"></canvas>
             <div id="watermark-overlay-text" class="watermark-overlay" style="position: absolute; cursor: grab; white-space: nowrap; display: none;"></div>
-            <img id="watermark-overlay-image" class="watermark-overlay" style="position: absolute; cursor: grab; display: none; max-width: 100%; height: auto;" />
+            <img id="watermark-overlay-image" class="watermark-overlay" style="position: absolute; cursor: grab; display: none;" />
         </div>
 
         <div id="text-watermark-controls" class="tool-controls">
@@ -260,7 +260,7 @@ function getTranslation($key) {
             </div>
             <div class="control-group">
                 <label for="watermark-opacity"><?php echo getTranslation('watermarkOpacity'); ?> <span id="watermark-opacity-value">70%</span></label>
-                <input type="range" id="watermark-opacity" min="0" max="100" value="70">
+                <input type="range" id="watermark-opacity" min="0" max="1" step="0.01" value="0.7">
             </div>
         </div>
 
@@ -273,7 +273,7 @@ function getTranslation($key) {
                 <label for="watermark-image-opacity">
                     <?php echo getTranslation('watermarkImageOpacity'); ?> <span id="watermark-image-opacity-value">70%</span>
                 </label>
-                <input type="range" id="watermark-image-opacity" min="0" max="100" value="70">
+                <input type="range" id="watermark-image-opacity" min="0" max="1" step="0.01" value="0.7">
             </div>
         </div>
 
@@ -395,7 +395,7 @@ function getTranslation($key) {
         compressSummaryReduction: "<?php echo getTranslation('compressSummaryReduction'); ?>", // New translation key
     };
 </script>
-<script type="module" src="/dist/assets/main.2DhnZPQj.js"></script>
+<script type="module" src="/dist/assets/main.BCg_F-HA.js"></script>
 
 </body>
 </html>

@@ -1,3 +1,151 @@
+let watermarkPreviewCanvas;
+let watermarkPreviewCtx;
+let watermarkOverlayText;
+let watermarkOverlayImage;
+let watermarkPreviewContainer;
+
+function drawPreview() {
+    if (!activeImageForPreview) return;
+
+    const containerWidth = watermarkPreviewContainer.offsetWidth;
+    const containerHeight = watermarkPreviewContainer.offsetHeight;
+
+    // Set canvas size to fill the container
+    watermarkPreviewCanvas.width = containerWidth;
+    // Calculate the height based on the image's aspect ratio and the container's width
+    const calculatedHeight = containerWidth / (activeImageForPreview.width / activeImageForPreview.height);
+
+    // Set the container's height to match the calculated height
+    watermarkPreviewContainer.style.height = `${calculatedHeight}px`;
+
+    // Set canvas size to fill the container
+    watermarkPreviewCanvas.width = containerWidth;
+    watermarkPreviewCanvas.height = calculatedHeight;
+
+    // Draw the image to fill the canvas
+    watermarkPreviewCtx.clearRect(0, 0, watermarkPreviewCanvas.width, watermarkPreviewCanvas.height);
+    watermarkPreviewCtx.drawImage(activeImageForPreview, 0, 0, watermarkPreviewCanvas.width, watermarkPreviewCanvas.height);
+
+    // Ensure the canvas itself is not offset by previous centering styles
+    watermarkPreviewCanvas.style.marginLeft = `0px`;
+    watermarkPreviewCanvas.style.marginTop = `0px`;
+
+    // Update overlay positions and styles
+    if (currentWatermarkType === 'text') {
+        watermarkOverlayText.style.display = 'block';
+        watermarkOverlayImage.style.display = 'none';
+
+        watermarkOverlayText.textContent = watermarkTextConfig.text;
+        watermarkOverlayText.style.font = `${watermarkTextConfig.fontSize}px ${watermarkTextConfig.font}`;
+        watermarkOverlayText.style.color = watermarkTextConfig.color;
+        watermarkOverlayText.style.opacity = watermarkTextConfig.opacity;
+
+        // Ensure the text element's size is naturally calculated before getting offsetWidth/Height
+        watermarkOverlayText.style.width = 'auto';
+        watermarkOverlayText.style.height = 'auto';
+
+        // Force reflow to get accurate dimensions after font and text content are set
+        const currentTextWidth = watermarkOverlayText.offsetWidth;
+        const currentTextHeight = watermarkOverlayText.offsetHeight;
+
+        // Update relative size based on current dimensions
+        watermarkTextConfig.width = currentTextWidth / watermarkPreviewCanvas.width;
+        watermarkTextConfig.height = currentTextHeight / watermarkPreviewCanvas.height;
+
+        // Apply stored relative position and calculated size
+        watermarkOverlayText.style.left = `${watermarkTextConfig.x * watermarkPreviewCanvas.width}px`;
+        watermarkOverlayText.style.top = `${watermarkTextConfig.y * watermarkPreviewCanvas.height}px`;
+        watermarkOverlayText.style.width = `${currentTextWidth}px`;
+        watermarkOverlayText.style.height = `${currentTextHeight}px`;
+    } else { // Image watermark
+        watermarkOverlayText.style.display = 'none';
+        watermarkOverlayImage.style.display = 'block';
+
+        watermarkOverlayImage.style.opacity = watermarkImageConfig.opacity;
+
+        // Always re-calculate and apply image dimensions and position
+        if (watermarkImageConfig.image) {
+            const img = watermarkImageConfig.image;
+            let newWidth = img.width;
+            let newHeight = img.height;
+
+            // Scale to fit within 50% of preview canvas, or maintain minimum size
+            const maxPreviewWidth = watermarkPreviewCanvas.width * 0.5;
+            const maxPreviewHeight = watermarkPreviewCanvas.height * 0.5;
+            const minSize = 50; // pixels
+
+            // Apply minimum size if smaller
+            if (newWidth < minSize && newHeight < minSize) {
+                const aspectRatio = newWidth / newHeight;
+                if (newWidth < newHeight) {
+                    newWidth = minSize;
+                    newHeight = minSize / aspectRatio;
+                } else {
+                    newHeight = minSize;
+                    newWidth = minSize * aspectRatio;
+                }
+            } else if (newWidth < minSize) {
+                newWidth = minSize;
+                newHeight = minWidth / (img.width / img.height);
+            } else if (newHeight < minSize) {
+                newHeight = minSize;
+                newWidth = newHeight * (img.width / img.height);
+            }
+
+            // Scale down if larger than 50% of canvas
+            if (newWidth > maxPreviewWidth || newHeight > maxPreviewHeight) {
+                const aspectRatio = newWidth / newHeight;
+                if (newWidth / maxPreviewWidth > newHeight / maxPreviewHeight) {
+                    newWidth = maxPreviewWidth;
+                    newHeight = newWidth / aspectRatio;
+                } else {
+                    newHeight = maxPreviewHeight;
+                    newWidth = newHeight * aspectRatio;
+                }
+            }
+
+            // Update watermarkImageConfig with the calculated relative dimensions
+            watermarkImageConfig.width = newWidth / watermarkPreviewCanvas.width;
+            watermarkImageConfig.height = newHeight / watermarkPreviewCanvas.height;
+
+            // Apply calculated pixel dimensions to the overlay image
+            watermarkOverlayImage.style.width = `${newWidth}px`;
+            watermarkOverlayImage.style.height = `${newHeight}px`;
+
+            // Apply stored relative position
+            watermarkOverlayImage.style.left = `${watermarkImageConfig.x * watermarkPreviewCanvas.width}px`;
+            watermarkOverlayImage.style.top = `${watermarkImageConfig.y * watermarkPreviewCanvas.height}px`;
+        }
+    }
+    
+}
+
+function updateWatermarkPreview() {
+    if (!watermarkPreviewCanvas || !watermarkPreviewCtx || !watermarkPreviewContainer || !watermarkOverlayText || !watermarkOverlayImage) {
+        console.warn('updateWatermarkPreview skipped due to uninitialized elements (DOM)');
+        return;
+    }
+
+    if (!activeImageForPreview) { // Check if an image is actually loaded for preview
+        console.warn('updateWatermarkPreview skipped: No active image for preview.');
+        watermarkPreviewCtx.clearRect(0, 0, watermarkPreviewCanvas.width, watermarkPreviewCanvas.height);
+        watermarkOverlayText.style.display = 'none';
+        watermarkOverlayImage.style.display = 'none';
+        return;
+    }
+
+    console.log('updateWatermarkPreview called with active image.');
+
+    // Set container height to maintain aspect ratio
+    const aspectRatio = activeImageForPreview.naturalWidth / activeImageForPreview.naturalHeight;
+    watermarkPreviewContainer.style.height = `${watermarkPreviewContainer.offsetWidth / aspectRatio}px`;
+
+    // Set canvas dimensions to match the displayed image
+    watermarkPreviewCanvas.width = watermarkPreviewContainer.offsetWidth;
+    watermarkPreviewCanvas.height = watermarkPreviewContainer.offsetHeight;
+    drawPreview();
+}
+
 
 function getSelectedImages() {
     console.log('getSelectedImages called');
@@ -49,12 +197,7 @@ function downloadZip(zip, filename) {
 }
 
 
-let watermarkPreviewCanvas;
-let watermarkPreviewCtx;
-let watermarkOverlayText;
-let watermarkOverlayImage;
-let watermarkPreviewContainer;
-let watermarkBaseImagePreview; // New element for base image preview
+
 
 let currentWatermarkType = 'text'; // 'text' or 'image'
 let watermarkTextConfig = {
@@ -77,294 +220,105 @@ let watermarkImageConfig = {
     height: 0, // Relative height (0-1)
 };
 
+
+
 let activeImageForPreview = null; // The actual Image object for the first selected image
 
-export function initWatermarkTool() {
-    console.log('Watermark tool initialized.');
-
-    // Get DOM elements
-    watermarkPreviewCanvas = document.getElementById('watermark-preview-canvas');
-    if (watermarkPreviewCanvas) {
-        watermarkPreviewCtx = watermarkPreviewCanvas.getContext('2d');
-    } else {
-        console.error('watermark-preview-canvas not found!');
-        return; // Exit if canvas is not found
-    }
-    watermarkOverlayText = document.getElementById('watermark-overlay-text');
-    watermarkOverlayImage = document.getElementById('watermark-overlay-image');
-    watermarkPreviewContainer = document.getElementById('watermark-preview-container');
-    watermarkBaseImagePreview = document.getElementById('watermark-base-image-preview'); // Get the new base image element
-
-    const watermarkTypeRadios = document.querySelectorAll('input[name="watermark-type"]');
-    const textWatermarkControls = document.getElementById('text-watermark-controls');
-    const imageWatermarkControls = document.getElementById('image-watermark-controls');
-    const applyWatermarkBtn = document.getElementById('apply-watermark-btn');
-
-    // Initialize control values
-    document.getElementById('watermark-text-input').value = watermarkTextConfig.text;
-    document.getElementById('watermark-font').value = watermarkTextConfig.font;
-    document.getElementById('watermark-font-size').value = watermarkTextConfig.fontSize;
-    document.getElementById('watermark-font-size-value').textContent = watermarkTextConfig.fontSize;
-    document.getElementById('watermark-color').value = watermarkTextConfig.color;
-    document.getElementById('watermark-opacity').value = watermarkTextConfig.opacity * 100;
-    document.getElementById('watermark-opacity-value').textContent = `${watermarkTextConfig.opacity * 100}%`;
-    document.getElementById('watermark-image-opacity').value = watermarkImageConfig.opacity * 100;
-    document.getElementById('watermark-image-opacity-value').textContent = `${watermarkImageConfig.opacity * 100}%`;
-
-    // Event Listeners for watermark type selection
-    watermarkTypeRadios.forEach(radio => {
-        radio.addEventListener('change', (event) => {
-            currentWatermarkType = event.target.value;
-            if (currentWatermarkType === 'text') {
-                textWatermarkControls.style.display = 'block';
-                imageWatermarkControls.style.display = 'none';
-                watermarkOverlayText.style.display = 'block';
-                watermarkOverlayImage.style.display = 'none';
-            } else {
-                textWatermarkControls.style.display = 'none';
-                imageWatermarkControls.style.display = 'block';
-                watermarkOverlayText.style.display = 'none';
-                watermarkOverlayImage.style.display = 'block';
-            }
-            updateWatermarkPreview();
-        });
-    });
-
-    // Event Listeners for text watermark controls
-    document.getElementById('watermark-text-input').addEventListener('input', (e) => {
-        watermarkTextConfig.text = e.target.value;
-        updateWatermarkPreview();
-    });
-    document.getElementById('watermark-font').addEventListener('change', (e) => {
-        watermarkTextConfig.font = e.target.value;
-        updateWatermarkPreview();
-    });
-    document.getElementById('watermark-font-size').addEventListener('input', (e) => {
-        watermarkTextConfig.fontSize = parseInt(e.target.value);
-        document.getElementById('watermark-font-size-value').textContent = watermarkTextConfig.fontSize;
-        updateWatermarkPreview();
-    });
-    document.getElementById('watermark-color').addEventListener('input', (e) => {
-        watermarkTextConfig.color = e.target.value;
-        updateWatermarkPreview();
-    });
-    document.getElementById('watermark-opacity').addEventListener('input', (e) => {
-        watermarkTextConfig.opacity = parseFloat(e.target.value) / 100;
-        document.getElementById('watermark-opacity-value').textContent = `${e.target.value}%`;
-        updateWatermarkPreview();
-    });
-
-    // Event Listener for image watermark upload
-    document.getElementById('watermark-image-upload').addEventListener('change', (e) => {
-        const file = e.target.files[0];
-        if (file) {
-            const reader = new FileReader();
-            reader.onload = (event) => {
-                const img = new Image();
-                img.onload = () => {
-                    watermarkImageConfig.image = img;
-                    watermarkOverlayImage.src = img.src;
-                    // Set initial size of overlay image to fit within preview container
-                    const containerWidth = watermarkPreviewContainer.offsetWidth;
-                    const containerHeight = watermarkPreviewContainer.offsetHeight;
-                    let newWidth = img.width;
-                    let newHeight = img.height;
-
-                    if (newWidth > containerWidth || newHeight > containerHeight) {
-                        const aspectRatio = newWidth / newHeight;
-                        if (newWidth > containerWidth) {
-                            newWidth = containerWidth * 0.5; // Start with 50% of container width
-                            newHeight = newWidth / aspectRatio;
-                        }
-                        if (newHeight > containerHeight) {
-                            newHeight = containerHeight * 0.5; // Start with 50% of container height
-                            newWidth = newHeight * aspectRatio;
-                        }
-                    }
-                    watermarkOverlayImage.style.width = `${newWidth}px`;
-                    watermarkOverlayImage.style.height = `${newHeight}px`;
-                    watermarkOverlayImage.style.left = `${(containerWidth - newWidth) / 2}px`;
-                    watermarkOverlayImage.style.top = `${(containerHeight - newHeight) / 2}px`;
-
-                    updateWatermarkPreview();
-                };
-                img.src = event.target.result;
-            };
-            reader.readAsDataURL(file);
-        }
-    });
-
-    // Event Listener for image watermark opacity
-    document.getElementById('watermark-image-opacity').addEventListener('input', (e) => {
-        watermarkImageConfig.opacity = parseFloat(e.target.value) / 100;
-        document.getElementById('watermark-image-opacity-value').textContent = `${e.target.value}%`;
-        updateWatermarkPreview();
-    });
-
-    // Event Listener for apply watermark button
-    applyWatermarkBtn.addEventListener('click', handleApplyWatermark);
-
-    // Listen for changes in selected images in the uploader
-    document.getElementById('uploaded-list').addEventListener('change', (event) => {
-        if (event.target.classList.contains('image-checkbox')) {
-            updateWatermarkPreview();
-        }
-    });
-
-    // Initial preview update
-    updateWatermarkPreview();
-}
-
-export function updateWatermarkPreview() {
-    console.log('updateWatermarkPreview called');
-    const selectedImages = getSelectedImages();
-    console.log('Selected images in updateWatermarkPreview:', selectedImages);
-    if (selectedImages.length === 0) {
-        watermarkPreviewCtx.clearRect(0, 0, watermarkPreviewCanvas.width, watermarkPreviewCanvas.height);
-        watermarkOverlayText.style.display = 'none';
-        watermarkOverlayImage.style.display = 'none';
-        watermarkBaseImagePreview.src = ''; // Clear base image
+export function setWatermarkPreviewImage(imageData) {
+    if (!imageData || !imageData.dataUrl) {
         activeImageForPreview = null;
+        updateWatermarkPreview();
         return;
     }
 
-    const firstSelectedImage = selectedImages[0];
-    const imageUrl = firstSelectedImage.originalSrc;
+    const imageUrl = imageData.dataUrl;
 
     if (!activeImageForPreview || activeImageForPreview.src !== imageUrl) {
         activeImageForPreview = new Image();
         activeImageForPreview.onload = () => {
-            watermarkBaseImagePreview.src = imageUrl; // Set base image source
-            watermarkBaseImagePreview.onload = () => {
-                // Set container height to maintain aspect ratio
-                const aspectRatio = watermarkBaseImagePreview.naturalWidth / watermarkBaseImagePreview.naturalHeight;
-                watermarkPreviewContainer.style.height = `${watermarkPreviewContainer.offsetWidth / aspectRatio}px`;
-
-                // Set canvas dimensions to match the displayed image
-                watermarkPreviewCanvas.width = watermarkBaseImagePreview.offsetWidth;
-                watermarkPreviewCanvas.height = watermarkBaseImagePreview.offsetHeight;
-                drawPreview();
-            };
+            updateWatermarkPreview();
         };
         activeImageForPreview.src = imageUrl;
     } else {
-        // If image is already loaded, just update canvas dimensions and draw
-        watermarkPreviewCanvas.width = watermarkBaseImagePreview.offsetWidth;
-        watermarkPreviewCanvas.height = watermarkBaseImagePreview.offsetHeight;
-        drawPreview();
+        updateWatermarkPreview();
     }
 }
 
-function drawPreview() {
-    if (!activeImageForPreview) return;
+export function initWatermarkTool() {
+    console.log('Watermark tool initialized.');
 
-    const containerWidth = watermarkPreviewContainer.offsetWidth;
-    const containerHeight = watermarkPreviewContainer.offsetHeight;
-
-    // Set canvas size to fill the container
-    watermarkPreviewCanvas.width = containerWidth;
-    // Calculate the height based on the image's aspect ratio and the container's width
-    const calculatedHeight = containerWidth / (activeImageForPreview.width / activeImageForPreview.height);
-
-    // Set the container's height to match the calculated height
-    watermarkPreviewContainer.style.height = `${calculatedHeight}px`;
-
-    // Set canvas size to fill the container
-    watermarkPreviewCanvas.width = containerWidth;
-    watermarkPreviewCanvas.height = calculatedHeight;
-
-    // Draw the image to fill the canvas
-    watermarkPreviewCtx.clearRect(0, 0, watermarkPreviewCanvas.width, watermarkPreviewCanvas.height);
-    watermarkPreviewCtx.drawImage(activeImageForPreview, 0, 0, watermarkPreviewCanvas.width, watermarkPreviewCanvas.height);
-
-    // Ensure the canvas itself is not offset by previous centering styles
-    watermarkPreviewCanvas.style.marginLeft = `0px`;
-    watermarkPreviewCanvas.style.marginTop = `0px`;
-
-    // Update overlay positions and styles
-    if (currentWatermarkType === 'text') {
-        watermarkOverlayText.style.display = 'block';
-        watermarkOverlayImage.style.display = 'none';
-
-        watermarkOverlayText.textContent = watermarkTextConfig.text;
-        watermarkOverlayText.style.font = `${watermarkTextConfig.fontSize}px ${watermarkTextConfig.font}`;
-        watermarkOverlayText.style.color = watermarkTextConfig.color;
-        watermarkOverlayText.style.opacity = watermarkTextConfig.opacity;
-
-        // Initial positioning if not set
-        if (watermarkTextConfig.width === 0 || watermarkTextConfig.height === 0) {
-            watermarkOverlayText.style.left = '10%'; // Default to 10% from left
-            watermarkOverlayText.style.top = '10%';  // Default to 10% from top
-            // Store initial relative position
-            watermarkTextConfig.x = 0.1;
-            watermarkTextConfig.y = 0.1;
-            watermarkTextConfig.width = watermarkOverlayText.offsetWidth / watermarkPreviewCanvas.width;
-            watermarkTextConfig.height = watermarkOverlayText.offsetHeight / watermarkPreviewCanvas.height;
-        }
-        // Ensure the text element's size is naturally calculated before getting offsetWidth/Height
-        watermarkOverlayText.style.width = 'auto';
-        watermarkOverlayText.style.height = 'auto';
-
-        // Force reflow to get accurate dimensions after font and text content are set
-        // Accessing offsetWidth/offsetHeight here forces the browser to re-calculate layout
-        const currentTextWidth = watermarkOverlayText.offsetWidth;
-        const currentTextHeight = watermarkOverlayText.offsetHeight;
-
-        watermarkTextConfig.width = currentTextWidth / watermarkPreviewCanvas.width;
-        watermarkTextConfig.height = currentTextHeight / watermarkPreviewCanvas.height;
-
-        // Apply stored relative position and calculated size
-        watermarkOverlayText.style.left = `${watermarkTextConfig.x * watermarkPreviewCanvas.width}px`;
-        watermarkOverlayText.style.top = `${watermarkTextConfig.y * watermarkPreviewCanvas.height}px`;
-        watermarkOverlayText.style.width = `${currentTextWidth}px`; // Set actual pixel width
-        watermarkOverlayText.style.height = `${currentTextHeight}px`; // Set actual pixel height
-    } else { // Image watermark
-        watermarkOverlayText.style.display = 'none';
-        watermarkOverlayImage.style.display = 'block';
-
-        watermarkOverlayImage.style.opacity = watermarkImageConfig.opacity;
-
-        // Initial positioning if not set or image changed
-        if (watermarkImageConfig.width === 0 || watermarkImageConfig.height === 0 || watermarkOverlayImage.src !== watermarkImageConfig.image?.src) {
-            if (watermarkImageConfig.image) {
-                const img = watermarkImageConfig.image;
-                let newWidth = img.width;
-                let newHeight = img.height;
-
-                // Scale to fit within 50% of preview canvas
-                const maxPreviewWidth = watermarkPreviewCanvas.width * 0.5;
-                const maxPreviewHeight = watermarkPreviewCanvas.height * 0.5;
-
-                if (newWidth > maxPreviewWidth || newHeight > maxPreviewHeight) {
-                    const aspectRatio = newWidth / newHeight;
-                    if (newWidth / maxPreviewWidth > newHeight / maxPreviewHeight) {
-                        newWidth = maxPreviewWidth;
-                        newHeight = newWidth / aspectRatio;
-                    } else {
-                        newHeight = maxPreviewHeight;
-                        newWidth = newHeight * aspectRatio;
-                    }
-                }
-                watermarkOverlayImage.style.width = `${newWidth}px`;
-                watermarkOverlayImage.style.height = `${newHeight}px`;
-                watermarkOverlayImage.style.left = `${(watermarkPreviewCanvas.width - newWidth) / 2}px`;
-                watermarkOverlayImage.style.top = `${(watermarkPreviewCanvas.height - newHeight) / 2}px`;
-
-                watermarkImageConfig.x = (watermarkPreviewCanvas.width - newWidth) / 2 / watermarkPreviewCanvas.width;
-                watermarkImageConfig.y = (watermarkPreviewCanvas.height - newHeight) / 2 / watermarkPreviewCanvas.height;
-                watermarkImageConfig.width = newWidth / watermarkPreviewCanvas.width;
-                watermarkImageConfig.height = newHeight / watermarkPreviewCanvas.height;
-            }
-        } else {
-            // Apply stored relative position and size
-            watermarkOverlayImage.style.left = `${watermarkImageConfig.x * watermarkPreviewCanvas.width}px`;
-            watermarkOverlayImage.style.top = `${watermarkImageConfig.y * watermarkPreviewCanvas.height}px`;
-            watermarkOverlayImage.style.width = `${watermarkImageConfig.width * watermarkPreviewCanvas.width}px`;
-            watermarkOverlayImage.style.height = `${watermarkImageConfig.height * watermarkPreviewCanvas.height}px`;
-        }
+    // Get canvas and context
+    watermarkPreviewCanvas = document.getElementById('watermark-preview-canvas');
+    watermarkOverlayText = document.getElementById('watermark-overlay-text');
+    watermarkOverlayImage = document.getElementById('watermark-overlay-image');
+    watermarkPreviewContainer = document.getElementById('watermark-preview-container');
+    if (!watermarkPreviewCanvas || !watermarkOverlayText || !watermarkOverlayImage || !watermarkPreviewContainer) {
+        console.error('One or more watermark preview elements not found!');
+        return;
     }
+
+    watermarkPreviewCtx = watermarkPreviewCanvas.getContext('2d');
+
+    // Bind input events for text watermark
+    const textInput = document.getElementById('watermark-text-input');
+    const fontSelect = document.getElementById('watermark-font');
+    const fontSizeInput = document.getElementById('watermark-font-size');
+    const colorInput = document.getElementById('watermark-color');
+    const textOpacityInput = document.getElementById('watermark-opacity');
+
+    if (textInput) textInput.addEventListener('input', e => {
+        watermarkTextConfig.text = e.target.value;
+        updateWatermarkPreview();
+    });
+
+    if (fontSelect) fontSelect.addEventListener('change', e => {
+        watermarkTextConfig.font = e.target.value;
+        updateWatermarkPreview();
+    });
+
+    if (fontSizeInput) fontSizeInput.addEventListener('input', e => {
+        watermarkTextConfig.fontSize = parseInt(e.target.value);
+        updateWatermarkPreview();
+    });
+
+    if (colorInput) colorInput.addEventListener('input', e => {
+        watermarkTextConfig.color = e.target.value;
+        updateWatermarkPreview();
+    });
+
+    if (textOpacityInput) textOpacityInput.addEventListener('input', e => {
+        const val = parseFloat(e.target.value);
+        watermarkTextConfig.opacity = val;
+        const textOpacityLabel = document.getElementById('watermark-opacity-value');
+        if (textOpacityLabel) textOpacityLabel.textContent = `${Math.round(val * 100)}%`;
+        updateWatermarkPreview();
+    });
+
+    
+    // Update initial label values
+    const textOpacityLabel = document.getElementById('watermark-opacity-value');
+    const imageOpacityLabel = document.getElementById('watermark-image-opacity-value');
+    if (textOpacityLabel && textOpacityInput) textOpacityLabel.textContent = `${Math.round(textOpacityInput.value * 100)}%`;
+    // imageOpacityInput might not be defined yet, so check before accessing
+    const imageOpacityInput = document.getElementById('watermark-image-opacity');
+    if (imageOpacityLabel && imageOpacityInput) imageOpacityLabel.textContent = `${Math.round(imageOpacityInput.value * 100)}%`;
+
+    // Bind input event for image watermark opacity
+    if (imageOpacityInput) {
+        imageOpacityInput.addEventListener('input', e => {
+            const val = parseFloat(e.target.value);
+        watermarkImageConfig.opacity = val;
+        if (imageOpacityLabel) imageOpacityLabel.textContent = `${Math.round(val * 100)}%`;
+            updateWatermarkPreview();
+        });
+    }
+
     setupDraggableAndResizable();
 }
+
+export 
+
+
 
 function setupDraggableAndResizable() {
     const targetElement = currentWatermarkType === 'text' ? watermarkOverlayText : watermarkOverlayImage;
