@@ -231,12 +231,6 @@ function getTranslation($key) {
             </label>
         </div>
 
-        <div id="watermark-preview-container" style="position: relative; width: 100%; max-width: 600px; margin: 20px auto; border: 1px solid #ccc; overflow: hidden;">
-            <canvas id="watermark-preview-canvas" style="display: block; max-width: 100%; height: auto;"></canvas>
-            <div id="watermark-overlay-text" class="watermark-overlay" style="position: absolute; cursor: grab; white-space: nowrap; display: none;"></div>
-            <img id="watermark-overlay-image" class="watermark-overlay" style="position: absolute; cursor: grab; display: none;" />
-        </div>
-
         <div id="text-watermark-controls" class="tool-controls">
             <div class="control-group">
                 <label for="watermark-text-input"><?php echo getTranslation('watermarkTextInput'); ?></label>
@@ -266,7 +260,6 @@ function getTranslation($key) {
 
         <div id="image-watermark-controls" class="tool-controls" style="display:none;">
             <div class="control-group">
-                <label for="watermark-image-upload"><?php echo getTranslation('watermarkImageUpload'); ?></label>
                 <input type="file" id="watermark-image-upload" accept="image/*">
             </div>
             <div class="control-group">
@@ -275,6 +268,12 @@ function getTranslation($key) {
                 </label>
                 <input type="range" id="watermark-image-opacity" min="0" max="1" step="0.01" value="0.7">
             </div>
+        </div>
+
+        <div id="watermark-preview-container" style="position: relative; width: 100%; max-width: 600px; margin: 20px auto; border: 1px solid #ccc; overflow: hidden;">
+            <canvas id="watermark-preview-canvas" style="display: block; max-width: 100%; height: auto;"></canvas>
+            <div id="watermark-overlay-text" class="watermark-overlay" style="position: absolute; cursor: grab; white-space: nowrap; display: none;"></div>
+            <img id="watermark-overlay-image" class="watermark-overlay" style="position: absolute; cursor: grab; display: none;" />
         </div>
 
         <button id="apply-watermark-btn"><?php echo getTranslation('applyWatermarkBtn'); ?></button>
