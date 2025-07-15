@@ -178,6 +178,13 @@ export function initUploader() {
              .map(i => window.imageDataList[i])
       );
     }
+    if (typeof window.updateWatermarkSelection === 'function') {
+      window.updateWatermarkSelection(
+        Array.from(window.selectedIndices)
+             .filter(i => window.imageDataList[i] !== undefined) // Filter out undefined items
+             .map(i => window.imageDataList[i])
+      );
+    }
   }
 
   selectAllBtn.onclick = () => {
@@ -217,41 +224,50 @@ export function initUploader() {
       window.resetRotateState();
     }
     const fileArr = Array.from(files);
+    const loadPromises = []; // Array to hold promises for each file loading
+
     fileArr.forEach(file => {
       if (!file.type.startsWith('image/')) return;
       const reader = new FileReader();
-      reader.onload = (ev) => {
-        const img = new Image();
-        img.onload = () => {
-          window.imageDataList.push({ 
-            name: file.name,
-            dataUrl: ev.target.result,
-            type: file.type,
-            size: file.size, // Add original file size
-            width: img.width, // Add original image width
-            height: img.height, // Add original image height
-            file: file // Store the original file object
-          });
-          const newIndex = window.imageDataList.length - 1; // Move this line here
-          window.selectedIndices.add(newIndex);
-          renderUploadedList();
-          updateBatchProcessingList();
-
-          // If this is the first image uploaded, automatically select it for crop/enhance
-          if (window.imageDataList.length === 1) {
-            // Simulate a click on the newly added image to trigger selection and loading
-            // This needs to be done after the image element is rendered in the DOM
-            setTimeout(() => {
-              const firstImageElement = uploadedList.querySelector('.img-container img');
-              if (firstImageElement) {
-                firstImageElement.click();
-              }
-            }, 0); // Use setTimeout to ensure the element is in the DOM
-          }
+      const promise = new Promise(resolve => { // Create a promise for each file
+        reader.onload = (ev) => {
+          const img = new Image();
+          img.onload = () => {
+            window.imageDataList.push({
+              name: file.name,
+              dataUrl: ev.target.result,
+              type: file.type,
+              size: file.size, // Add original file size
+              width: img.width, // Add original image width
+              height: img.height, // Add original image height
+              file: file // Store the original file object
+            });
+            const newIndex = window.imageDataList.length - 1;
+            window.selectedIndices.add(newIndex);
+            resolve(); // Resolve the promise when image is loaded and data is pushed
+          };
+          img.src = ev.target.result;
         };
-        img.src = ev.target.result;
-      };
+      });
       reader.readAsDataURL(file);
+      loadPromises.push(promise); // Add the promise to the array
+    });
+
+    // Wait for all images to load before rendering and updating batch list
+    Promise.all(loadPromises).then(() => {
+      renderUploadedList();
+      updateBatchProcessingList();
+
+      // If this is the first image uploaded, automatically select it for crop/enhance
+      // This condition needs to be adjusted if multiple initial files are uploaded
+      if (window.imageDataList.length === fileArr.length) { // Check if this is the initial batch
+        setTimeout(() => {
+          const firstImageElement = uploadedList.querySelector('.img-container img');
+          if (firstImageElement) {
+            firstImageElement.click();
+          }
+        }, 0);
+      }
     });
   }
 }

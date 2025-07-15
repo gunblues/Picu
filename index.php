@@ -405,9 +405,10 @@ function getTranslation($key) {
         resizeBtn: "<?php echo getTranslation('resizeBtn'); ?>",
         whitebgBtn: "<?php echo getTranslation('whitebgBtn'); ?>",
         rotateBtn: "<?php echo getTranslation('rotateBtn'); ?>",
+        applyWatermarkBtn: "<?php echo getTranslation('applyWatermarkBtn'); ?>",
     };
 </script>
-<script type="module" src="/dist/assets/main.HtXiYqVN.js"></script>
+<script type="module" src="/dist/assets/main.DzQjnWha.js"></script>
 
 </body>
 </html>

@@ -66,13 +66,14 @@ window.onload = () => {
               watermarkModule.initWatermarkTool();
 
                // If there are already selected images, update the watermark preview
-               if (window.selectedIndices.size > 0 && window.imageDataList.length > 0) {
-                 const firstSelectedIndex = Array.from(window.selectedIndices)[0];
-                 const imageData = window.imageDataList[firstSelectedIndex];
-                 if (imageData) {
-                   watermarkModule.setWatermarkPreviewImage(imageData);
-                 }
+               // If there are already selected images, update the watermark preview and button count
+               const currentSelectedItems = Array.from(window.selectedIndices)
+                 .map(i => window.imageDataList[i])
+                 .filter(Boolean);
+               if (currentSelectedItems.length > 0) {
+                 watermarkModule.setWatermarkPreviewImage(currentSelectedItems[0]);
                }
+               watermarkModule.updateWatermarkSelection(currentSelectedItems);
                break;
           }
           initializedTools[targetId] = true;
@@ -96,6 +97,11 @@ window.onload = () => {
     if (watermarkTabButton && watermarkTabButton.classList.contains('active')) {
         const watermarkModule = await import('./modules/watermark.js');
         watermarkModule.setWatermarkPreviewImage(event.detail);
+        // Also update the button count when image selection changes
+        const currentSelectedItems = Array.from(window.selectedIndices)
+          .map(i => window.imageDataList[i])
+          .filter(Boolean);
+        watermarkModule.updateWatermarkSelection(currentSelectedItems);
     }
   });
 };

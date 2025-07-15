@@ -408,9 +408,14 @@ export function initWatermarkTool() {
     updateWatermarkTypeDisplay();
 }
 
-export 
-
-
+export function updateWatermarkSelection(selectedItems) {
+  const applyWatermarkBtn = document.getElementById('apply-watermark-btn');
+  if (applyWatermarkBtn) {
+    const count = selectedItems.length;
+    const buttonText = window.appTranslations.applyWatermarkBtn || 'Apply Watermark & Download'; // Fallback text
+    applyWatermarkBtn.textContent = `${buttonText} (${count})`;
+  }
+}
 
 function setupDraggableAndResizable() {
     const targetElement = currentWatermarkType === 'text' ? watermarkOverlayText : watermarkOverlayImage;
