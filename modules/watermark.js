@@ -65,6 +65,7 @@ function drawPreview() {
 
         // Always re-calculate and apply image dimensions and position
         if (watermarkImageConfig.image) {
+            watermarkOverlayImage.src = watermarkImageConfig.image.src; // Set the image source
             const img = watermarkImageConfig.image;
             let newWidth = img.width;
             let newHeight = img.height;
@@ -313,6 +314,26 @@ export function initWatermarkTool() {
         });
     }
 
+    // Bind input event for image watermark upload
+    const imageUploadInput = document.getElementById('watermark-image-upload');
+    if (imageUploadInput) {
+        imageUploadInput.addEventListener('change', (e) => {
+            const file = e.target.files[0];
+            if (file) {
+                const reader = new FileReader();
+                reader.onload = (event) => {
+                    const img = new Image();
+                    img.onload = () => {
+                        watermarkImageConfig.image = img;
+                        updateWatermarkPreview();
+                    };
+                    img.src = event.target.result;
+                };
+                reader.readAsDataURL(file);
+            }
+        });
+    }
+
     setupDraggableAndResizable();
 
     // Bind apply watermark button
@@ -320,6 +341,37 @@ export function initWatermarkTool() {
     if (applyWatermarkBtn) {
         applyWatermarkBtn.addEventListener('click', handleApplyWatermark);
     }
+
+    // Watermark type selection
+    const watermarkTypeRadios = document.querySelectorAll('input[name="watermark-type"]');
+    const textWatermarkControls = document.getElementById('text-watermark-controls');
+    const imageWatermarkControls = document.getElementById('image-watermark-controls');
+
+    function updateWatermarkTypeDisplay() {
+        if (currentWatermarkType === 'text') {
+            textWatermarkControls.style.display = 'block';
+            imageWatermarkControls.style.display = 'none';
+        } else {
+            textWatermarkControls.style.display = 'none';
+            imageWatermarkControls.style.display = 'block';
+        }
+        setupDraggableAndResizable(); // Re-initialize draggable/resizable for the active overlay
+        updateWatermarkPreview(); // Update preview after type change
+    }
+
+    watermarkTypeRadios.forEach(radio => {
+        radio.addEventListener('change', (e) => {
+            currentWatermarkType = e.target.value;
+            updateWatermarkTypeDisplay();
+        });
+    });
+
+    // Set initial display based on default checked radio
+    const initialCheckedRadio = document.querySelector('input[name="watermark-type"]:checked');
+    if (initialCheckedRadio) {
+        currentWatermarkType = initialCheckedRadio.value;
+    }
+    updateWatermarkTypeDisplay();
 }
 
 export 
