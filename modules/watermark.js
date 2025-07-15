@@ -430,14 +430,20 @@ function setupDraggableAndResizable() {
     targetElement.removeEventListener('mousedown', onMouseDown);
     document.removeEventListener('mousemove', onMouseMove);
     document.removeEventListener('mouseup', onMouseUp);
+    targetElement.removeEventListener('touchstart', onTouchStart);
+    document.removeEventListener('touchmove', onTouchMove);
+    document.removeEventListener('touchend', onTouchEnd);
 
     // Remove existing resize handles
     const existingHandles = targetElement.querySelectorAll('.resize-handle');
     existingHandles.forEach(handle => handle.remove());
 
-    function onMouseDown(e) {
+    function onStart(e) {
         e.preventDefault();
         e.stopPropagation(); // Prevent dragging the parent container
+
+        const clientX = e.clientX || e.touches[0].clientX;
+        const clientY = e.clientY || e.touches[0].clientY;
 
         if (e.target.classList.contains('resize-handle')) {
             isResizing = true;
@@ -446,21 +452,34 @@ function setupDraggableAndResizable() {
             isDragging = true;
         }
 
-        startX = e.clientX;
-        startY = e.clientY;
+        startX = clientX;
+        startY = clientY;
         startWidth = targetElement.offsetWidth;
         startHeight = targetElement.offsetHeight;
         startLeft = targetElement.offsetLeft;
         startTop = targetElement.offsetTop;
 
-        document.addEventListener('mousemove', onMouseMove);
-        document.addEventListener('mouseup', onMouseUp);
+        document.addEventListener('mousemove', onMove);
+        document.addEventListener('mouseup', onEnd);
+        document.addEventListener('touchmove', onMove);
+        document.addEventListener('touchend', onEnd);
     }
 
-    function onMouseMove(e) {
+    function onMouseDown(e) {
+        onStart(e);
+    }
+
+    function onTouchStart(e) {
+        onStart(e);
+    }
+
+    function onMove(e) {
+        const clientX = e.clientX || e.touches[0].clientX;
+        const clientY = e.clientY || e.touches[0].clientY;
+
         if (isDragging) {
-            const dx = e.clientX - startX;
-            const dy = e.clientY - startY;
+            const dx = clientX - startX;
+            const dy = clientY - startY;
 
             let newLeft = startLeft + dx;
             let newTop = startTop + dy;
@@ -488,8 +507,8 @@ function setupDraggableAndResizable() {
             }
 
         } else if (isResizing && activeHandle) {
-            const dx = e.clientX - startX;
-            const dy = e.clientY - startY;
+            const dx = clientX - startX;
+            const dy = clientY - startY;
 
             let newWidth = startWidth;
             let newHeight = startHeight;
@@ -554,15 +573,34 @@ function setupDraggableAndResizable() {
         }
     }
 
-    function onMouseUp() {
+    function onMouseMove(e) {
+        onMove(e);
+    }
+
+    function onTouchMove(e) {
+        onMove(e);
+    }
+
+    function onEnd() {
         isDragging = false;
         isResizing = false;
         activeHandle = null;
-        document.removeEventListener('mousemove', onMouseMove);
-        document.removeEventListener('mouseup', onMouseUp);
+        document.removeEventListener('mousemove', onMove);
+        document.removeEventListener('mouseup', onEnd);
+        document.removeEventListener('touchmove', onMove);
+        document.removeEventListener('touchend', onEnd);
+    }
+
+    function onMouseUp() {
+        onEnd();
+    }
+
+    function onTouchEnd() {
+        onEnd();
     }
 
     targetElement.addEventListener('mousedown', onMouseDown);
+    targetElement.addEventListener('touchstart', onTouchStart);
 
     // Add resize handles for image watermark
     if (currentWatermarkType === 'image') {
@@ -573,6 +611,7 @@ function setupDraggableAndResizable() {
             div.dataset.handle = handle;
             targetElement.appendChild(div);
             div.addEventListener('mousedown', onMouseDown); // Attach mousedown to handle
+            div.addEventListener('touchstart', onTouchStart); // Attach touchstart to handle
         });
     }
 }

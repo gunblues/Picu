@@ -408,7 +408,7 @@ function getTranslation($key) {
         applyWatermarkBtn: "<?php echo getTranslation('applyWatermarkBtn'); ?>",
     };
 </script>
-<script type="module" src="/dist/assets/main.DzQjnWha.js"></script>
+<script type="module" src="/dist/assets/main.BA-4n9a5.js"></script>
 
 </body>
 </html>
