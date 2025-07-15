@@ -264,6 +264,14 @@ function getTranslation($key) {
                  <input type="file" id="watermark-image-upload" accept="image/*" style="display:none;">
              </div>
             <div class="control-group">
+                <label for="watermark-image-width"><?php echo getTranslation('widthLabel'); ?></label>
+                <input type="number" id="watermark-image-width" min="1">
+            </div>
+            <div class="control-group">
+                <label for="watermark-image-height"><?php echo getTranslation('heightLabel'); ?></label>
+                <input type="number" id="watermark-image-height" min="1">
+            </div>
+            <div class="control-group">
                 <label for="watermark-image-opacity">
                     <?php echo getTranslation('watermarkImageOpacity'); ?> <span id="watermark-image-opacity-value">70%</span>
                 </label>
@@ -395,7 +403,7 @@ function getTranslation($key) {
         compressSummaryReduction: "<?php echo getTranslation('compressSummaryReduction'); ?>", // New translation key
     };
 </script>
-<script type="module" src="/dist/assets/main.gNAJwale.js"></script>
+<script type="module" src="/dist/assets/main.DzZo9iGR.js"></script>
 
 </body>
 </html>

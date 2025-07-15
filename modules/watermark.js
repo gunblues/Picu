@@ -67,8 +67,8 @@ function drawPreview() {
         if (watermarkImageConfig.image) {
             watermarkOverlayImage.src = watermarkImageConfig.image.src; // Set the image source
             const img = watermarkImageConfig.image;
-            let newWidth = img.width;
-            let newHeight = img.height;
+            let newWidth = watermarkImageConfig.customWidth || img.width;
+            let newHeight = watermarkImageConfig.customHeight || img.height;
 
             // Scale to fit within 50% of preview canvas, or maintain minimum size
             const maxPreviewWidth = watermarkPreviewCanvas.width * 0.5;
@@ -93,15 +93,17 @@ function drawPreview() {
                 newWidth = newHeight * (img.width / img.height);
             }
 
-            // Scale down if larger than 50% of canvas
-            if (newWidth > maxPreviewWidth || newHeight > maxPreviewHeight) {
-                const aspectRatio = newWidth / newHeight;
-                if (newWidth / maxPreviewWidth > newHeight / maxPreviewHeight) {
-                    newWidth = maxPreviewWidth;
-                    newHeight = newWidth / aspectRatio;
-                } else {
-                    newHeight = maxPreviewHeight;
-                    newWidth = newHeight * aspectRatio;
+            // Scale down if larger than 50% of canvas, only if custom dimensions are not set
+            if (!watermarkImageConfig.customWidth && !watermarkImageConfig.customHeight) {
+                if (newWidth > maxPreviewWidth || newHeight > maxPreviewHeight) {
+                    const aspectRatio = newWidth / newHeight;
+                    if (newWidth / maxPreviewWidth > newHeight / maxPreviewHeight) {
+                        newWidth = maxPreviewWidth;
+                        newHeight = newWidth / aspectRatio;
+                    } else {
+                        newHeight = maxPreviewHeight;
+                        newWidth = newHeight * aspectRatio;
+                    }
                 }
             }
 
@@ -219,6 +221,8 @@ let watermarkImageConfig = {
     y: 0, // Relative Y position (0-1)
     width: 0, // Relative width (0-1)
     height: 0, // Relative height (0-1)
+    customWidth: null, // User-defined width in pixels
+    customHeight: null, // User-defined height in pixels
 };
 
 
@@ -307,6 +311,8 @@ export function initWatermarkTool() {
     if (textOpacityLabel && textOpacityInput) textOpacityLabel.textContent = `${Math.round(textOpacityInput.value * 100)}%`;
     // imageOpacityInput might not be defined yet, so check before accessing
     const imageOpacityInput = document.getElementById('watermark-image-opacity');
+    const imageWidthInput = document.getElementById('watermark-image-width');
+    const imageHeightInput = document.getElementById('watermark-image-height');
     if (imageOpacityLabel && imageOpacityInput) imageOpacityLabel.textContent = `${Math.round(imageOpacityInput.value * 100)}%`;
 
     // Bind input event for image watermark opacity
@@ -315,6 +321,24 @@ export function initWatermarkTool() {
             const val = parseFloat(e.target.value);
         watermarkImageConfig.opacity = val;
         if (imageOpacityLabel) imageOpacityLabel.textContent = `${Math.round(val * 100)}%`;
+            updateWatermarkPreview();
+        });
+    }
+
+    // Bind input event for image watermark width
+    if (imageWidthInput) {
+        imageWidthInput.addEventListener('input', e => {
+            const val = parseInt(e.target.value);
+            watermarkImageConfig.customWidth = isNaN(val) ? null : val;
+            updateWatermarkPreview();
+        });
+    }
+
+    // Bind input event for image watermark height
+    if (imageHeightInput) {
+        imageHeightInput.addEventListener('input', e => {
+            const val = parseInt(e.target.value);
+            watermarkImageConfig.customHeight = isNaN(val) ? null : val;
             updateWatermarkPreview();
         });
     }
@@ -330,6 +354,11 @@ export function initWatermarkTool() {
                     const img = new Image();
                     img.onload = () => {
                         watermarkImageConfig.image = img;
+                        // Reset custom dimensions when a new image is uploaded
+                        watermarkImageConfig.customWidth = null;
+                        watermarkImageConfig.customHeight = null;
+                        if (imageWidthInput) imageWidthInput.value = '';
+                        if (imageHeightInput) imageHeightInput.value = '';
                         updateWatermarkPreview();
                     };
                     img.src = event.target.result;
@@ -598,7 +627,25 @@ async function handleApplyWatermark() {
             } else { // Image watermark
                 if (watermarkImageConfig.image) {
                     ctx.globalAlpha = watermarkImageConfig.opacity;
-                    ctx.drawImage(watermarkImageConfig.image, absWatermarkX, absWatermarkY, absWatermarkWidth, absWatermarkHeight);
+                    
+                    let finalWatermarkWidth = absWatermarkWidth;
+                    let finalWatermarkHeight = absWatermarkHeight;
+
+                    // If custom dimensions are set, use them directly, scaled to the target image's size
+                    if (watermarkImageConfig.customWidth) {
+                        finalWatermarkWidth = watermarkImageConfig.customWidth;
+                        if (!watermarkImageConfig.customHeight && watermarkImageConfig.image) {
+                            finalWatermarkHeight = (watermarkImageConfig.customWidth / watermarkImageConfig.image.width) * watermarkImageConfig.image.height;
+                        }
+                    }
+                    if (watermarkImageConfig.customHeight) {
+                        finalWatermarkHeight = watermarkImageConfig.customHeight;
+                        if (!watermarkImageConfig.customWidth && watermarkImageConfig.image) {
+                            finalWatermarkWidth = (watermarkImageConfig.customHeight / watermarkImageConfig.image.height) * watermarkImageConfig.image.width;
+                        }
+                    }
+
+                    ctx.drawImage(watermarkImageConfig.image, absWatermarkX, absWatermarkY, finalWatermarkWidth, finalWatermarkHeight);
                 }
             }
             ctx.globalAlpha = 1; // Reset alpha
