@@ -225,7 +225,7 @@ window.updateRotateSelection = (selectedItems) => {
   const rotateOperationSequenceDiv = document.getElementById('rotate-operation-sequence');
   if (rotateBtn) {
     const count = selectedItems.length;
-    rotateBtn.textContent = `Rotate (${count})`;
+    rotateBtn.textContent = `${window.appTranslations.rotateBtn} (${count})`;
   }
   const selectedImageIndices = Array.from(window.selectedIndices || []);
   if (selectedImageIndices.length === 1) {

@@ -194,7 +194,7 @@ export function initResizeTool() {
     const resizeBtn = document.getElementById('resize-btn');
     if (resizeBtn) {
       const count = selectedItems.length;
-      resizeBtn.textContent = `Resize & Download Selected (${count})`;
+      resizeBtn.textContent = `${window.appTranslations.resizeBtn} (${count})`;
     }
   };
 

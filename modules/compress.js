@@ -42,7 +42,7 @@ export function initCompressTool() {
     // 更新按鈕文字，顯示選中檔案數量
     const selectedCount = selectedItems.length;
     // 提供一個預設值，以防 window.appTranslations.compressBtn 尚未載入
-    const originalButtonText = window.appTranslations && window.appTranslations.compressBtn ? window.appTranslations.compressBtn : 'Compress & Download Selected'; 
+    const originalButtonText = window.appTranslations.compressBtn; 
     if (selectedCount > 0) {
       compressBtn.textContent = `${originalButtonText} (${selectedCount})`;
     } else {

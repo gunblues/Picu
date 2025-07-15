@@ -401,9 +401,13 @@ function getTranslation($key) {
         totalOriginalSizeLabel: "<?php echo getTranslation('totalOriginalSizeLabel'); ?>", // New translation key
         compressSummary: "<?php echo getTranslation('compressSummary'); ?>", // New translation key
         compressSummaryReduction: "<?php echo getTranslation('compressSummaryReduction'); ?>", // New translation key
+        compressBtn: "<?php echo getTranslation('compressBtn'); ?>",
+        resizeBtn: "<?php echo getTranslation('resizeBtn'); ?>",
+        whitebgBtn: "<?php echo getTranslation('whitebgBtn'); ?>",
+        rotateBtn: "<?php echo getTranslation('rotateBtn'); ?>",
     };
 </script>
-<script type="module" src="/dist/assets/main.DzZo9iGR.js"></script>
+<script type="module" src="/dist/assets/main.HtXiYqVN.js"></script>
 
 </body>
 </html>

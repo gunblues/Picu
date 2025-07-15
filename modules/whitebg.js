@@ -192,7 +192,7 @@ window.updateWhitebgSelection = (selectedItems) => {
   const whitebgBtn = document.getElementById('whitebg-btn');
   if (whitebgBtn) {
     const count = selectedItems.length;
-    whitebgBtn.textContent = `Add White Background (${count})`;
+    whitebgBtn.textContent = `${window.appTranslations.whitebgBtn} (${count})`;
   }
   // Trigger preview update when selection changes
   const selectedImageIndices = Array.from(window.selectedIndices || []);
