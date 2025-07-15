@@ -40,7 +40,7 @@ function getTranslation($key) {
 <link rel="apple-touch-icon" sizes="180x180" href="/icons/apple-touch-icon.png">
 <link rel="manifest" href="/icons/site.webmanifest">
 
-<link rel="stylesheet" href="/dist/assets/style.6iKdweuZ.css">
+<link rel="stylesheet" href="/dist/assets/style.l7HTdZs9.css">
 <link rel="stylesheet" href="lib/cropper.min.css">
 <script src="lib/jszip.min.js" defer></script>
 <script src="lib/cropper.min.js" defer></script>
@@ -231,7 +231,7 @@ function getTranslation($key) {
             </label>
         </div>
 
-        <div id="watermark-preview-container" style="position: relative; width: 100%; max-width: 600px; margin: 20px auto; border: 1px solid #ccc; padding: 15px;">
+        <div id="watermark-preview-container" style="position: relative; width: 100%; max-width: 600px; margin: 20px auto; border: 1px solid #ccc; overflow: hidden;">
             <canvas id="watermark-preview-canvas" style="display: block; max-width: 100%; height: auto;"></canvas>
             <div id="watermark-overlay-text" class="watermark-overlay" style="position: absolute; cursor: grab; white-space: nowrap; display: none;"></div>
             <img id="watermark-overlay-image" class="watermark-overlay" style="position: absolute; cursor: grab; display: none;" />
@@ -395,7 +395,7 @@ function getTranslation($key) {
         compressSummaryReduction: "<?php echo getTranslation('compressSummaryReduction'); ?>", // New translation key
     };
 </script>
-<script type="module" src="/dist/assets/main.Di69lJBl.js"></script>
+<script type="module" src="/dist/assets/main.BFX4XAVF.js"></script>
 
 </body>
 </html>

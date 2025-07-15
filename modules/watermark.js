@@ -32,6 +32,10 @@ function drawPreview() {
 
     // Update overlay positions and styles
     if (currentWatermarkType === 'text') {
+        watermarkOverlayText.style.display = 'block';
+        watermarkOverlayImage.style.display = 'none';
+
+        watermarkOverlayText.textContent = watermarkTextConfig.text;
         watermarkOverlayText.style.font = `${watermarkTextConfig.fontSize}px ${watermarkTextConfig.font}`;
         watermarkOverlayText.style.color = watermarkTextConfig.color;
         watermarkOverlayText.style.opacity = watermarkTextConfig.opacity;
@@ -53,13 +57,11 @@ function drawPreview() {
         watermarkOverlayText.style.top = `${watermarkTextConfig.y * watermarkPreviewCanvas.height}px`;
         watermarkOverlayText.style.width = `${currentTextWidth}px`;
         watermarkOverlayText.style.height = `${currentTextHeight}px`;
-        setupDraggableAndResizable();
     } else { // Image watermark
         watermarkOverlayText.style.display = 'none';
         watermarkOverlayImage.style.display = 'block';
 
         watermarkOverlayImage.style.opacity = watermarkImageConfig.opacity;
-        watermarkOverlayImage.style.border = '1px dashed red'; // Explicitly set border
 
         // Always re-calculate and apply image dimensions and position
         if (watermarkImageConfig.image) {
@@ -114,7 +116,6 @@ function drawPreview() {
             // Apply stored relative position
             watermarkOverlayImage.style.left = `${watermarkImageConfig.x * watermarkPreviewCanvas.width}px`;
             watermarkOverlayImage.style.top = `${watermarkImageConfig.y * watermarkPreviewCanvas.height}px`;
-            setupDraggableAndResizable();
         }
     }
     
@@ -354,6 +355,7 @@ export function initWatermarkTool() {
             textWatermarkControls.style.display = 'none';
             imageWatermarkControls.style.display = 'block';
         }
+        setupDraggableAndResizable(); // Re-initialize draggable/resizable for the active overlay
         updateWatermarkPreview(); // Update preview after type change
     }
 
@@ -377,9 +379,7 @@ export
 
 
 function setupDraggableAndResizable() {
-    console.log('setupDraggableAndResizable called.');
     const targetElement = currentWatermarkType === 'text' ? watermarkOverlayText : watermarkOverlayImage;
-    console.log('Target element:', targetElement);
     if (!targetElement) return;
 
     let isDragging = false;
@@ -397,13 +397,10 @@ function setupDraggableAndResizable() {
     existingHandles.forEach(handle => handle.remove());
 
     function onMouseDown(e) {
-        console.log('onMouseDown triggered. e.target:', e.target);
-        console.log('e.target classList:', e.target.classList);
         e.preventDefault();
         e.stopPropagation(); // Prevent dragging the parent container
 
         if (e.target.classList.contains('resize-handle')) {
-            console.log('Resize handle clicked!');
             isResizing = true;
             activeHandle = e.target;
         } else {
@@ -492,7 +489,7 @@ function setupDraggableAndResizable() {
 
                 if (activeHandle.dataset.handle.includes('w') || activeHandle.dataset.handle.includes('e')) { // Horizontal drag
                     newHeight = newWidth / aspectRatio;
-                } else {
+                } else { // Vertical drag
                     newWidth = newHeight * aspectRatio;
                 }
             }
@@ -530,74 +527,14 @@ function setupDraggableAndResizable() {
 
     // Add resize handles for image watermark
     if (currentWatermarkType === 'image') {
-        console.log('Adding resize handles for image watermark.');
-        console.log('Target element display style:', targetElement.style.display);
-        console.log('Target element computed style:', window.getComputedStyle(targetElement).display);
-        console.log('Target element offsetWidth:', targetElement.offsetWidth);
-        console.log('Target element offsetHeight:', targetElement.offsetHeight);
         const handles = ['nw', 'ne', 'sw', 'se'];
         handles.forEach(handle => {
             const div = document.createElement('div');
             div.classList.add('resize-handle', handle);
             div.dataset.handle = handle;
-            // Set styles directly in JavaScript
-            div.style.position = 'absolute';
-            div.style.width = '20px';
-            div.style.height = '20px';
-            div.style.background = 'yellow';
-            div.style.border = '3px solid black';
-            div.style.borderRadius = '50%';
-            div.style.cursor = `${handle}-resize`; // Set specific cursor for each handle
-            div.style.zIndex = '1000';
-            div.style.pointerEvents = 'all'; // Ensure handles receive events
-
-            // Set position based on handle type
-            if (handle.includes('n')) div.style.top = '-10px';
-            if (handle.includes('s')) div.style.bottom = '-10px';
-            if (handle.includes('w')) div.style.left = '-10px';
-            if (handle.includes('e')) div.style.right = '-10px';
             targetElement.appendChild(div);
-            div.addEventListener('mousedown', (e) => {
-                e.stopPropagation(); // Prevent event from bubbling to targetElement
-                console.log('Resize handle clicked (individual listener)!');
-                isResizing = true;
-                activeHandle = e.target;
-
-                startX = e.clientX;
-                startY = e.clientY;
-                startWidth = targetElement.offsetWidth;
-                startHeight = targetElement.offsetHeight;
-                startLeft = targetElement.offsetLeft;
-                startTop = targetElement.offsetTop;
-
-                document.addEventListener('mousemove', onMouseMove);
-                document.addEventListener('mouseup', onMouseUp);
-            });
-            console.log(`Added handle: ${handle}`, div);
+            div.addEventListener('mousedown', onMouseDown); // Attach mousedown to handle
         });
-        console.log('Target element children after adding handles:', targetElement.children);
-    }
-
-    // Modify onMouseDown to only handle dragging if not a resize handle
-    function onMouseDown(e) {
-        console.log('onMouseDown triggered. e.target:', e.target);
-        console.log('e.target classList:', e.target.classList);
-        e.preventDefault();
-        // e.stopPropagation(); // Removed: Let individual handle listeners stop propagation
-
-        if (!e.target.classList.contains('resize-handle')) { // Only handle dragging if not a resize handle
-            isDragging = true;
-
-            startX = e.clientX;
-            startY = e.clientY;
-            startWidth = targetElement.offsetWidth;
-            startHeight = targetElement.offsetHeight;
-            startLeft = targetElement.offsetLeft;
-            startTop = targetElement.offsetTop;
-
-            document.addEventListener('mousemove', onMouseMove);
-            document.addEventListener('mouseup', onMouseUp);
-        }
     }
 }
 
