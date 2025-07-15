@@ -253,8 +253,8 @@ function getTranslation($key) {
                 <input type="color" id="watermark-color" value="#000000">
             </div>
             <div class="control-group">
-                <label for="watermark-opacity"><?php echo getTranslation('watermarkOpacity'); ?> <span id="watermark-opacity-value">70%</span></label>
-                <input type="range" id="watermark-opacity" min="0" max="1" step="0.01" value="0.7">
+                <label for="watermark-opacity"><?php echo getTranslation('watermarkOpacity'); ?> <span id="watermark-opacity-value">30%</span></label>
+                <input type="range" id="watermark-opacity" min="0" max="1" step="0.01" value="0.3">
             </div>
         </div>
 
@@ -273,9 +273,9 @@ function getTranslation($key) {
             </div>
             <div class="control-group">
                 <label for="watermark-image-opacity">
-                    <?php echo getTranslation('watermarkImageOpacity'); ?> <span id="watermark-image-opacity-value">70%</span>
+                    <?php echo getTranslation('watermarkImageOpacity'); ?> <span id="watermark-image-opacity-value">30%</span>
                 </label>
-                <input type="range" id="watermark-image-opacity" min="0" max="1" step="0.01" value="0.7">
+                <input type="range" id="watermark-image-opacity" min="0" max="1" step="0.01" value="0.3">
             </div>
         </div>
 
@@ -408,7 +408,7 @@ function getTranslation($key) {
         applyWatermarkBtn: "<?php echo getTranslation('applyWatermarkBtn'); ?>",
     };
 </script>
-<script type="module" src="/dist/assets/main.BA-4n9a5.js"></script>
+<script type="module" src="/dist/assets/main.DnBgh4x6.js"></script>
 
 </body>
 </html>

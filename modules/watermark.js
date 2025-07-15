@@ -66,46 +66,9 @@ function drawPreview() {
         // Always re-calculate and apply image dimensions and position
         if (watermarkImageConfig.image) {
             watermarkOverlayImage.src = watermarkImageConfig.image.src; // Set the image source
-            const img = watermarkImageConfig.image;
-            let newWidth = watermarkImageConfig.customWidth || img.width;
-            let newHeight = watermarkImageConfig.customHeight || img.height;
 
-            // Scale to fit within 50% of preview canvas, or maintain minimum size
-            const maxPreviewWidth = watermarkPreviewCanvas.width * 0.5;
-            const maxPreviewHeight = watermarkPreviewCanvas.height * 0.5;
-            const minSize = 50; // pixels
-
-            // Apply minimum size if smaller
-            if (newWidth < minSize && newHeight < minSize) {
-                const aspectRatio = newWidth / newHeight;
-                if (newWidth < newHeight) {
-                    newWidth = minSize;
-                    newHeight = minSize / aspectRatio;
-                } else {
-                    newHeight = minSize;
-                    newWidth = minSize * aspectRatio;
-                }
-            } else if (newWidth < minSize) {
-                newWidth = minSize;
-                newHeight = minWidth / (img.width / img.height);
-            } else if (newHeight < minSize) {
-                newHeight = minSize;
-                newWidth = newHeight * (img.width / img.height);
-            }
-
-            // Scale down if larger than 50% of canvas, only if custom dimensions are not set
-            if (!watermarkImageConfig.customWidth && !watermarkImageConfig.customHeight) {
-                if (newWidth > maxPreviewWidth || newHeight > maxPreviewHeight) {
-                    const aspectRatio = newWidth / newHeight;
-                    if (newWidth / maxPreviewWidth > newHeight / maxPreviewHeight) {
-                        newWidth = maxPreviewWidth;
-                        newHeight = newWidth / aspectRatio;
-                    } else {
-                        newHeight = maxPreviewHeight;
-                        newWidth = newHeight * aspectRatio;
-                    }
-                }
-            }
+            let newWidth = watermarkImageConfig.customWidth !== null ? watermarkImageConfig.customWidth : watermarkPreviewCanvas.width;
+            let newHeight = watermarkImageConfig.customHeight !== null ? watermarkImageConfig.customHeight : watermarkPreviewCanvas.height;
 
             // Update watermarkImageConfig with the calculated relative dimensions
             watermarkImageConfig.width = newWidth / watermarkPreviewCanvas.width;
@@ -208,7 +171,7 @@ let watermarkTextConfig = {
     font: 'Arial',
     fontSize: 50,
     color: '#000000',
-    opacity: 0.7,
+    opacity: 0.3,
     x: 0, // Relative X position (0-1)
     y: 0, // Relative Y position (0-1)
     width: 0, // Relative width (0-1)
@@ -216,7 +179,7 @@ let watermarkTextConfig = {
 };
 let watermarkImageConfig = {
     image: null, // Image object
-    opacity: 0.7,
+    opacity: 0.3,
     x: 0, // Relative X position (0-1)
     y: 0, // Relative Y position (0-1)
     width: 0, // Relative width (0-1)
@@ -354,7 +317,7 @@ export function initWatermarkTool() {
                     const img = new Image();
                     img.onload = () => {
                         watermarkImageConfig.image = img;
-                        // Reset custom dimensions when a new image is uploaded
+                        // Set custom dimensions to preview canvas size when a new image is uploaded
                         watermarkImageConfig.customWidth = null;
                         watermarkImageConfig.customHeight = null;
                         if (imageWidthInput) imageWidthInput.value = '';
@@ -540,18 +503,6 @@ function setupDraggableAndResizable() {
                     break;
             }
 
-            // Maintain aspect ratio for image watermark
-            if (currentWatermarkType === 'image') {
-                if (newWidth < 10) newWidth = 10; // Minimum size
-                if (newHeight < 10) newHeight = 10; // Minimum size
-
-                if (activeHandle.dataset.handle.includes('w') || activeHandle.dataset.handle.includes('e')) { // Horizontal drag
-                    newHeight = newWidth / aspectRatio;
-                } else { // Vertical drag
-                    newWidth = newHeight * aspectRatio;
-                }
-            }
-
             // Apply new dimensions and position
             targetElement.style.width = `${newWidth}px`;
             targetElement.style.height = `${newHeight}px`;
@@ -672,8 +623,8 @@ async function handleApplyWatermark() {
                 if (watermarkImageConfig.image) {
                     ctx.globalAlpha = watermarkImageConfig.opacity;
                     
-                    let finalWatermarkWidth = absWatermarkWidth;
-                    let finalWatermarkHeight = absWatermarkHeight;
+                    let finalWatermarkWidth = watermarkImageConfig.customWidth !== null ? watermarkImageConfig.customWidth : canvas.width;
+                    let finalWatermarkHeight = watermarkImageConfig.customHeight !== null ? watermarkImageConfig.customHeight : canvas.height;
 
                     // If custom dimensions are set, use them directly, scaled to the target image's size
                     if (watermarkImageConfig.customWidth) {
