@@ -316,35 +316,39 @@ input[type="range"] {
 
 .resize-handle {
   position: absolute;
-  width: 10px;
-  height: 10px;
-  background: #f39c12;
-  border: 1px solid #e67e22;
+  width: 20px; /* Make it even larger */
+  height: 20px; /* Make it even larger */
+  background: yellow; /* A very distinct color */
+  border: 3px solid black; /* A very strong border */
   border-radius: 50%;
   cursor: nwse-resize; /* Default cursor */
-  z-index: 10; /* Ensure handles are on top of the watermark */
+  z-index: 100; /* Ensure handles are on top of everything */
+}
+
+.watermark-overlay-image {
+  border: 1px dashed red; /* Add a dashed red border for visibility */
 }
 
 .resize-handle.nw {
-  top: -5px;
-  left: -5px;
+  top: -10px;
+  left: -10px;
   cursor: nwse-resize;
 }
 
 .resize-handle.ne {
-  top: -5px;
-  right: -5px;
+  top: -10px;
+  right: -10px;
   cursor: nesw-resize;
 }
 
 .resize-handle.sw {
-  bottom: -5px;
-  left: -5px;
+  bottom: -10px;
+  left: -10px;
   cursor: nesw-resize;
 }
 
 .resize-handle.se {
-  bottom: -5px;
-  right: -5px;
+  bottom: -10px;
+  right: -10px;
   cursor: nwse-resize;
 }
