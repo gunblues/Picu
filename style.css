@@ -185,6 +185,14 @@ input[type="range"] {
 }
 
 /* Specific Tool Styles */
+#resize fieldset {
+  margin-bottom: 1.5em; /* Add space below each fieldset in the resize tab */
+}
+
+#resize fieldset:last-of-type {
+  margin-bottom: 0; /* Remove margin from the last fieldset if it's followed by other elements */
+}
+
 #compress-list span,
 #resize-preview,
 #whitebg-preview {
@@ -308,6 +316,55 @@ input[type="range"] {
 }
 
 /* Watermark Tool Styles */
+.watermark-type-selection {
+    margin-bottom: 1.5em; /* Add more space below the radio buttons */
+}
+
+.watermark-controls-grid {
+  display: grid;
+  grid-template-columns: 1fr 1fr; /* Two columns */
+  gap: 1.5em; /* Increased gap between controls */
+  align-items: center;
+}
+
+.watermark-controls-grid .control-group {
+  margin-bottom: 1em; /* Add space below each control group */
+}
+
+.watermark-controls-grid .control-group:last-child {
+  margin-bottom: 0; /* Remove margin from the last control group to avoid extra space */
+}
+
+.watermark-controls-grid .full-width {
+  grid-column: 1 / -1;
+  margin-bottom: 1em; /* Add space below the full-width text input */
+}
+
+.watermark-controls-grid input[type="color"] {
+    width: 50px; /* Or a fixed width that suits your design */
+    height: 50px;
+    padding: 0;
+    border: none;
+    border-radius: 8px;
+    cursor: pointer;
+}
+
+.button-style-label {
+    display: inline-block;
+    padding: 0.8em 1.5em;
+    background-color: #f39c12;
+    color: white;
+    border-radius: 8px;
+    cursor: pointer;
+    text-align: center;
+    font-weight: 600;
+    transition: background-color 0.2s ease;
+}
+
+.button-style-label:hover {
+    background-color: #e67e22;
+}
+
 .watermark-overlay {
   position: absolute;
   /* Initial styles for text/image overlays */

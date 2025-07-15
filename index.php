@@ -40,7 +40,7 @@ function getTranslation($key) {
 <link rel="apple-touch-icon" sizes="180x180" href="/icons/apple-touch-icon.png">
 <link rel="manifest" href="/icons/site.webmanifest">
 
-<link rel="stylesheet" href="/dist/assets/style.l7HTdZs9.css">
+<link rel="stylesheet" href="/dist/assets/style.Bp81KiAE.css">
 <link rel="stylesheet" href="lib/cropper.min.css">
 <script src="lib/jszip.min.js" defer></script>
 <script src="lib/cropper.min.js" defer></script>
@@ -231,13 +231,12 @@ function getTranslation($key) {
             </label>
         </div>
 
-        <div id="text-watermark-controls" class="tool-controls">
-            <div class="control-group">
-                <label for="watermark-text-input"><?php echo getTranslation('watermarkTextInput'); ?></label>
+        <div id="text-watermark-controls" class="watermark-controls-grid">
+            <div class="control-group full-width">
                 <input type="text" id="watermark-text-input" placeholder="<?php echo getTranslation('watermarkTextPlaceholder'); ?>">
             </div>
+
             <div class="control-group">
-                <label for="watermark-font"><?php echo getTranslation('watermarkFont'); ?></label>
                 <select id="watermark-font">
                     <option value="Arial">Arial</option>
                     <option value="Verdana">Verdana</option>
@@ -248,6 +247,7 @@ function getTranslation($key) {
                 <label for="watermark-font-size"><?php echo getTranslation('watermarkFontSize'); ?> <span id="watermark-font-size-value">50</span></label>
                 <input type="range" id="watermark-font-size" min="10" max="200" value="50">
             </div>
+
             <div class="control-group">
                 <label for="watermark-color"><?php echo getTranslation('watermarkColor'); ?></label>
                 <input type="color" id="watermark-color" value="#000000">
@@ -258,10 +258,11 @@ function getTranslation($key) {
             </div>
         </div>
 
-        <div id="image-watermark-controls" class="tool-controls" style="display:none;">
-            <div class="control-group">
-                <input type="file" id="watermark-image-upload" accept="image/*">
-            </div>
+        <div id="image-watermark-controls" class="watermark-controls-grid" style="display:none;">
+             <div class="control-group">
+                 <label for="watermark-image-upload" class="button-style-label"><?php echo getTranslation('uploadImage'); ?></label>
+                 <input type="file" id="watermark-image-upload" accept="image/*" style="display:none;">
+             </div>
             <div class="control-group">
                 <label for="watermark-image-opacity">
                     <?php echo getTranslation('watermarkImageOpacity'); ?> <span id="watermark-image-opacity-value">70%</span>
