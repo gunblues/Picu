@@ -314,6 +314,12 @@ export function initWatermarkTool() {
     }
 
     setupDraggableAndResizable();
+
+    // Bind apply watermark button
+    const applyWatermarkBtn = document.getElementById('apply-watermark-btn');
+    if (applyWatermarkBtn) {
+        applyWatermarkBtn.addEventListener('click', handleApplyWatermark);
+    }
 }
 
 export 
