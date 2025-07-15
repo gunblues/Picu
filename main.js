@@ -62,6 +62,11 @@ window.onload = () => {
               const { initRemoveBgTool } = await import('./modules/removebg.js');
               initRemoveBgTool();
               break;
+            case 'watermark':
+              const { initWatermarkTool, updateWatermarkPreview } = await import('./modules/watermark.js');
+              initWatermarkTool();
+              updateWatermarkPreview(); // Call update after initialization
+              break;
           }
           initializedTools[targetId] = true;
         } catch (error) {

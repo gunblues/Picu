@@ -40,7 +40,7 @@ function getTranslation($key) {
 <link rel="apple-touch-icon" sizes="180x180" href="/icons/apple-touch-icon.png">
 <link rel="manifest" href="/icons/site.webmanifest">
 
-<link rel="stylesheet" href="/dist/assets/style.CLGy8Ncu.css">
+<link rel="stylesheet" href="/dist/assets/style.l7HTdZs9.css">
 <link rel="stylesheet" href="lib/cropper.min.css">
 <script src="lib/jszip.min.js" defer></script>
 <script src="lib/cropper.min.js" defer></script>
@@ -120,6 +120,7 @@ function getTranslation($key) {
       <button data-tab="compress" class="active"><?php echo getTranslation('tabCompress'); ?></button>
       <button data-tab="resize"><?php echo getTranslation('tabResize'); ?></button>
       <button data-tab="whitebg"><?php echo getTranslation('tabWhitebg'); ?></button>
+      <button data-tab="watermark"><?php echo getTranslation('tabWatermark'); ?></button>
       <button data-tab="rotate"><?php echo getTranslation('tabRotate'); ?></button>
       <button data-tab="enhance"><?php echo getTranslation('tabEnhance'); ?></button>
       <button data-tab="crop"><?php echo getTranslation('tabCrop'); ?></button>
@@ -220,6 +221,68 @@ function getTranslation($key) {
       <div id="whitebg-preview"></div>
     </div>
 
+    <div id="watermark" class="tab-content">
+        <div class="watermark-type-selection">
+            <label>
+                <input type="radio" name="watermark-type" value="text" checked> <?php echo getTranslation('watermarkTypeText'); ?>
+            </label>
+            <label>
+                <input type="radio" name="watermark-type" value="image"> <?php echo getTranslation('watermarkTypeImage'); ?>
+            </label>
+        </div>
+
+        <div id="watermark-preview-container" style="position: relative; width: 100%; max-width: 600px; margin: 20px auto; border: 1px solid #ccc; overflow: hidden;">
+            <canvas id="watermark-preview-canvas" style="display: block; max-width: 100%; height: auto;"></canvas>
+            <div id="watermark-overlay-text" class="watermark-overlay" style="position: absolute; cursor: grab; white-space: nowrap; display: none;"></div>
+            <img id="watermark-overlay-image" class="watermark-overlay" style="position: absolute; cursor: grab; display: none; max-width: 100%; height: auto;" />
+        </div>
+
+        <div id="text-watermark-controls" class="tool-controls">
+            <div class="control-group">
+                <label for="watermark-text-input"><?php echo getTranslation('watermarkTextInput'); ?></label>
+                <input type="text" id="watermark-text-input" placeholder="<?php echo getTranslation('watermarkTextPlaceholder'); ?>">
+            </div>
+            <div class="control-group">
+                <label for="watermark-font"><?php echo getTranslation('watermarkFont'); ?></label>
+                <select id="watermark-font">
+                    <option value="Arial">Arial</option>
+                    <option value="Verdana">Verdana</option>
+                    <option value="Times New Roman">Times New Roman</option>
+                </select>
+            </div>
+            <div class="control-group">
+                <label for="watermark-font-size"><?php echo getTranslation('watermarkFontSize'); ?> <span id="watermark-font-size-value">50</span></label>
+                <input type="range" id="watermark-font-size" min="10" max="200" value="50">
+            </div>
+            <div class="control-group">
+                <label for="watermark-color"><?php echo getTranslation('watermarkColor'); ?></label>
+                <input type="color" id="watermark-color" value="#000000">
+            </div>
+            <div class="control-group">
+                <label for="watermark-opacity"><?php echo getTranslation('watermarkOpacity'); ?> <span id="watermark-opacity-value">70%</span></label>
+                <input type="range" id="watermark-opacity" min="0" max="100" value="70">
+            </div>
+        </div>
+
+        <div id="image-watermark-controls" class="tool-controls" style="display:none;">
+            <div class="control-group">
+                <label for="watermark-image-upload"><?php echo getTranslation('watermarkImageUpload'); ?></label>
+                <input type="file" id="watermark-image-upload" accept="image/*">
+            </div>
+            <div class="control-group">
+                <label for="watermark-image-opacity">
+                    <?php echo getTranslation('watermarkImageOpacity'); ?> <span id="watermark-image-opacity-value">70%</span>
+                </label>
+                <input type="range" id="watermark-image-opacity" min="0" max="100" value="70">
+            </div>
+        </div>
+
+        <button id="apply-watermark-btn"><?php echo getTranslation('applyWatermarkBtn'); ?></button>
+        <div id="watermark-progress-container" style="width: 100%; background-color: #e0e0e0; border-radius: 5px; margin-top: 10px; overflow: hidden; display: none;">
+            <div id="watermark-progress-bar" style="height: 20px; width: 0%; background-color: #4CAF50; border-radius: 5px; text-align: center; line-height: 20px; color: white;"></div>
+        </div>
+    </div>
+
     <div id="rotate" class="tab-content">
         <div class="tool-controls">
             <div class="control-group">
@@ -302,6 +365,8 @@ function getTranslation($key) {
   </div>
 </main>
 
+<div id="processing-message" style="display: none; position: fixed; top: 50%; left: 50%; transform: translate(-50%, -50%); background-color: rgba(0, 0, 0, 0.7); color: white; padding: 20px; border-radius: 10px; z-index: 1000;"></div>
+
 <div class="section" id="privacy-section">
     <h3><?php echo getTranslation('privacyTitle'); ?></h3>
     <p><?php echo getTranslation('privacyNotice'); ?></p>
@@ -330,7 +395,7 @@ function getTranslation($key) {
         compressSummaryReduction: "<?php echo getTranslation('compressSummaryReduction'); ?>", // New translation key
     };
 </script>
-<script type="module" src="/dist/assets/main.BpZM4kyP.js"></script>
+<script type="module" src="/dist/assets/main.2DhnZPQj.js"></script>
 
 </body>
 </html>

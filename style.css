@@ -290,3 +290,61 @@ input[type="range"] {
   align-items: center;
   gap: 1em;
 }
+
+/* Preview Container Styles */
+.preview-container {
+  position: relative;
+  width: 100%;
+  margin: 20px auto;
+  border: 1px solid #ccc;
+  overflow: hidden;
+  /* The height will be set by JavaScript to maintain aspect ratio */
+}
+
+.preview-container canvas {
+  display: block;
+  width: 100%;
+  height: 100%;
+}
+
+/* Watermark Tool Styles */
+.watermark-overlay {
+  position: absolute;
+  /* Initial styles for text/image overlays */
+  /* These will be dynamically set by JavaScript */
+}
+
+.resize-handle {
+  position: absolute;
+  width: 10px;
+  height: 10px;
+  background: #f39c12;
+  border: 1px solid #e67e22;
+  border-radius: 50%;
+  cursor: nwse-resize; /* Default cursor */
+  z-index: 10; /* Ensure handles are on top of the watermark */
+}
+
+.resize-handle.nw {
+  top: -5px;
+  left: -5px;
+  cursor: nwse-resize;
+}
+
+.resize-handle.ne {
+  top: -5px;
+  right: -5px;
+  cursor: nesw-resize;
+}
+
+.resize-handle.sw {
+  bottom: -5px;
+  left: -5px;
+  cursor: nesw-resize;
+}
+
+.resize-handle.se {
+  bottom: -5px;
+  right: -5px;
+  cursor: nwse-resize;
+}

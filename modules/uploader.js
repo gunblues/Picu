@@ -15,6 +15,8 @@ export function initUploader() {
       const dataUrl = item.dataUrl;
       const container = document.createElement('div');
       container.className = 'img-container';
+      container.dataset.fileObject = JSON.stringify(item.file); // Store file object as string
+      container.dataset.fileName = item.name;
 
       // Add dimensions display
       const dimensionsDiv = document.createElement('div');
