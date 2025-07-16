@@ -246,6 +246,18 @@ input[type="range"] {
   object-fit: contain; /* Ensure image fits within bounds */
 }
 
+/* Rotate Preview */
+#rotate-preview-image {
+  max-width: 100%;
+  max-height: 400px; /* Limit height for consistent preview size */
+  height: auto; /* Maintain aspect ratio */
+  display: block; /* Ensure it behaves like a block element */
+  margin: 1em auto; /* Center it */
+  border: 1px solid #ccc;
+  border-radius: 8px;
+  object-fit: contain; /* Ensure image fits within bounds */
+}
+
 /* Responsive Canvas Height */
 @media (max-width: 768px) {
   #crop-canvas,

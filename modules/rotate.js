@@ -3,6 +3,11 @@ let currentFlipHorizontal = false;
 let currentFlipVertical = false;
 let operationSequence = [];
 
+// 新增變數來儲存原始圖片資訊
+let originalRotateImage = null;
+let originalRotateImageWidth = 0;
+let originalRotateImageHeight = 0;
+
 function resetRotateState() {
   currentRotation = 0;
   currentFlipHorizontal = false;
@@ -35,15 +40,8 @@ const generatePreview = async () => {
     return;
   }
 
-  if (selectedImageIndices.length > 1) {
-    rotatePreviewContainer.style.display = 'none';
-    rotatePreviewImage.src = '';
-    rotateOperationSequenceDiv.style.display = 'block';
-    rotateOperationSequenceDiv.textContent = operationSequence.join(' → ');
-    return;
-  }
-
-  // If only one image is selected, show preview and hide sequence
+  // If one or more images are selected, show preview for the first one
+  // Ensure the operation sequence div is hidden
   rotateOperationSequenceDiv.style.display = 'none';
   rotateOperationSequenceDiv.textContent = '';
 
@@ -54,36 +52,68 @@ const generatePreview = async () => {
     return;
   }
 
-  rotatePreviewContainer.style.display = 'block';
-  rotatePreviewImage.src = '';
+  // Load the original image to get its dimensions
+  const img = new Image();
+  img.onload = () => {
+    originalRotateImage = img; // Store the original image object
+    originalRotateImageWidth = img.naturalWidth;
+    originalRotateImageHeight = img.naturalHeight;
 
-  let previewWorker = null;
-  if (previewWorker) {
-    previewWorker.terminate();
-  }
+    const MAX_PREVIEW_DIMENSION = 800; // Max width or height for preview
+    let previewWidth = originalRotateImageWidth;
+    let previewHeight = originalRotateImageHeight;
 
-  previewWorker = new Worker('./modules/rotateWorker.js');
-
-  previewWorker.onmessage = (event) => {
-    const { status, rotateData, message } = event.data;
-    if (status === 'success') {
-      const blob = new Blob([rotateData], { type: selectedImage.type });
-      const url = URL.createObjectURL(blob);
-      rotatePreviewImage.src = url;
-      rotatePreviewImage.onload = () => URL.revokeObjectURL(url);
-    } else {
-      console.error('生成預覽失敗:', message);
-      rotatePreviewImage.src = '';
+    // Calculate new dimensions while maintaining aspect ratio
+    if (originalRotateImageWidth > MAX_PREVIEW_DIMENSION || originalRotateImageHeight > MAX_PREVIEW_DIMENSION) {
+      if (originalRotateImageWidth > originalRotateImageHeight) {
+        previewWidth = MAX_PREVIEW_DIMENSION;
+        previewHeight = Math.round(originalRotateImageHeight * (MAX_PREVIEW_DIMENSION / originalRotateImageWidth));
+      } else {
+        previewHeight = MAX_PREVIEW_DIMENSION;
+        previewWidth = Math.round(originalRotateImageWidth * (MAX_PREVIEW_DIMENSION / originalRotateImageHeight));
+      }
     }
-  };
 
-  previewWorker.postMessage({
-    dataUrl: selectedImage.dataUrl,
-    rotation: currentRotation,
-    flipHorizontal: currentFlipHorizontal,
-    flipVertical: currentFlipVertical,
-    originalType: selectedImage.type
-  });
+    // Create a temporary canvas to draw the scaled image for Worker
+    const tempCanvas = document.createElement('canvas');
+    const tempCtx = tempCanvas.getContext('2d');
+    tempCanvas.width = previewWidth;
+    tempCanvas.height = previewHeight;
+    tempCtx.drawImage(img, 0, 0, previewWidth, previewHeight);
+    const previewDataUrl = tempCanvas.toDataURL(selectedImage.type);
+
+    rotatePreviewContainer.style.display = 'block';
+    rotatePreviewImage.src = '';
+
+    let previewWorker = null;
+    if (previewWorker) {
+      previewWorker.terminate();
+    }
+
+    previewWorker = new Worker('./modules/rotateWorker.js');
+
+    previewWorker.onmessage = (event) => {
+      const { status, rotateData, message } = event.data;
+      if (status === 'success') {
+        const blob = new Blob([rotateData], { type: selectedImage.type });
+        const url = URL.createObjectURL(blob);
+        rotatePreviewImage.src = url;
+        rotatePreviewImage.onload = () => URL.revokeObjectURL(url);
+      } else {
+        console.error('生成預覽失敗:', message);
+        rotatePreviewImage.src = '';
+      }
+    };
+
+    previewWorker.postMessage({
+      dataUrl: previewDataUrl, // Send downsampled image
+      rotation: currentRotation,
+      flipHorizontal: currentFlipHorizontal,
+      flipVertical: currentFlipVertical,
+      originalType: selectedImage.type
+    });
+  };
+  img.src = selectedImage.dataUrl; // Start loading the original image
 };
 
 const debouncedGeneratePreview = debounce(generatePreview, 300);
@@ -134,85 +164,110 @@ export function initRotateTool() {
       return;
     }
 
-    rotatePreviewContainer.style.display = 'none';
-    rotatePreviewImage.src = '';
-
     const selectedImages = Array.from(window.selectedIndices).map(i => window.imageDataList[i]);
 
-    rotateProgressBarContainer.style.display = 'block';
-    rotateProgressBar.style.width = '0%';
-    rotateProgressBar.textContent = '0%';
+    // Only hide preview and show progress bar if multiple images are selected
+    if (selectedImages.length > 1) {
+      rotatePreviewContainer.style.display = 'none';
+      rotatePreviewImage.src = '';
+      rotateProgressBarContainer.style.display = 'block';
+      rotateProgressBar.style.width = '0%';
+      rotateProgressBar.textContent = '0%';
+    } else { // For single image, keep preview visible and update progress bar
+      rotateProgressBarContainer.style.display = 'block';
+      rotateProgressBar.style.width = '0%';
+      rotateProgressBar.textContent = '0%';
+    }
 
-    const workers = [];
     const rotateResults = new Array(selectedImages.length);
     let completedCount = 0;
 
     for (let i = 0; i < selectedImages.length; i++) {
-      const { dataUrl, name } = selectedImages[i];
+      const { dataUrl, name, type } = selectedImages[i];
 
-      const worker = new Worker('./modules/rotateWorker.js');
-      workers.push(worker);
+      // Create a temporary canvas for high-resolution output
+      const outputCanvas = document.createElement('canvas');
+      const outputCtx = outputCanvas.getContext('2d');
 
-      worker.onmessage = (event) => {
-        const { status, index, rotateData, message } = event.data;
-        if (status === 'success') {
-          rotateResults[index] = { filename: selectedImages[index].name, blob: new Blob([rotateData], { type: selectedImages[index].type }) };
-        } else {
-          console.error(`旋轉圖片 ${selectedImages[index].name} 失敗:`, message);
+      const img = new Image();
+      img.crossOrigin = 'anonymous';
+      img.onload = async () => {
+        let outputWidth = img.width;
+        let outputHeight = img.height;
+
+        // If rotating by 90 or 270 degrees, swap width and height
+        if (currentRotation === 90 || currentRotation === 270) {
+          [outputWidth, outputHeight] = [outputHeight, outputWidth];
         }
 
-        completedCount++;
-        const progress = Math.round((completedCount / selectedImages.length) * 100);
-        rotateProgressBar.style.width = `${progress}%`;
-        rotateProgressBar.textContent = `${progress}%`;
+        outputCanvas.width = outputWidth;
+        outputCanvas.height = outputHeight;
 
-        if (completedCount === selectedImages.length) {
-          workers.forEach(w => w.terminate());
-          rotateProgressBarContainer.style.display = 'none';
+        outputCtx.translate(outputWidth / 2, outputHeight / 2);
 
-          if (selectedImages.length === 1) {
-            const { filename, blob } = rotateResults[0];
-            const originalNameWithoutExt = filename.split('.').slice(0, -1).join('.');
-            const fileExtension = filename.split('.').pop();
-            const newFilename = `${originalNameWithoutExt}_rotated.${fileExtension}`;
+        let scaleX = 1;
+        let scaleY = 1;
+        if (currentFlipHorizontal) {
+          scaleX = -1;
+        }
+        if (currentFlipVertical) {
+          scaleY = -1;
+        }
+        outputCtx.scale(scaleX, scaleY);
 
-            const url = URL.createObjectURL(new Blob([blob]));
-            const link = document.createElement('a');
-            link.href = url;
-            link.download = newFilename;
-            link.click();
-            URL.revokeObjectURL(url);
-          } else {
-            const zip = new JSZip();
+        outputCtx.rotate(currentRotation * Math.PI / 180);
+
+        outputCtx.drawImage(img, -img.width / 2, -img.height / 2);
+
+        outputCanvas.toBlob(blob => {
+          rotateResults[i] = { filename: name, blob: blob };
+          completedCount++;
+          const progress = Math.round((completedCount / selectedImages.length) * 100);
+          rotateProgressBar.style.width = `${progress}%`;
+          rotateProgressBar.textContent = `${progress}%`;
+
+          if (completedCount === selectedImages.length) {
             rotateProgressBarContainer.style.display = 'none';
-            rotateResults.forEach(({ filename, blob }) => {
-              const name = filename.replace(/\.[^/.]+$/, `.${filename.split('.').pop()}`);
-              zip.file(name, blob);
-            });
 
-            zip.generateAsync({ type: 'blob' }).then(blob => {
+            if (selectedImages.length === 1) {
+              const { filename, blob } = rotateResults[0];
+              const originalNameWithoutExt = filename.split('.').slice(0, -1).join('.');
+              const fileExtension = filename.split('.').pop();
+              const newFilename = `${originalNameWithoutExt}_rotated.${fileExtension}`;
+
+              const url = URL.createObjectURL(blob);
               const link = document.createElement('a');
-              link.href = URL.createObjectURL(blob);
-              link.download = 'rotated_images.zip';
+              link.href = url;
+              link.download = newFilename;
               link.click();
-              URL.revokeObjectURL(link.href);
-            }).catch(err => {
-              console.error('生成ZIP失敗:', err);
-            }).finally(() => {
+              URL.revokeObjectURL(url);
+              generatePreview(); // Re-generate preview after single image download
+            } else {
+              const zip = new JSZip();
               rotateProgressBarContainer.style.display = 'none';
-            });
-          }
-        }
-      };
+              rotateResults.forEach(({ filename, blob }) => {
+                const name = filename.replace(/\.[^/.]+$/, `.${filename.split('.').pop()}`);
+                zip.file(name, blob);
+              });
 
-      worker.postMessage({
-        dataUrl,
-        rotation: currentRotation,
-        flipHorizontal: currentFlipHorizontal,
-        flipVertical: currentFlipVertical,
-        index: i,
-        originalType: selectedImages[i].type
-      });
+              zip.generateAsync({ type: 'blob' }).then(blob => {
+                const link = document.createElement('a');
+                link.href = URL.createObjectURL(blob);
+                link.download = 'rotated_images.zip';
+                link.click();
+                URL.revokeObjectURL(link.href);
+              }).catch(err => {
+                console.error('生成ZIP失敗:', err);
+              }).finally(() => {
+                rotateProgressBarContainer.style.display = 'none';
+                generatePreview(); // Re-generate preview after multiple image download
+              });
+            }
+          }
+          outputCanvas.remove(); // Clean up the temporary canvas
+        }, type); // Use original image type for output
+      };
+      img.src = dataUrl;
     }
   };
 
@@ -228,22 +283,13 @@ window.updateRotateSelection = (selectedItems) => {
     rotateBtn.textContent = `${window.appTranslations.rotateBtn} (${count})`;
   }
   const selectedImageIndices = Array.from(window.selectedIndices || []);
-  if (selectedImageIndices.length === 1) {
+  if (selectedImageIndices.length >= 1) { // Changed from === 1 to >= 1
     const rotateTab = document.getElementById('rotate');
     if (rotateTab && rotateTab.classList.contains('active')) {
       // Directly call generatePreview when selection changes and tab is active
       window.generateRotatePreview();
     }
-  } else if (selectedImageIndices.length > 1) {
-    if (rotateOperationSequenceDiv) {
-      rotateOperationSequenceDiv.style.display = 'block';
-      rotateOperationSequenceDiv.textContent = operationSequence.join(' → ');
-    }
-    const rotatePreviewContainer = document.getElementById('rotate-preview-container');
-    const rotatePreviewImage = document.getElementById('rotate-preview-image');
-    if (rotatePreviewContainer) rotatePreviewContainer.style.display = 'none';
-    if (rotatePreviewImage) rotatePreviewImage.src = '';
-  } else {
+  } else { // No images selected
     const rotatePreviewContainer = document.getElementById('rotate-preview-container');
     const rotatePreviewImage = document.getElementById('rotate-preview-image');
     if (rotatePreviewContainer) rotatePreviewContainer.style.display = 'none';
