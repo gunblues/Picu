@@ -1,7 +1,15 @@
 
-let selfieSegmentation;
+  let selfieSegmentation;
 let canvas, ctx, outputImg, downloadRemovebgBtn; // 新增 downloadRemovebgBtn
 let removebgProgressBarContainer, removebgProgressBar;
+
+// 新增全域變數來儲存原始圖片資訊和處理結果
+let originalRemoveBgImage = null; // 儲存原始圖片物件
+let originalRemoveBgImageWidth = 0;
+let originalRemoveBgImageHeight = 0;
+let downsampleScaleFactor = 1; // 降採樣比例
+let processedMask = null; // 儲存處理後的遮罩
+let processedImageBlob = null; // 儲存處理後的圖片 Blob (用於下載)
 
 export function initRemoveBgTool() {
   const removebgBtn = document.getElementById('removebg-btn');
@@ -75,10 +83,34 @@ export function initRemoveBgTool() {
     canvas.style.display = 'block';
 
     img.onload = async () => {
-      canvas.width = img.width;
-      canvas.height = img.height;
-      ctx.drawImage(img, 0, 0);
-      
+      originalRemoveBgImage = img; // Store the original image object
+      originalRemoveBgImageWidth = img.width;
+      originalRemoveBgImageHeight = img.height;
+
+      const MAX_REMOVEBG_DIMENSION = 800; // Max width or height for MediaPipe input
+      let inputWidth = img.width;
+      let inputHeight = img.height;
+
+      if (inputWidth > MAX_REMOVEBG_DIMENSION || inputHeight > MAX_REMOVEBG_DIMENSION) {
+        if (inputWidth > inputHeight) {
+          inputHeight = Math.round(img.height * (MAX_REMOVEBG_DIMENSION / img.width));
+          inputWidth = MAX_REMOVEBG_DIMENSION;
+        } else {
+          inputWidth = Math.round(img.width * (MAX_REMOVEBG_DIMENSION / img.height));
+          inputHeight = MAX_REMOVEBG_DIMENSION;
+        }
+        downsampleScaleFactor = originalRemoveBgImageWidth / inputWidth; // Calculate scale factor
+      } else {
+        downsampleScaleFactor = 1; // No downsampling needed
+      }
+
+      // Create a temporary canvas for downsampled input to MediaPipe
+      const inputCanvas = document.createElement('canvas');
+      const inputCtx = inputCanvas.getContext('2d');
+      inputCanvas.width = inputWidth;
+      inputCanvas.height = inputHeight;
+      inputCtx.drawImage(img, 0, 0, inputWidth, inputHeight);
+
       // 添加加載指示器
       outputImg.style.opacity = '0.5';
       document.body.style.cursor = 'wait';
@@ -86,24 +118,55 @@ export function initRemoveBgTool() {
       removebgProgressBar.style.width = '50%'; // Simulate progress
       removebgProgressBar.textContent = '50%';
 
-      await selfieSegmentation.send({ image: img });
+      await selfieSegmentation.send({ image: inputCanvas }); // Send downsampled image to MediaPipe
     };
 
     img.src = outputImg.src;
   };
 
   // "Download" 按鈕的點擊事件
-  downloadRemovebgBtn.onclick = () => {
-    if (outputImg.src && outputImg.style.display !== 'none') {
+  downloadRemovebgBtn.onclick = async () => {
+    if (!originalRemoveBgImage || !processedMask || !processedImageBlob) {
+      alert(window.alertTranslations.alertNoImageToDownload);
+      return;
+    }
+
+    const addWhiteBgCheckbox = document.getElementById('removebg-white-bg');
+
+    // Create a high-resolution canvas for output
+    const outputCanvas = document.createElement('canvas');
+    const outputCtx = outputCanvas.getContext('2d');
+
+    outputCanvas.width = originalRemoveBgImageWidth;
+    outputCanvas.height = originalRemoveBgImageHeight;
+
+    // Scale the mask and image to original dimensions
+    // Draw the mask first to define the clipping area on the high-res canvas
+    outputCtx.drawImage(processedMask, 0, 0, originalRemoveBgImageWidth, originalRemoveBgImageHeight);
+
+    // Use 'source-in' to isolate the foreground on the high-res canvas
+    outputCtx.globalCompositeOperation = 'source-in';
+    outputCtx.drawImage(originalRemoveBgImage, 0, 0, originalRemoveBgImageWidth, originalRemoveBgImageHeight);
+
+    // If the user wants a white background, draw it behind the existing content
+    if (addWhiteBgCheckbox && addWhiteBgCheckbox.checked) {
+      outputCtx.globalCompositeOperation = 'destination-over';
+      outputCtx.fillStyle = 'white';
+      outputCtx.fillRect(0, 0, originalRemoveBgImageWidth, originalRemoveBgImageHeight);
+    }
+    
+    // Reset composite operation
+    outputCtx.globalCompositeOperation = 'source-over';
+
+    outputCanvas.toBlob((blob) => {
       const link = document.createElement('a');
-      link.href = outputImg.src;
+      link.href = URL.createObjectURL(blob);
       link.download = 'removed-background.png'; // 下載檔案名
       document.body.appendChild(link);
       link.click();
       document.body.removeChild(link);
-    } else {
-      alert(window.alertTranslations.alertNoImageToDownload); // 假設有這個翻譯鍵
-    }
+      outputCanvas.remove(); // Clean up the temporary canvas
+    }, 'image/png');
   };
 
   // Check if an image is already selected when the tool initializes
@@ -131,10 +194,11 @@ async function loadMediaPipe() {
 function onResults(results) {
   const addWhiteBgCheckbox = document.getElementById('removebg-white-bg');
 
-  // 獲取分割蒙版
-  const mask = results.segmentationMask;
+  // 儲存處理後的遮罩和圖片
+  processedMask = results.segmentationMask;
+  processedImageBlob = results.image; // This is actually an ImageBitmap or HTMLImageElement
   
-  // 確保 canvas 尺寸與圖片一致
+  // 確保 canvas 尺寸與圖片一致 (使用降採樣後的尺寸)
   canvas.width = results.image.width;
   canvas.height = results.image.height;
 
@@ -142,13 +206,13 @@ function onResults(results) {
   ctx.clearRect(0, 0, canvas.width, canvas.height);
 
   // Draw the mask first to define the clipping area
-  ctx.drawImage(mask, 0, 0, canvas.width, canvas.height);
+  ctx.drawImage(processedMask, 0, 0, canvas.width, canvas.height);
 
   // Use 'source-in' to isolate the foreground
   ctx.globalCompositeOperation = 'source-in';
-  ctx.drawImage(results.image, 0, 0, canvas.width, canvas.height);
+  ctx.drawImage(processedImageBlob, 0, 0, canvas.width, canvas.height);
 
-  // If the user wants a white background, draw it behind the foreground
+  // If the user wants a white background, draw it behind the existing content
   if (addWhiteBgCheckbox && addWhiteBgCheckbox.checked) {
     // Use 'destination-over' to draw behind the existing content
     ctx.globalCompositeOperation = 'destination-over';
