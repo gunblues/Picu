@@ -430,3 +430,7 @@ input[type="range"] {
   right: -5px;
   cursor: nwse-resize;
 }
+
+.disable-pointer-events {
+  pointer-events: none !important;
+}

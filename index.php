@@ -40,7 +40,7 @@ function getTranslation($key) {
 <link rel="apple-touch-icon" sizes="180x180" href="/icons/apple-touch-icon.png">
 <link rel="manifest" href="/icons/site.webmanifest">
 
-<link rel="stylesheet" href="/dist/assets/style.CekUQ51h.css">
+<link rel="stylesheet" href="/dist/assets/style.cfPWtfzV.css">
 <link rel="stylesheet" href="lib/cropper.min.css">
 <script src="lib/jszip.min.js" defer></script>
 <script src="lib/cropper.min.js" defer></script>
@@ -408,7 +408,7 @@ function getTranslation($key) {
         applyWatermarkBtn: "<?php echo getTranslation('applyWatermarkBtn'); ?>",
     };
 </script>
-<script type="module" src="/dist/assets/main.BBSxDV8g.js"></script>
+<script type="module" src="/dist/assets/main.CfzK6n8y.js"></script>
 
 </body>
 </html>

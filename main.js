@@ -7,6 +7,40 @@ window.onload = () => {
 
   initUploader(); // Uploader is always initialized
 
+  // --- Start of new code for mobile scroll interaction improvement ---
+  const isMobile = () => {
+    // A simple check for touch devices and smaller screens
+    return ('ontouchstart' in window || navigator.maxTouchPoints > 0 || navigator.msMaxTouchPoints > 0) && window.innerWidth <= 768;
+  };
+
+  if (isMobile()) {
+    let scrollTimeout;
+    // Target range inputs, buttons, text inputs, number inputs, and select elements
+    const interactiveControls = document.querySelectorAll('input[type="range"], button, input[type="text"], input[type="number"], select');
+
+    const disableInteractions = () => {
+      interactiveControls.forEach(control => {
+        control.classList.add('disable-pointer-events');
+      });
+    };
+
+    const enableInteractions = () => {
+      interactiveControls.forEach(control => {
+        control.classList.remove('disable-pointer-events');
+      });
+    };
+
+    window.addEventListener('scroll', () => {
+      clearTimeout(scrollTimeout);
+      disableInteractions();
+
+      scrollTimeout = setTimeout(() => {
+        enableInteractions();
+      }, 150); // Adjust delay as needed
+    }, { passive: true }); // Use passive listener for better scroll performance
+  }
+  // --- End of new code ---
+
   // Tab 切換邏輯
   const tabButtons = document.querySelectorAll('#tabs button');
   const tabContents = document.querySelectorAll('.tab-content');
