@@ -52,8 +52,18 @@ export function initEnhanceTool() {
     originalImage = new Image();
     originalImage.onload = () => {
       console.log('Original image loaded. Dimensions:', originalImage.width, 'x', originalImage.height);
-      enhanceCanvas.width = originalImage.width;
-      enhanceCanvas.height = originalImage.height;
+      
+      const MAX_PREVIEW_HEIGHT = 400; // Define max height for preview
+      let previewWidth = originalImage.width;
+      let previewHeight = originalImage.height;
+
+      if (previewHeight > MAX_PREVIEW_HEIGHT) {
+        previewWidth = Math.round(originalImage.width * (MAX_PREVIEW_HEIGHT / originalImage.height));
+        previewHeight = MAX_PREVIEW_HEIGHT;
+      }
+
+      enhanceCanvas.width = previewWidth;
+      enhanceCanvas.height = previewHeight;
       currentImage = originalImage;
       originalFilename = filename || 'image'; // Store the filename
 
@@ -113,7 +123,38 @@ export function initEnhanceTool() {
       alert(window.alertTranslations.alertSelectImageForEnhance);
       return;
     }
-    enhanceCanvas.toBlob((blob) => {
+
+    // Create a temporary canvas with original image dimensions for high-resolution output
+    const outputCanvas = document.createElement('canvas');
+    const outputCtx = outputCanvas.getContext('2d');
+
+    outputCanvas.width = originalImage.width;
+    outputCanvas.height = originalImage.height;
+
+    // Apply the same enhancements to the output canvas
+    const brightness = 100 + parseInt(brightnessSlider.value);
+    const saturation = parseInt(saturationSlider.value);
+    const contrast = parseInt(contrastSlider.value);
+    const filterType = filterSelect.value;
+
+    const filterParts = [
+      `brightness(${brightness}%)`,
+      `saturate(${saturation}%)`,
+      `contrast(${contrast}%)`
+    ];
+
+    if (filterType === 'blur') {
+      filterParts.push('blur(2px)');
+    } else if (filterType !== 'none') {
+      filterParts.push(`${filterType}(1)`);
+    }
+
+    const fullFilter = filterParts.join(' ');
+
+    outputCtx.filter = fullFilter;
+    outputCtx.drawImage(originalImage, 0, 0, originalImage.width, originalImage.height);
+
+    outputCanvas.toBlob((blob) => {
       const url = URL.createObjectURL(blob);
       const a = document.createElement('a');
       a.href = url;
@@ -127,6 +168,9 @@ export function initEnhanceTool() {
       a.download = newFilename; // Use the new filename
       a.click();
       URL.revokeObjectURL(url);
+
+      // Clean up the temporary canvas
+      outputCanvas.remove();
     }, 'image/png');
   };
 
