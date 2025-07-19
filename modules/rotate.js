@@ -27,6 +27,9 @@ const debounce = (func, delay) => {
 };
 
 const generatePreview = async () => {
+  console.log('generatePreview called for rotate tab.');
+  console.log('window.selectedIndices:', window.selectedIndices);
+  console.log('window.imageDataList:', window.imageDataList);
   const rotatePreviewContainer = document.getElementById('rotate-preview-container');
   const rotatePreviewImage = document.getElementById('rotate-preview-image');
   const rotateOperationSequenceDiv = document.getElementById('rotate-operation-sequence');

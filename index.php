@@ -453,7 +453,7 @@ function getTranslation($key) {
         applyWatermarkBtn: "<?php echo getTranslation('applyWatermarkBtn'); ?>",
     };
 </script>
-<script type="module" src="/dist/assets/main.CfzK6n8y.js"></script>
+<script type="module" src="/dist/assets/main.MFQmGLZK.js"></script>
 
 </body>
 </html>

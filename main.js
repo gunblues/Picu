@@ -99,21 +99,32 @@ window.onload = () => {
               const watermarkModule = await import('./modules/watermark.js');
               watermarkModule.initWatermarkTool();
 
-               // If there are already selected images, update the watermark preview
-               // If there are already selected images, update the watermark preview and button count
-               const currentSelectedItems = Array.from(window.selectedIndices)
-                 .map(i => window.imageDataList[i])
-                 .filter(Boolean);
-               if (currentSelectedItems.length > 0) {
-                 watermarkModule.setWatermarkPreviewImage(currentSelectedItems[0]);
-               }
-               watermarkModule.updateWatermarkSelection(currentSelectedItems);
+               
                break;
           }
           initializedTools[targetId] = true;
         } catch (error) {
           console.error(`Failed to load or initialize ${targetId} tool:`, error);
         }
+      }
+
+      // 每次切換到 watermark 分頁時，都檢查並更新預覽圖
+      if (targetId === 'watermark') {
+        const watermarkModule = await import('./modules/watermark.js'); // 確保模組已載入
+        const currentSelectedItems = Array.from(window.selectedIndices)
+          .map(i => window.imageDataList[i])
+          .filter(Boolean);
+        if (currentSelectedItems.length > 0) {
+          watermarkModule.setWatermarkPreviewImage(currentSelectedItems[0]);
+        }
+        watermarkModule.updateWatermarkSelection(currentSelectedItems);
+      }
+
+      // 每次切換到 rotate 分頁時，都檢查並更新預覽圖
+      if (targetId === 'rotate') {
+        const rotateModule = await import('./modules/rotate.js'); // 確保模組已載入
+        // 假設 rotate 模組有一個函式來更新其預覽，例如 updateRotateSelection
+        window.generateRotatePreview();
       }
     });
   });
