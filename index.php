@@ -40,7 +40,7 @@ function getTranslation($key) {
 <link rel="apple-touch-icon" sizes="180x180" href="/icons/apple-touch-icon.png">
 <link rel="manifest" href="/icons/site.webmanifest">
 
-<link rel="stylesheet" href="/dist/assets/style.cfPWtfzV.css">
+<link rel="stylesheet" href="/dist/assets/style.B1UYG75_.css">
 <link rel="stylesheet" href="lib/cropper.min.css">
 <script src="lib/jszip.min.js" defer></script>
 <script src="lib/cropper.min.js" defer></script>
@@ -129,6 +129,10 @@ function getTranslation($key) {
 
     <div id="compress" class="tab-content active">
       <p><?php echo getTranslation('compressDescription'); ?></p>
+      <details class="tutorial">
+        <summary><?php echo getTranslation('tutorialTitle'); ?></summary>
+        <p><?php echo getTranslation('compressTutorial'); ?></p>
+      </details>
       <div id="compress-size-info" style="margin-top: 10px; margin-bottom: 10px; font-weight: bold;"></div>
       <div class="tool-controls">
         <div class="control-group">
@@ -156,6 +160,10 @@ function getTranslation($key) {
 
     <div id="resize" class="tab-content">
       <p><?php echo getTranslation('resizeDescription'); ?></p>
+      <details class="tutorial">
+        <summary><?php echo getTranslation('tutorialTitle'); ?></summary>
+        <p><?php echo getTranslation('resizeTutorial'); ?></p>
+      </details>
       <fieldset>
         <legend>
           <label>
@@ -200,6 +208,10 @@ function getTranslation($key) {
 
     <div id="whitebg" class="tab-content">
         <p><?php echo getTranslation('whitebgDescription'); ?></p>
+        <details class="tutorial">
+          <summary><?php echo getTranslation('tutorialTitle'); ?></summary>
+          <p><?php echo getTranslation('whitebgTutorial'); ?></p>
+        </details>
         <div class="tool-controls">
             <div class="control-group">
                 <label for="whitebg-width"><?php echo getTranslation('widthLabel'); ?></label>
@@ -226,6 +238,10 @@ function getTranslation($key) {
 
     <div id="watermark" class="tab-content">
         <p><?php echo getTranslation('watermarkDescription'); ?></p>
+        <details class="tutorial">
+          <summary><?php echo getTranslation('tutorialTitle'); ?></summary>
+          <p><?php echo getTranslation('watermarkTutorial'); ?></p>
+        </details>
         <div class="watermark-type-selection">
             <label>
                 <input type="radio" name="watermark-type" value="text" checked> <?php echo getTranslation('watermarkTypeText'); ?>
@@ -297,6 +313,10 @@ function getTranslation($key) {
 
     <div id="rotate" class="tab-content">
         <p><?php echo getTranslation('rotateDescription'); ?></p>
+        <details class="tutorial">
+          <summary><?php echo getTranslation('tutorialTitle'); ?></summary>
+          <p><?php echo getTranslation('rotateTutorial'); ?></p>
+        </details>
         <div class="tool-controls">
             <div class="control-group">
                 <label><?php echo getTranslation('rotateLabel'); ?></label>
@@ -321,6 +341,10 @@ function getTranslation($key) {
 
     <div id="enhance" class="tab-content">
       <p><?php echo getTranslation('enhanceDescription'); ?></p>
+      <details class="tutorial">
+        <summary><?php echo getTranslation('tutorialTitle'); ?></summary>
+        <p><?php echo getTranslation('enhanceTutorial'); ?></p>
+      </details>
       <div class="tool-controls">
         <div class="control-group">
           <label for="brightness"><?php echo getTranslation('brightnessLabel'); ?> <span id="brightness-value">0</span></label>
@@ -352,6 +376,10 @@ function getTranslation($key) {
 
     <div id="crop" class="tab-content">
       <p><?php echo getTranslation('cropDescription'); ?></p>
+      <details class="tutorial">
+        <summary><?php echo getTranslation('tutorialTitle'); ?></summary>
+        <p><?php echo getTranslation('cropTutorial'); ?></p>
+      </details>
       <div id="crop-toolbar">
         <button data-ratio="1/1"><?php echo getTranslation('ratio1x1'); ?></button>
         <button data-ratio="4/3"><?php echo getTranslation('ratio4x3'); ?></button>
@@ -364,6 +392,10 @@ function getTranslation($key) {
 
 	<div id="removebg" class="tab-content">
       <p><?php echo getTranslation('removebgDescription'); ?></p>
+      <details class="tutorial">
+        <summary><?php echo getTranslation('tutorialTitle'); ?></summary>
+        <p><?php echo getTranslation('removebgTutorial'); ?></p>
+      </details>
       <div class="tool-controls">
         <div class="control-group checkbox-group">
           <label><input type="checkbox" id="removebg-white-bg" /> <span><?php echo getTranslation('addWhiteBackground'); ?></span></label>
