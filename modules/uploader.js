@@ -150,40 +150,24 @@ export function initUploader() {
   }
 
   function updateBatchProcessingList() {
+    const currentSelectedItems = Array.from(window.selectedIndices)
+        .filter(i => window.imageDataList[i] !== undefined)
+        .map(i => window.imageDataList[i]);
+
     if (typeof window.updateCompressSelection === 'function') {
-      window.updateCompressSelection(
-        Array.from(window.selectedIndices)
-             .filter(i => window.imageDataList[i] !== undefined) // Filter out undefined items
-             .map(i => window.imageDataList[i])
-      );
+      window.updateCompressSelection(currentSelectedItems);
     }
     if (typeof window.updateResizeSelection === 'function') {
-      window.updateResizeSelection(
-        Array.from(window.selectedIndices)
-             .filter(i => window.imageDataList[i] !== undefined) // Filter out undefined items
-             .map(i => window.imageDataList[i])
-      );
+      window.updateResizeSelection(currentSelectedItems);
     }
     if (typeof window.updateWhitebgSelection === 'function') {
-      window.updateWhitebgSelection(
-        Array.from(window.selectedIndices)
-             .filter(i => window.imageDataList[i] !== undefined) // Filter out undefined items
-             .map(i => window.imageDataList[i])
-      );
+      window.updateWhitebgSelection(currentSelectedItems);
     }
     if (typeof window.updateRotateSelection === 'function') {
-      window.updateRotateSelection(
-        Array.from(window.selectedIndices)
-             .filter(i => window.imageDataList[i] !== undefined) // Filter out undefined items
-             .map(i => window.imageDataList[i])
-      );
+      window.updateRotateSelection(currentSelectedItems);
     }
     if (typeof window.updateWatermarkSelection === 'function') {
-      window.updateWatermarkSelection(
-        Array.from(window.selectedIndices)
-             .filter(i => window.imageDataList[i] !== undefined) // Filter out undefined items
-             .map(i => window.imageDataList[i])
-      );
+      window.updateWatermarkSelection(currentSelectedItems);
     }
   }
 

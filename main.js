@@ -98,7 +98,7 @@ window.onload = () => {
             case 'watermark':
               const watermarkModule = await import('./modules/watermark.js');
               watermarkModule.initWatermarkTool();
-
+              window.updateWatermarkSelection = watermarkModule.updateWatermarkSelection; // Expose to global scope
                
                break;
           }
