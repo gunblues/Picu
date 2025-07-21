@@ -79,6 +79,7 @@ function getTranslation($key) {
 <link rel="alternate" hreflang="x-default" href="https://picu.app/" />
 
 
+<script async src="https://pagead2.googlesyndication.com/pagead/js/adsbygoogle.js?client=ca-pub-1004943414433052" crossorigin="anonymous"></script>
 <!-- Google tag (gtag.js) -->
 <script async src="https://www.googletagmanager.com/gtag/js?id=G-DQ2LFZDBSS"></script>
 <script>
