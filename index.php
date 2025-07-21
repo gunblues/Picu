@@ -81,7 +81,7 @@ if (in_array($page, $allowedPages)) {
 <link rel="apple-touch-icon" sizes="180x180" href="/icons/apple-touch-icon.png">
 <link rel="manifest" href="/icons/site.webmanifest">
 
-<link rel="stylesheet" href="/dist/assets/style.BD4YzPQX.css">
+<link rel="stylesheet" href="/dist/assets/style.CuNEvks2.css">
 <link rel="stylesheet" href="lib/cropper.min.css">
 <script src="lib/jszip.min.js" defer></script>
 <script src="lib/cropper.min.js" defer></script>
