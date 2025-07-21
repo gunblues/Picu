@@ -10,12 +10,12 @@
     <p><?php echo getTranslation('whyRotateImagesContent'); ?></p>
 
     <h2><?php echo getTranslation('howToUsePicuRotateTitle'); ?></h2>
-    <ol>
+    <ul class="no-dot">
         <li><?php echo getTranslation('rotateStep1'); ?></li>
         <li><?php echo getTranslation('rotateStep2'); ?></li>
         <li><?php echo getTranslation('rotateStep3'); ?></li>
         <li><?php echo getTranslation('rotateStep4'); ?></li>
-    </ol>
+    </ul>
 
     <h2><?php echo getTranslation('tipsForRotatingTitle'); ?></h2>
     <ul>

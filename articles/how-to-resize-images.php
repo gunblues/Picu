@@ -10,13 +10,13 @@
     <p><?php echo getTranslation('whyResizeImagesContent'); ?></p>
 
     <h2><?php echo getTranslation('howToUsePicuResizeTitle'); ?></h2>
-    <ol>
+    <ul class="no-dot">
         <li><?php echo getTranslation('resizeStep1'); ?></li>
         <li><?php echo getTranslation('resizeStep2'); ?></li>
         <li><?php echo getTranslation('resizeStep3'); ?></li>
         <li><?php echo getTranslation('resizeStep4'); ?></li>
         <li><?php echo getTranslation('resizeStep5'); ?></li>
-    </ol>
+    </ul>
 
     <h2><?php echo getTranslation('tipsForResizingTitle'); ?></h2>
     <ul>

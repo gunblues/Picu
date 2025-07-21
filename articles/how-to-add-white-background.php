@@ -10,12 +10,12 @@
     <p><?php echo getTranslation('whyAddWhiteBackgroundContent'); ?></p>
 
     <h2><?php echo getTranslation('howToUsePicuWhiteBackgroundTitle'); ?></h2>
-    <ol>
+    <ul class="no-dot">
         <li><?php echo getTranslation('whitebgStep1'); ?></li>
         <li><?php echo getTranslation('whitebgStep2'); ?></li>
         <li><?php echo getTranslation('whitebgStep3'); ?></li>
         <li><?php echo getTranslation('whitebgStep4'); ?></li>
-    </ol>
+    </ul>
 
     <h2><?php echo getTranslation('tipsForWhiteBackgroundTitle'); ?></h2>
     <ul>

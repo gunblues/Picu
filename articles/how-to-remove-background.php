@@ -10,12 +10,12 @@
     <p><?php echo getTranslation('whyRemoveBackgroundContent'); ?></p>
 
     <h2><?php echo getTranslation('howToUsePicuRemoveBackgroundTitle'); ?></h2>
-    <ol>
+    <ul class="no-dot">
         <li><?php echo getTranslation('removebgStep1'); ?></li>
         <li><?php echo getTranslation('removebgStep2'); ?></li>
         <li><?php echo getTranslation('removebgStep3'); ?></li>
         <li><?php echo getTranslation('removebgStep4'); ?></li>
-    </ol>
+    </ul>
 
     <h2><?php echo getTranslation('tipsForRemoveBackgroundTitle'); ?></h2>
     <ul>

@@ -643,3 +643,8 @@ footer {
 .static-page ul li {
     margin-bottom: 0.5em;
 }
+
+.no-dot {
+  list-style: none;
+  padding-left: 0; /* 可選：避免預設縮排 */
+}

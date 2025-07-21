@@ -10,13 +10,13 @@
     <p><?php echo getTranslation('whyCompressImagesContent'); ?></p>
 
     <h2><?php echo getTranslation('howToUsePicuCompressTitle'); ?></h2>
-    <ol>
+    <ul class="no-dot">
         <li><?php echo getTranslation('compressStep1'); ?></li>
         <li><?php echo getTranslation('compressStep2'); ?></li>
         <li><?php echo getTranslation('compressStep3'); ?></li>
         <li><?php echo getTranslation('compressStep4'); ?></li>
         <li><?php echo getTranslation('compressStep5'); ?></li>
-    </ol>
+    </ul>
 
     <h2><?php echo getTranslation('tipsForCompressionTitle'); ?></h2>
     <ul>

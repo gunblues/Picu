@@ -10,13 +10,13 @@
     <p><?php echo getTranslation('whyWatermarkImagesContent'); ?></p>
 
     <h2><?php echo getTranslation('howToUsePicuWatermarkTitle'); ?></h2>
-    <ol>
+    <ul class="no-dot">
         <li><?php echo getTranslation('watermarkStep1'); ?></li>
         <li><?php echo getTranslation('watermarkStep2'); ?></li>
         <li><?php echo getTranslation('watermarkStep3'); ?></li>
         <li><?php echo getTranslation('watermarkStep4'); ?></li>
         <li><?php echo getTranslation('watermarkStep5'); ?></li>
-    </ol>
+    </ul>
 
     <h2><?php echo getTranslation('tipsForWatermarkingTitle'); ?></h2>
     <ul>

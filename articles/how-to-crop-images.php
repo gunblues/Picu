@@ -10,13 +10,13 @@
     <p><?php echo getTranslation('whyCropImagesContent'); ?></p>
 
     <h2><?php echo getTranslation('howToUsePicuCropTitle'); ?></h2>
-    <ol>
+    <ul class="no-dot">
         <li><?php echo getTranslation('cropStep1'); ?></li>
         <li><?php echo getTranslation('cropStep2'); ?></li>
         <li><?php echo getTranslation('cropStep3'); ?></li>
         <li><?php echo getTranslation('cropStep4'); ?></li>
         <li><?php echo getTranslation('cropStep5'); ?></li>
-    </ol>
+    </ul>
 
     <h2><?php echo getTranslation('tipsForCroppingTitle'); ?></h2>
     <ul>
