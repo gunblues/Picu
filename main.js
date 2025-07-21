@@ -126,6 +126,9 @@ window.onload = () => {
         // 假設 rotate 模組有一個函式來更新其預覽，例如 updateRotateSelection
         window.generateRotatePreview();
       }
+
+      // Update tutorials section
+      updateTutorialsSection(targetId);
     });
   });
 
@@ -150,3 +153,60 @@ window.onload = () => {
     }
   });
 };
+
+const tutorialArticles = {
+  compress: {
+    slug: 'how-to-compress-images',
+    titleKey: 'howToCompressImagesTitle'
+  },
+  resize: {
+    slug: 'how-to-resize-images',
+    titleKey: 'howToResizeImagesTitle'
+  },
+  whitebg: {
+    slug: 'how-to-add-white-background',
+    titleKey: 'howToAddWhiteBackgroundTitle'
+  },
+  watermark: {
+    slug: 'how-to-watermark-images',
+    titleKey: 'howToWatermarkImagesTitle'
+  },
+  rotate: {
+    slug: 'how-to-rotate-images',
+    titleKey: 'howToRotateImagesTitle'
+  },
+  enhance: {
+    slug: 'how-to-enhance-images',
+    titleKey: 'howToEnhanceImagesTitle'
+  },
+  crop: {
+    slug: 'how-to-crop-images',
+    titleKey: 'howToCropImagesTitle'
+  },
+  removebg: {
+    slug: 'how-to-remove-background',
+    titleKey: 'howToRemoveBackgroundTitle'
+  }
+};
+
+function updateTutorialsSection(activeTabId) {
+  const tutorialsList = document.querySelector('#tutorials-section ul');
+  if (!tutorialsList) return;
+
+  tutorialsList.innerHTML = ''; // Clear existing articles
+
+  // If the active tab is 'enhance', do not display any articles
+  if (activeTabId === 'enhance') {
+    return;
+  }
+
+  const articleInfo = tutorialArticles[activeTabId];
+  if (articleInfo) {
+    const li = document.createElement('li');
+    const a = document.createElement('a');
+    a.href = `/${window.currentLang}/articles/${articleInfo.slug}`;
+    a.textContent = window.appTranslations[articleInfo.titleKey] || articleInfo.titleKey;
+    li.appendChild(a);
+    tutorialsList.appendChild(li);
+  }
+}

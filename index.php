@@ -530,7 +530,44 @@ if (in_array($page, $allowedPages)) {
         applyWatermarkBtn: "<?php echo getTranslation('applyWatermarkBtn'); ?>",
     };
 </script>
-<script type="module" src="/dist/assets/main.B9xUk3DY.js"></script>
+<script>
+    window.alertTranslations = {
+        alertSelectImage: "<?php echo getTranslation('alertSelectImage'); ?>",
+        alertDragCropArea: "<?php echo getTranslation('alertDragCropArea'); ?>",
+        alertEnterWidthHeight: "<?php echo getTranslation('alertEnterWidthHeight'); ?>",
+        alertSelectImageForEnhance: "<?php echo getTranslation('alertSelectImageForEnhance'); ?>",
+        alertSelectImageForWhiteBg: "<?php echo getTranslation('alertSelectImageForWhiteBg'); ?>",
+        alertSelectImageForCompress: "<?php echo getTranslation('alertSelectImageForCompress'); ?>",
+        alertSelectImageForResize: "<?php echo getTranslation('alertSelectImageForResize'); ?>",
+        alertSelectImageForRemoveBg: "<?php echo getTranslation('alertSelectImageForRemoveBg'); ?>",
+    };
+    window.appTranslations = {
+        compressEstimateTotalSize: "<?php echo getTranslation('compressEstimateTotalSize'); ?>",
+        compressEstimatedReduction: "<?php echo getTranslation('compressEstimatedReduction'); ?>",
+        compressActualTotalSize: "<?php echo getTranslation('compressActualTotalSize'); ?>",
+        compressActualReduction: "<?php echo getTranslation('compressActualReduction'); ?>",
+        compressing: "<?php echo getTranslation('compressing'); ?>", // New translation key
+        packing: "<?php echo getTranslation('packing'); ?>", // New translation key
+        totalOriginalSizeLabel: "<?php echo getTranslation('totalOriginalSizeLabel'); ?>", // New translation key
+        compressSummary: "<?php echo getTranslation('compressSummary'); ?>", // New translation key
+        compressSummaryReduction: "<?php echo getTranslation('compressSummaryReduction'); ?>", // New translation key
+        compressBtn: "<?php echo getTranslation('compressBtn'); ?>",
+        resizeBtn: "<?php echo getTranslation('resizeBtn'); ?>",
+        whitebgBtn: "<?php echo getTranslation('whitebgBtn'); ?>",
+        rotateBtn: "<?php echo getTranslation('rotateBtn'); ?>",
+        applyWatermarkBtn: "<?php echo getTranslation('applyWatermarkBtn'); ?>",
+        howToCompressImagesTitle: "<?php echo getTranslation('howToCompressImagesTitle'); ?>",
+        howToResizeImagesTitle: "<?php echo getTranslation('howToResizeImagesTitle'); ?>",
+        howToAddWhiteBackgroundTitle: "<?php echo getTranslation('howToAddWhiteBackgroundTitle'); ?>",
+        howToWatermarkImagesTitle: "<?php echo getTranslation('howToWatermarkImagesTitle'); ?>",
+        howToRotateImagesTitle: "<?php echo getTranslation('howToRotateImagesTitle'); ?>",
+        howToEnhanceImagesTitle: "<?php echo getTranslation('howToEnhanceImagesTitle'); ?>",
+        howToCropImagesTitle: "<?php echo getTranslation('howToCropImagesTitle'); ?>",
+        howToRemoveBackgroundTitle: "<?php echo getTranslation('howToRemoveBackgroundTitle'); ?>",
+    };
+    window.currentLang = "<?php echo $currentLang; ?>";
+</script>
+<script type="module" src="/dist/assets/main.Dz1DFcEv.js"></script>
 
 <footer>
     <div class="footer-container">
