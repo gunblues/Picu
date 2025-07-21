@@ -467,5 +467,10 @@ function getTranslation($key) {
 </script>
 <script type="module" src="/dist/assets/main.B9xUk3DY.js"></script>
 
+<footer>
+        <a href="/about.php"><?php echo getTranslation('footerAbout'); ?></a>
+        <a href="/contact.php"><?php echo getTranslation('footerContact'); ?></a>
+        <a href="/privacy.php"><?php echo getTranslation('footerPrivacy'); ?></a>
+    </footer>
 </body>
 </html>
