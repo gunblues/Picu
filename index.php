@@ -33,8 +33,17 @@ function getTranslation($key) {
 
 // --- Routing Logic ---
 $page = 'home'; // Default page
+$articleName = ''; // For articles
+
 if (!empty($pathSegments[0])) {
-    $page = $pathSegments[0];
+    if ($pathSegments[0] === 'articles') {
+        $page = 'articles';
+        if (isset($pathSegments[1])) {
+            $articleName = $pathSegments[1];
+        }
+    } else {
+        $page = $pathSegments[0];
+    }
 }
 
 $allowedPages = ['about', 'contact', 'privacy']; // Pages that can be loaded
@@ -44,6 +53,16 @@ if (in_array($page, $allowedPages)) {
     $contentFile = $page . '.php';
 } else if ($page === 'home') {
     // No specific file to include for home, it's the main content of index.php
+} else if ($page === 'articles') {
+    if (!empty($articleName)) {
+        $contentFile = 'articles/' . $articleName . '.php';
+        if (!file_exists($contentFile)) {
+            header("HTTP/1.0 404 Not Found");
+            $page = '404';
+        }
+    } else {
+        $contentFile = 'articles/index.php';
+    }
 } else {
     // 404 Not Found
     header("HTTP/1.0 404 Not Found");
@@ -450,6 +469,16 @@ if (in_array($page, $allowedPages)) {
 
 <div id="processing-message" style="display: none; position: fixed; top: 50%; left: 50%; transform: translate(-50%, -50%); background-color: rgba(0, 0, 0, 0.7); color: white; padding: 20px; border-radius: 10px; z-index: 1000;"></div>
 
+<?php if ($page === 'home'): // Only show tutorials section on home page ?>
+<div class="section" id="tutorials-section">
+    <h2><?php echo getTranslation('tutorialsSectionTitle'); ?></h2>
+    <ul>
+        <li><a href="/<?php echo $currentLang; ?>/articles/how-to-compress-images"><?php echo getTranslation('howToCompressImagesTitle'); ?></a></li>
+    </ul>
+    <p><a href="/<?php echo $currentLang; ?>/articles"><?php echo getTranslation('viewAllTutorials'); ?></a></p>
+</div>
+<?php endif; ?>
+
 <?php elseif ($page === 'about'): ?>
     <main>
         <?php include 'about.php'; ?>
@@ -461,6 +490,10 @@ if (in_array($page, $allowedPages)) {
 <?php elseif ($page === 'privacy'): ?>
     <main>
         <?php include 'privacy.php'; ?>
+    </main>
+<?php elseif ($page === 'articles'): ?>
+    <main>
+        <?php include $contentFile; ?>
     </main>
 <?php elseif ($page === '404'): ?>
     <main>
