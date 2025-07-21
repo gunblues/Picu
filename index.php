@@ -78,8 +78,7 @@ function getTranslation($key) {
 <link rel="alternate" hreflang="ru" href="https://picu.app/ru/" />
 <link rel="alternate" hreflang="x-default" href="https://picu.app/" />
 
-<script async src="https://pagead2.googlesyndication.com/pagead/js/adsbygoogle.js?client=pub-1004943414433052"
-     crossorigin="anonymous"></script>
+
 <!-- Google tag (gtag.js) -->
 <script async src="https://www.googletagmanager.com/gtag/js?id=G-DQ2LFZDBSS"></script>
 <script>
@@ -97,7 +96,18 @@ function getTranslation($key) {
         y=l.getElementsByTagName(r)[0];y.parentNode.insertBefore(t,y);
     })(window, document, "clarity", "script", "sek9bq5y1l");
 </script>
-
+<style>
+  .ad-container {
+    margin: 20px 0;
+    text-align: center;
+  }
+  .ad-mobile { display: inline-block; }
+  .ad-desktop { display: none; }
+  @media (min-width: 768px) {
+    .ad-mobile { display: none; }
+    .ad-desktop { display: inline-block; }
+  }
+</style>
 </head>
 <body>
 
@@ -114,6 +124,36 @@ function getTranslation($key) {
         <button id="deselect-all-btn"><?php echo getTranslation('deselectAll'); ?></button>
     </div>
   </div> <!-- /#upload-section -->
+
+  <div class="ad-container">
+    <!-- Mobile Ad -->
+    <div class="ad-mobile">
+        <script async src="https://pagead2.googlesyndication.com/pagead/js/adsbygoogle.js?client=ca-pub-1004943414433052"
+             crossorigin="anonymous"></script>
+        <!-- 320x50_picu -->
+        <ins class="adsbygoogle"
+             style="display:inline-block;width:320px;height:50px"
+             data-ad-client="ca-pub-1004943414433052"
+             data-ad-slot="9365035260"></ins>
+        <script>
+             (adsbygoogle = window.adsbygoogle || []).push({});
+        </script>
+    </div>
+
+    <!-- Desktop Ad -->
+    <div class="ad-desktop">
+        <script async src="https://pagead2.googlesyndication.com/pagead/js/adsbygoogle.js?client=ca-pub-1004943414433052"
+             crossorigin="anonymous"></script>
+        <!-- 728x90_picu -->
+        <ins class="adsbygoogle"
+             style="display:inline-block;width:728px;height:90px"
+             data-ad-client="ca-pub-1004943414433052"
+             data-ad-slot="4558596995"></ins>
+        <script>
+             (adsbygoogle = window.adsbygoogle || []).push({});
+        </script>
+    </div>
+  </div>
 
   <div class="section" id="tools-section">
     <div id="tabs">
