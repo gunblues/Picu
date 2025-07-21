@@ -7,8 +7,11 @@ $currentLang = 'en'; // Default language
 // 1. Try to get language from URL path (e.g., /en/, /zh/)
 $requestUri = $_SERVER['REQUEST_URI'];
 $pathSegments = explode('/', trim($requestUri, '/'));
+
+// Check if the first segment is a language code
 if (isset($pathSegments[0]) && array_key_exists($pathSegments[0], $translations)) {
     $currentLang = $pathSegments[0];
+    array_shift($pathSegments); // Remove language segment
 } else {
     // 2. Fallback to browser's Accept-Language header
     if (isset($_SERVER['HTTP_ACCEPT_LANGUAGE'])) {
@@ -27,6 +30,25 @@ function getTranslation($key) {
     global $translations, $currentLang;
     return $translations[$currentLang][$key] ?? $key; // Fallback to key if translation not found
 }
+
+// --- Routing Logic ---
+$page = 'home'; // Default page
+if (!empty($pathSegments[0])) {
+    $page = $pathSegments[0];
+}
+
+$allowedPages = ['about', 'contact', 'privacy']; // Pages that can be loaded
+$contentFile = '';
+
+if (in_array($page, $allowedPages)) {
+    $contentFile = $page . '.php';
+} else if ($page === 'home') {
+    // No specific file to include for home, it's the main content of index.php
+} else {
+    // 404 Not Found
+    header("HTTP/1.0 404 Not Found");
+    $page = '404'; // Set page to 404 to display appropriate content
+}
 ?>
 <!DOCTYPE html>
 <html lang="<?php echo $currentLang; ?>">
@@ -40,7 +62,7 @@ function getTranslation($key) {
 <link rel="apple-touch-icon" sizes="180x180" href="/icons/apple-touch-icon.png">
 <link rel="manifest" href="/icons/site.webmanifest">
 
-<link rel="stylesheet" href="/dist/assets/style.B1UYG75_.css">
+<link rel="stylesheet" href="/dist/assets/style.BD4YzPQX.css">
 <link rel="stylesheet" href="lib/cropper.min.css">
 <script src="lib/jszip.min.js" defer></script>
 <script src="lib/cropper.min.js" defer></script>
@@ -113,6 +135,7 @@ function getTranslation($key) {
 </head>
 <body>
 
+<?php if ($page === 'home'): ?>
 <main>
   <h1>🐣<?php echo getTranslation('title'); ?></h1>
 
@@ -135,7 +158,7 @@ function getTranslation($key) {
       <button data-tab="watermark"><?php echo getTranslation('tabWatermark'); ?></button>
       <button data-tab="rotate"><?php echo getTranslation('tabRotate'); ?></button>
       <button data-tab="enhance"><?php echo getTranslation('tabEnhance'); ?></button>
-      <button data-tab="crop"><?php echo getTranslation('tabCrop'); ?></button>
+      <button data-tab="crop" class="active"><?php echo getTranslation('tabCrop'); ?></button>
       <button data-tab="removebg"><?php echo getTranslation('tabRemovebg'); ?></button>
     </div>
 
@@ -427,15 +450,24 @@ function getTranslation($key) {
 
 <div id="processing-message" style="display: none; position: fixed; top: 50%; left: 50%; transform: translate(-50%, -50%); background-color: rgba(0, 0, 0, 0.7); color: white; padding: 20px; border-radius: 10px; z-index: 1000;"></div>
 
-<div class="section" id="about-us-section">
-    <h3><?php echo getTranslation('aboutUsTitle'); ?></h3>
-    <p><?php echo getTranslation('aboutUsContent'); ?></p>
-</div>
-
-<div class="section" id="privacy-section">
-    <h3><?php echo getTranslation('privacyTitle'); ?></h3>
-    <p><?php echo getTranslation('privacyNotice'); ?></p>
-</div>
+<?php elseif ($page === 'about'): ?>
+    <main>
+        <?php include 'about.php'; ?>
+    </main>
+<?php elseif ($page === 'contact'): ?>
+    <main>
+        <?php include 'contact.php'; ?>
+    </main>
+<?php elseif ($page === 'privacy'): ?>
+    <main>
+        <?php include 'privacy.php'; ?>
+    </main>
+<?php elseif ($page === '404'): ?>
+    <main>
+        <h2>404 Not Found</h2>
+        <p>The page you requested could not be found.</p>
+    </main>
+<?php endif; ?>
 
 <script>
     window.alertTranslations = {
@@ -468,9 +500,16 @@ function getTranslation($key) {
 <script type="module" src="/dist/assets/main.B9xUk3DY.js"></script>
 
 <footer>
-        <a href="/about.php"><?php echo getTranslation('footerAbout'); ?></a>
-        <a href="/contact.php"><?php echo getTranslation('footerContact'); ?></a>
-        <a href="/privacy.php"><?php echo getTranslation('footerPrivacy'); ?></a>
-    </footer>
+    <div class="footer-container">
+        <div class="footer-links">
+            <a href="/<?php echo $currentLang; ?>/about"><?php echo getTranslation('footerAbout'); ?></a>
+            <a href="/<?php echo $currentLang; ?>/contact"><?php echo getTranslation('footerContact'); ?></a>
+            <a href="/<?php echo $currentLang; ?>/privacy"><?php echo getTranslation('footerPrivacy'); ?></a>
+        </div>
+        <div class="footer-copyright">
+            &copy; <?php echo date("Y"); ?> Picu. All Rights Reserved.
+        </div>
+    </div>
+</footer>
 </body>
 </html>
