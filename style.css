@@ -566,3 +566,80 @@ footer {
 #tutorials-section p {
     margin-top: 20px;
 }
+
+/* Styles for the articles list page (articles/index.php) */
+.article-list {
+    list-style: none; /* Remove default bullet points */
+    padding: 0;
+    margin: 20px 0;
+}
+
+.article-list li {
+    background-color: #ffffff;
+    border: 1px solid #e0e0e0;
+    border-radius: 8px;
+    margin-bottom: 15px;
+    padding: 20px;
+    box-shadow: 0 2px 5px rgba(0,0,0,0.05);
+    transition: transform 0.2s ease, box-shadow 0.2s ease;
+}
+
+.article-list li:hover {
+    transform: translateY(-5px); /* Lift effect on hover */
+    box-shadow: 0 5px 15px rgba(0,0,0,0.1);
+}
+
+.article-list li a {
+    display: block;
+    font-size: 1.5em;
+    font-weight: bold;
+    color: #e67e22; /* Article title link color */
+    margin-bottom: 10px;
+}
+
+.article-list li a:hover {
+    color: #f39c12; /* Lighter orange on hover */
+    text-decoration: none;
+}
+
+.article-list li p {
+    font-size: 1em;
+    color: #666;
+    line-height: 1.6;
+}
+
+/* Styles for individual article pages (e.g., articles/how-to-compress-images.php) */
+.static-page h1 {
+    font-size: 2.5em;
+    color: #e67e22;
+    margin-bottom: 0.5em;
+    text-align: left; /* Align left for article content */
+}
+
+.static-page h2 {
+    font-size: 1.8em;
+    color: #333;
+    margin-top: 1.5em;
+    margin-bottom: 0.8em;
+    border-bottom: 1px solid #eee;
+    padding-bottom: 5px;
+}
+
+.static-page p,
+.static-page li {
+    font-size: 1.1em;
+    line-height: 1.8;
+    color: #444;
+    margin-bottom: 1em;
+}
+
+.static-page ol,
+.static-page ul {
+    margin-left: 20px;
+    margin-bottom: 1.5em;
+}
+
+.static-page ol li,
+.static-page ul li {
+    margin-bottom: 0.5em;
+}
