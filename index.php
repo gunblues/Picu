@@ -35,7 +35,20 @@ function getTranslation($key) {
 $page = 'home'; // Default page
 $articleName = ''; // For articles
 
-if (!empty($pathSegments[0])) {
+// New Blog Routing
+if (isset($pathSegments[0]) && $pathSegments[0] === 'blog') {
+    $page = 'blog';
+    if (isset($pathSegments[1])) { // Check for an article slug
+        $articleName = $pathSegments[1];
+        $contentFile = 'blog/en/' . $articleName . '.php';
+        if (!file_exists($contentFile)) {
+            header("HTTP/1.0 404 Not Found");
+            $page = '404';
+        }
+    } else { // No slug, so it's the blog index page
+        $contentFile = 'blog/en/index.php';
+    }
+} else if (!empty($pathSegments[0])) {
     if ($pathSegments[0] === 'articles') {
         $page = 'articles';
         if (isset($pathSegments[1])) {
@@ -47,26 +60,28 @@ if (!empty($pathSegments[0])) {
 }
 
 $allowedPages = ['about', 'contact', 'privacy']; // Pages that can be loaded
-$contentFile = '';
 
-if (in_array($page, $allowedPages)) {
-    $contentFile = $page . '.php';
-} else if ($page === 'home') {
-    // No specific file to include for home, it's the main content of index.php
-} else if ($page === 'articles') {
-    if (!empty($articleName)) {
-        $contentFile = 'articles/' . $articleName . '.php';
-        if (!file_exists($contentFile)) {
-            header("HTTP/1.0 404 Not Found");
-            $page = '404';
+if ($page !== 'blog') { // Don't overwrite blog content file
+    $contentFile = '';
+    if (in_array($page, $allowedPages)) {
+        $contentFile = $page . '.php';
+    } else if ($page === 'home') {
+        // No specific file to include for home, it's the main content of index.php
+    } else if ($page === 'articles') {
+        if (!empty($articleName)) {
+            $contentFile = 'articles/' . $articleName . '.php';
+            if (!file_exists($contentFile)) {
+                header("HTTP/1.0 404 Not Found");
+                $page = '404';
+            }
+        } else {
+            $contentFile = 'articles/index.php';
         }
-    } else {
-        $contentFile = 'articles/index.php';
+    } else if ($page !== 'home') {
+        // 404 Not Found for any other case
+        header("HTTP/1.0 404 Not Found");
+        $page = '404'; // Set page to 404 to display appropriate content
     }
-} else {
-    // 404 Not Found
-    header("HTTP/1.0 404 Not Found");
-    $page = '404'; // Set page to 404 to display appropriate content
 }
 ?>
 <!DOCTYPE html>
@@ -153,6 +168,7 @@ if (in_array($page, $allowedPages)) {
 </style>
 </head>
 <body>
+<?php echo "<!-- Current Language: " . $currentLang . " -->"; ?>
 
 <?php if ($page === 'home'): ?>
 <main>
@@ -495,6 +511,10 @@ if (in_array($page, $allowedPages)) {
     <main>
         <?php include $contentFile; ?>
     </main>
+<?php elseif ($page === 'blog'): ?>
+    <main>
+        <?php include $contentFile; ?>
+    </main>
 <?php elseif ($page === '404'): ?>
     <main>
         <h2>404 Not Found</h2>
@@ -573,6 +593,7 @@ if (in_array($page, $allowedPages)) {
     <div class="footer-container">
         <div class="footer-links">
             <a href="/<?php echo $currentLang; ?>/about"><?php echo getTranslation('footerAbout'); ?></a>
+            <a href="/<?php echo $currentLang; ?>/blog"><?php echo getTranslation('footerBlog'); ?></a>
             <a href="/<?php echo $currentLang; ?>/contact"><?php echo getTranslation('footerContact'); ?></a>
             <a href="/<?php echo $currentLang; ?>/privacy"><?php echo getTranslation('footerPrivacy'); ?></a>
         </div>
