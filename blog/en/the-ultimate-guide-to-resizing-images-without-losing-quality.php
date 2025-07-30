@@ -4,9 +4,14 @@
 ?>
 <main class="static-page">
     <h1>The Ultimate Guide to Resizing Images Without Losing Quality</h1>
-    <p><em>July 29, 2025</em></p>
+    <p><em>July 14, 2025</em></p>
     
-    <img src="/images/image-resize-hero.jpg" alt="A visual demonstration of image resizing without quality loss" style="width:100%; max-width:700px; margin: 20px 0;">
+    <picture>
+      <source media="(max-width: 768px)" srcset="/images/image-resize-hero-mobile.webp" type="image/webp">
+      <source media="(min-width: 769px)" srcset="/images/image-resize-hero-desktop.webp" type="image/webp">
+      <img src="/images/image-resize-hero-desktop.webp" alt="Illustration showing image resizing quality loss" 
+           width="100%" style="max-height: 50vh; object-fit: cover;" loading="lazy">
+    </picture>
 
     <p>In our visually-driven digital world, the size of an image is a critical factor that impacts everything from website loading speed to social media presentation and professional portfolio quality. Everyone has faced the frustrating experience of resizing a photo, only to see it transform from a sharp, vibrant image into a blurry, pixelated disappointment. This happens so often that many people believe quality loss is an unavoidable consequence of resizing. But it doesn't have to be.</p>
     <p>The secret isn't magic; it's methodology. Understanding the technical process behind resizing allows you to control the outcome. This ultimate guide will provide you with the knowledge and techniques to resize any image for any purpose—web, print, or email—while preserving the maximum possible quality.</p>

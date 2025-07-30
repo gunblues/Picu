@@ -5,7 +5,12 @@
     <h1>How to Instantly Remove the Background From Any Image for Free</h1>
     <p><em>July 29, 2025</em></p>
 
-    <img src="/path/to/your/image-bg-removal-hero.jpg" alt="An image with its background being removed" style="width:100%; max-width:700px; margin: 20px 0;">
+    <picture>
+      <source media="(max-width: 768px)" srcset="/images/image-bg-removal-hero-mobile.webp" type="image/webp">
+      <source media="(min-width: 769px)" srcset="/images/image-bg-removal-hero-desktop.webp" type="image/webp">
+      <img src="/images/image-resize-hero-desktop.webp" alt="Illustration showing image resizing quality loss" 
+           width="100%" style="max-height: 50vh; object-fit: cover;" loading="lazy">
+    </picture>
 
     <p>Whether you're creating a professional product shot for an e-commerce store, designing a custom graphic, or just want to make a fun sticker of your friend, the ability to remove the background from an image is one of the most powerful tools in photo editing. For years, this was a tedious task, requiring complex software like Photoshop and painstaking manual tracing with the pen tool. It was a skill that took hours to master. Today, thanks to advancements in AI, you can achieve the same professional results in a single click, for free.</p>
     <p>This guide will explore why background removal is so important, how the technology works, and how you can use a simple online tool like Picu to instantly isolate the subject of any photo, no technical skills required.</p>
