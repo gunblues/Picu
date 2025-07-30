@@ -5,7 +5,12 @@
     <h1>Real Estate Photo Editing: 5 Tips to Make Properties Look Irresistible</h1>
     <p><em>July 29, 2025</em></p>
 
-    <img src="/path/to/your/image-real-estate-hero.jpg" alt="A stunning, bright, and welcoming photo of a home interior, contrasted with its dark and unedited version" style="width:100%; max-width:700px; margin: 20px 0;">
+    <picture>
+      <source media="(max-width: 768px)" srcset="/images/image-real-estate-hero-mobile.webp" type="image/webp">
+      <source media="(min-width: 769px)" srcset="/images/image-real-estate-hero-desktop.webp" type="image/webp">
+      <img src="/images/image-real-estate-hero-desktop.webp" alt="A stunning, bright, and welcoming photo of a home interior, contrasted with its dark and unedited version"
+           width="100%" style="max-height: 50vh; object-fit: cover;" loading="lazy">
+    </picture>
 
     <p>In real estate, the first showing doesn’t happen at the front door; it happens online. Long before a potential buyer schedules a visit, they are scrolling through listings, and their first impression is based entirely on the photographs. Dark, crooked, or color-distorted photos can make even the most beautiful home look unappealing, causing buyers to scroll right past. Professional-quality photos are not a luxury; they are an absolute necessity for a successful sale.</p>
     <p>The goal of real estate photo editing is to make a property look its absolute best while remaining realistic and true to life. It’s about presenting a home in a way that is bright, welcoming, and allows buyers to envision themselves living there. This guide provides five essential editing tips that will make your property listings stand out and attract more potential buyers.</p>

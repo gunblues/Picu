@@ -3,9 +3,14 @@
 ?>
 <main class="static-page">
     <h1>How to Add a Professional Watermark to Your Photos (And Why You Should)</h1>
-    <p><em>July 29, 2025</em></p>
+    <p><em>July 17, 2025</em></p>
 
-    <img src="/path/to/your/image-watermark-hero.jpg" alt="A beautiful photograph with a discreet and professional watermark in the corner" style="width:100%; max-width:700px; margin: 20px 0;">
+    <picture>
+      <source media="(max-width: 768px)" srcset="/images/image-watermark-hero-mobile.webp" type="image/webp">
+      <source media="(min-width: 769px)" srcset="/images/image-watermark-hero-desktop.webp" type="image/webp">
+      <img src="/images/image-watermark-hero-desktop.webp" alt="A beautiful photograph with a discreet and professional watermark in the corner" 
+           width="100%" style="max-height: 50vh; object-fit: cover;" loading="lazy">
+    </picture>
 
     <p>As a creator in the digital age, your photos are valuable assets. Whether you’re a professional photographer showcasing your portfolio, a small business owner displaying your products, or a travel blogger sharing your adventures, your images represent your brand and your hard work. Unfortunately, the internet makes it incredibly easy for others to download and use your images without permission or credit. This is where watermarking comes in.</p>
     <p>A watermark is a semi-transparent logo, name, or piece of text overlaid on your photo. When done correctly, it serves as a digital signature that protects your work without distracting from its beauty. This guide will cover the reasons why you should watermark your images, the dos and don'ts of effective watermarking, and how to easily apply one using a tool like Picu.</p>

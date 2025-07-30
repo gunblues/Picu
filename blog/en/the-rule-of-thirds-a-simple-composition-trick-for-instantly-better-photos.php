@@ -3,9 +3,14 @@
 ?>
 <main class="static-page">
     <h1>The Rule of Thirds: A Simple Composition Trick for Instantly Better Photos</h1>
-    <p><em>July 29, 2025</em></p>
+    <p><em>July 28, 2025</em></p>
 
-    <img src="/path/to/your/image-rule-of-thirds-hero.jpg" alt="A photo with a 3x3 grid overlay, showing the main subject placed at an intersection of the lines" style="width:100%; max-width:700px; margin: 20px 0;">
+    <picture>
+      <source media="(max-width: 768px)" srcset="/images/image-rule-of-thirds-hero-mobile.webp" type="image/webp">
+      <source media="(min-width: 769px)" srcset="/images/image-rule-of-thirds-hero-desktop.webp" type="image/webp">
+      <img src="/images/image-rule-of-thirds-hero-desktop.webp" alt="A photo with a 3x3 grid overlay, showing the main subject placed at an intersection of the lines"
+           width="100%" style="max-height: 50vh; object-fit: cover;" loading="lazy">
+    </picture>
 
     <p>In the world of photography and visual arts, there are a handful of foundational principles that can dramatically improve the quality of your work. Of these, none is more famous or more effective than the Rule of Thirds. It’s a simple, easy-to-learn compositional guideline that can take your photos from feeling like simple snapshots to looking like thoughtfully constructed, professional images. It’s the first technique every aspiring photographer should learn.</p>
     <p>The best part? You don’t need a fancy camera to use it. The Rule of Thirds is about where you place elements within your frame, a skill that applies whether you’re shooting on a smartphone or a high-end DSLR. This guide will explain what the rule is, why it works, and how you can use it to instantly improve your photo composition.</p>

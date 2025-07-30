@@ -3,9 +3,14 @@
 ?>
 <main class="static-page">
     <h1>Compressing Images for the Web: A Step-by-Step Guide for Faster Websites</h1>
-    <p><em>July 29, 2025</em></p>
+    <p><em>July 18, 2025</em></p>
 
-    <img src="/path/to/your/image-compression-hero.jpg" alt="A visual showing a large image file being compressed into a smaller, web-friendly file" style="width:100%; max-width:700px; margin: 20px 0;">
+    <picture>
+      <source media="(max-width: 768px)" srcset="/images/image-compression-hero-mobile.webp" type="image/webp">
+      <source media="(min-width: 769px)" srcset="/images/image-compression-hero-desktop.webp" type="image/webp">
+      <img src="/images/image-compression-hero-desktop.webp" alt="A visual showing a large image file being compressed into a smaller, web-friendly file" 
+           width="100%" style="max-height: 50vh; object-fit: cover;" loading="lazy">
+    </picture>
 
     <p>In the digital age, speed is everything. Website visitors are notoriously impatient. Studies have shown that even a one-second delay in page load time can lead to a significant drop in conversions and user engagement. One of the biggest culprits behind slow websites? Large, unoptimized images. Every beautiful, high-resolution photo you upload comes with a cost: file size. The larger the file, the longer it takes for a user to download, and the slower your site becomes.</p>
     <p>This is where image compression comes in. Image compression is the art and science of reducing the file size of an image without a significant, noticeable loss in quality. Mastering this process is one of the most impactful things you can do to improve your website’s performance, boost your SEO rankings, and provide a better user experience.</p>

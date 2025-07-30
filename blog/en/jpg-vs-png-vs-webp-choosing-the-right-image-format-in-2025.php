@@ -3,9 +3,14 @@
 ?>
 <main class="static-page">
     <h1>JPG vs. PNG vs. WEBP: Choosing the Right Image Format in 2025</h1>
-    <p><em>July 29, 2025</em></p>
+    <p><em>July 15, 2025</em></p>
 
-    <img src="/path/to/your/image-formats-hero.jpg" alt="Logos of JPG, PNG, and WEBP file formats" style="width:100%; max-width:700px; margin: 20px 0;">
+    <picture>
+      <source media="(max-width: 768px)" srcset="/images/image-formats-hero-mobile.webp" type="image/webp">
+      <source media="(min-width: 769px)" srcset="/images/image-formats-hero-desktop.webp" type="image/webp">
+      <img src="/images/image-formats-hero-desktop.webp" alt="Logos of JPG, PNG, and WEBP file formats" 
+           width="100%" style="max-height: 50vh; object-fit: cover;" loading="lazy">
+    </picture>
 
     <p>In the world of digital images, the file format you choose can have a massive impact on everything from your website's loading speed to the visual quality of your graphics. You've seen the acronyms everywhere: JPG, PNG, and the increasingly popular WEBP. But what do they actually mean? And more importantly, which one should you be using?</p>
     <p>Choosing the right format isn't just a technical detail; it's a fundamental part of web design, photography, and digital marketing. Using the wrong format can lead to slow pages, blurry images, or unnecessarily large files. This guide will break down the pros and cons of each major format, helping you make an informed decision every time you save an image.</p>

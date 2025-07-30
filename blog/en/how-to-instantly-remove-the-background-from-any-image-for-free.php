@@ -3,12 +3,12 @@
 ?>
 <main class="static-page">
     <h1>How to Instantly Remove the Background From Any Image for Free</h1>
-    <p><em>July 29, 2025</em></p>
+    <p><em>July 14, 2025</em></p>
 
     <picture>
       <source media="(max-width: 768px)" srcset="/images/image-bg-removal-hero-mobile.webp" type="image/webp">
       <source media="(min-width: 769px)" srcset="/images/image-bg-removal-hero-desktop.webp" type="image/webp">
-      <img src="/images/image-resize-hero-desktop.webp" alt="Illustration showing image resizing quality loss" 
+      <img src="/images/image-bg-removal-hero-desktop.webp" alt="Remove the Background From Any Image" 
            width="100%" style="max-height: 50vh; object-fit: cover;" loading="lazy">
     </picture>
 

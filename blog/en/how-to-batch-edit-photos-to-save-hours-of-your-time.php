@@ -3,9 +3,14 @@
 ?>
 <main class="static-page">
     <h1>How to Batch Edit Photos to Save Hours of Your Time</h1>
-    <p><em>July 29, 2025</em></p>
+    <p><em>July 21, 2025</em></p>
 
-    <img src="/path/to/your/image-batch-hero.jpg" alt="A grid of photos all having the same filter and watermark applied simultaneously" style="width:100%; max-width:700px; margin: 20px 0;">
+    <picture>
+      <source media="(max-width: 768px)" srcset="/images/image-batch-hero-desktop.webp" type="image/webp">
+      <source media="(min-width: 769px)" srcset="/images/image-batch-hero-mobile.webp" type="image/webp">
+      <img src="/images/image-batch-hero-desktop.webp" alt="A grid of photos all having the same filter and watermark applied simultaneously"
+           width="100%" style="max-height: 50vh; object-fit: cover;" loading="lazy">
+    </picture>
 
     <p>In photo editing, consistency and efficiency are paramount, especially when you're dealing with a large number of images. Imagine you've just returned from a wedding, a corporate event, or a product photoshoot with hundreds, or even thousands, of photos. The thought of opening each image individually to apply the same set of adjustments—resizing, watermarking, color correcting—is daunting. It’s a recipe for hours of tedious, repetitive work.</p>
     <p>This is where batch editing comes to the rescue. Batch editing, or batch processing, is the process of applying the same set of actions to multiple images at once. It is, without a doubt, one of the single greatest time-saving techniques in any photographer's or designer's workflow. This guide will explain the power of batch editing and how you can leverage it to reclaim your time and ensure consistency across your work.</p>

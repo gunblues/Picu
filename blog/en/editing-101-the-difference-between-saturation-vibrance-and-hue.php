@@ -3,9 +3,14 @@
 ?>
 <main class="static-page">
     <h1>Editing 101: The Difference Between Saturation, Vibrance, and Hue</h1>
-    <p><em>July 29, 2025</em></p>
+    <p><em>July 24, 2025</em></p>
 
-    <img src="/path/to/your/image-color-sliders-hero.jpg" alt="An illustration showing the distinct effects of hue, saturation, and vibrance sliders on a colorful image" style="width:100%; max-width:700px; margin: 20px 0;">
+    <picture>
+      <source media="(max-width: 768px)" srcset="/images/image-color-sliders-hero-mobile.webp" type="image/webp">
+      <source media="(min-width: 769px)" srcset="/images/image-color-sliders-hero-desktop.webp" type="image/webp">
+      <img src="/images/image-color-sliders-hero-desktop.webp" alt="An illustration showing the distinct effects of hue, saturation, and vibrance sliders on a colorful image"
+           width="100%" style="max-height: 50vh; object-fit: cover;" loading="lazy">
+    </picture>
 
     <p>When you first venture into the world of color editing, you’re immediately confronted with a trio of sliders that seem to do similar things: Hue, Saturation, and Vibrance. It’s easy to think of them as generic "color" controls, but they each perform a very distinct and specific function. Pushing them around randomly can lead to unnatural, over-edited images. Understanding the precise role of each slider is fundamental to mastering color correction and enhancement.</p>
     <p>This guide will break down the exact difference between these three core concepts. Learning to use them with intention will give you precise control over the colors in your photos, allowing you to create moods, fix problems, and enhance your images like a professional.</p>

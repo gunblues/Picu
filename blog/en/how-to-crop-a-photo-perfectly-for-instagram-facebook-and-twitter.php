@@ -3,9 +3,14 @@
 ?>
 <main class="static-page">
     <h1>How to Crop a Photo Perfectly for Instagram, Facebook, and Twitter</h1>
-    <p><em>July 29, 2025</em></p>
+    <p><em>July 16, 2025</em></p>
 
-    <img src="/path/to/your/image-cropping-hero.jpg" alt="An image being cropped to fit different social media aspect ratios" style="width:100%; max-width:700px; margin: 20px 0;">
+    <picture>
+      <source media="(max-width: 768px)" srcset="/images/image-cropping-hero-mobile.webp" type="image/webp">
+      <source media="(min-width: 769px)" srcset="/images/image-cropping-hero-desktop.webp" type="image/webp">
+      <img src="/images/image-cropping-hero-desktop.webp" alt="An image being cropped to fit different social media aspect ratios" 
+           width="100%" style="max-height: 50vh; object-fit: cover;" loading="lazy">
+    </picture>
 
     <p>In the fast-paced world of social media, first impressions are everything. You could have the most stunning photograph, but if it’s awkwardly cropped, with the main subject cut off or lost in a sea of empty space, its impact is immediately diminished. Cropping is more than just cutting away parts of a photo; it’s a powerful tool for improving composition, focusing attention, and optimizing your images for the specific demands of each platform.</p>
     <p>Each social media platform has its own preferred image sizes and aspect ratios. A horizontal photo that looks great on a Facebook timeline might get awkwardly cut off in an Instagram feed. This guide will teach you the fundamentals of effective cropping and provide you with the exact aspect ratios you need for today’s most popular platforms, so your images always look their best.</p>

@@ -3,9 +3,14 @@
 ?>
 <main class="static-page">
     <h1>What Are Layers in Photo Editing? A Simple Explanation for Beginners</h1>
-    <p><em>July 29, 2025</em></p>
+    <p><em>July 17, 2025</em></p>
 
-    <img src="/path/to/your/image-layers-hero.jpg" alt="An exploded view of an image showing different layers for background, subject, text, and effects" style="width:100%; max-width:700px; margin: 20px 0;">
+    <picture>
+      <source media="(max-width: 768px)" srcset="/images/image-layers-hero-mobile.webp" type="image/webp">
+      <source media="(min-width: 769px)" srcset="/images/image-layers-hero-desktop.webp" type="image/webp">
+      <img src="/images/image-layers-hero-desktop.webp" alt="An exploded view of an image showing different layers for background, subject, text, and effects" 
+           width="100%" style="max-height: 50vh; object-fit: cover;" loading="lazy">
+    </picture>
 
     <p>If you're new to the world of photo editing beyond simple filters and sliders, the concept of "layers" might seem intimidating. It’s a term you hear associated with professional software like Adobe Photoshop, and it can sound complex. But the idea behind layers is actually incredibly simple, intuitive, and powerful. Understanding layers is the single most important step you can take to move from a basic editor to a creative powerhouse.</p>
     <p>Think of layers as a stack of transparent sheets of glass. You can paint on each sheet independently. You can change the order of the sheets, make a sheet more or less transparent, or even cut a hole in one sheet to see the one below it. When you look down through the stack from the top, you see a single, combined image. This is exactly how layers work in photo editing.</p>

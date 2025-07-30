@@ -3,9 +3,14 @@
 ?>
 <main class="static-page">
     <h1>Understanding the Histogram: Your Secret Weapon for Perfect Exposure</h1>
-    <p><em>July 29, 2025</em></p>
+    <p><em>July 22, 2025</em></p>
 
-    <img src="/path/to/your/image-histogram-hero.jpg" alt="A landscape photo shown next to its corresponding histogram graph" style="width:100%; max-width:700px; margin: 20px 0;">
+    <picture>
+      <source media="(max-width: 768px)" srcset="/images/image-histogram-hero-mobile.webp" type="image/webp">
+      <source media="(min-width: 769px)" srcset="/images/image-histogram-hero-desktop.webp" type="image/webp">
+      <img src="/images/image-retouching-hero-desktop.webp" alt="A landscape photo shown next to its corresponding histogram graph"
+           width="100%" style="max-height: 50vh; object-fit: cover;" loading="lazy">
+    </picture>
 
     <p>In the world of digital photography and editing, there is one tool that is more powerful, more accurate, and more misunderstood than any other: the histogram. It looks like a technical, intimidating mountain range graph, and many beginners simply ignore it. But learning to read a histogram is like learning to read a map. Once you understand it, you’ll never get lost in the wilderness of exposure adjustments again.</p>
     <p>A histogram is a graphical representation of the tonal range of your image. It tells you the precise story of the light and dark pixels in your photo, free from the subjective interpretation of your eyes or the variable brightness of your monitor. It is your secret weapon for achieving a technically perfect exposure every single time.</p>

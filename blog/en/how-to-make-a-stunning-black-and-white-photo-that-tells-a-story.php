@@ -3,9 +3,14 @@
 ?>
 <main class="static-page">
     <h1>How to Make a Stunning Black and White Photo That Tells a Story</h1>
-    <p><em>July 29, 2025</em></p>
+    <p><em>July 23, 2025</em></p>
 
-    <img src="/path/to/your/image-bw-hero.jpg" alt="A dramatic black and white landscape photo with high contrast" style="width:100%; max-width:700px; margin: 20px 0;">
+    <picture>
+      <source media="(max-width: 768px)" srcset="/images/image-bw-hero-mobile.webp" type="image/webp">
+      <source media="(min-width: 769px)" srcset="/images/image-bw-hero-desktop.webp" type="image/webp">
+      <img src="/images/image-bw-hero-desktop.webp" alt="A dramatic black and white landscape photo with high contrast"
+           width="100%" style="max-height: 50vh; object-fit: cover;" loading="lazy">
+    </picture>
 
     <p>In a world saturated with vibrant colors, a black and white photograph can be uniquely powerful. By stripping away color, you remove a layer of distraction and force the viewer to engage with the fundamental elements of the image: light, shadow, texture, shape, and composition. A great black and white photo isn’t just a color photo with the saturation turned down; it’s an intentional act of interpretation that can evoke a sense of timelessness, emotion, and drama that color sometimes cannot.</p>
     <p>Creating a compelling monochrome image is an art form in itself. It requires a different way of seeing and a specific set of editing techniques. This guide will walk you through the process of how to choose the right photos for black and white conversion and how to edit them to create a stunning image that truly tells a story.</p>

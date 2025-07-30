@@ -3,9 +3,14 @@
 ?>
 <main class="static-page">
     <h1>How to Edit Photos to Look Professional: 7 Essential Techniques</h1>
-    <p><em>July 29, 2025</em></p>
+    <p><em>July 20, 2025</em></p>
 
-    <img src="/path/to/your/image-professional-hero.jpg" alt="A split image showing a standard photo on one side and a professionally edited version on the other" style="width:100%; max-width:700px; margin: 20px 0;">
+    <picture>
+      <source media="(max-width: 768px)" srcset="/images/image-professional-hero-mobile.webp" type="image/webp">
+      <source media="(min-width: 769px)" srcset="/images/image-professional-hero-desktop.webp" type="image/webp">
+      <img src="/images/image-professional-hero-desktop.webp" alt="A split image showing a standard photo on one side and a professionally edited version on the other" 
+           width="100%" style="max-height: 50vh; object-fit: cover;" loading="lazy">
+    </picture>
 
     <p>What separates a casual snapshot from a stunning, professional-grade photograph? Often, it’s not just the camera or the initial composition, but the skill and intention applied during the editing process. Professional editing isn’t about applying flashy filters or completely changing the reality of a scene. It’s about using a series of subtle, deliberate adjustments to enhance the photo’s strengths, guide the viewer’s eye, and create a polished, cohesive final image.</p>
     <p>You don’t need to spend years in a darkroom or master every feature of Photoshop to elevate your work. By focusing on a few fundamental techniques, you can dramatically improve the quality of your photos and start editing with the mindset of a professional. This guide breaks down seven essential techniques that will make the biggest impact on your images.</p>

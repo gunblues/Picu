@@ -3,9 +3,14 @@
 ?>
 <main class="static-page">
     <h1>Creating a Double Exposure Effect: A Step-by-Step Creative Tutorial</h1>
-    <p><em>July 29, 2025</em></p>
+    <p><em>July 26, 2025</em></p>
 
-    <img src="/path/to/your/image-double-exposure-hero.jpg" alt="A silhouette of a person's head blended with a forest landscape to create a double exposure effect" style="width:100%; max-width:700px; margin: 20px 0;">
+    <picture>
+      <source media="(max-width: 768px)" srcset="/images/image-double-exposure-hero-mobile.webp" type="image/webp">
+      <source media="(min-width: 769px)" srcset="/images/image-double-exposure-hero-desktop.webp" type="image/webp">
+      <img src="/images/image-double-exposure-hero-desktop.webp" alt="A silhouette of a person's head blended with a forest landscape to create a double exposure effect"
+           width="100%" style="max-height: 50vh; object-fit: cover;" loading="lazy">
+    </picture>
 
     <p>The double exposure is a classic, surreal, and beautifully artistic technique where two different photographs are blended together into a single image. Traditionally, this was done in-camera with film by exposing the same frame twice. Today, we can easily replicate and control this captivating effect using digital editing tools. The most common and effective form of this technique is blending a portrait (often a silhouette) with a landscape or a texture (like a forest, a cityscape, or a galaxy).</p>
     <p>This effect is a fantastic way to tell a story, visually representing a person's thoughts, feelings, or connection to a place. It’s a highly creative process that produces unique and thought-provoking images. This tutorial will guide you through the steps to create your own stunning double exposure image using a layer-based photo editor.</p>

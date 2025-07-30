@@ -3,9 +3,14 @@
 ?>
 <main class="static-page">
     <h1>Selective Color: How to Make One Color Stand Out in a B&W Photo</h1>
-    <p><em>July 29, 2025</em></p>
+    <p><em>July 23, 2025</em></p>
 
-    <img src="/path/to/your/image-selective-color-hero.jpg" alt="A black and white photo of a city street with a single yellow taxi in full color" style="width:100%; max-width:700px; margin: 20px 0;">
+    <picture>
+      <source media="(max-width: 768px)" srcset="/images/image-selective-color-hero-mobile.webp" type="image/webp">
+      <source media="(min-width: 769px)" srcset="/images/image-selective-color-hero-desktop.webp" type="image/webp">
+      <img src="/images/image-selective-color-hero-desktop.webp" alt="A black and white photo of a city street with a single yellow taxi in full color"
+           width="100%" style="max-height: 50vh; object-fit: cover;" loading="lazy">
+    </picture>
 
     <p>The selective color effect is one of the most striking and recognizable techniques in photo editing. It involves converting an image to black and white while leaving one or more specific colors intact. The result is a dramatic, high-contrast image that immediately draws the viewer's eye to the colored element. You’ve likely seen it in movies (like the iconic red coat in *Schindler's List*), advertisements, and artistic photography. It’s a powerful way to highlight a subject, create a specific mood, and tell a visual story.</p>
     <p>While it can be a dramatic and beautiful effect, it's also one that can easily be overused or look cliché if not done with intention. This guide will teach you how to create the selective color effect effectively and provide tips on when to use it for maximum impact.</p>

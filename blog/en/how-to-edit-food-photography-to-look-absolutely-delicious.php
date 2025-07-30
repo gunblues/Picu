@@ -3,9 +3,14 @@
 ?>
 <main class="static-page">
     <h1>How to Edit Food Photography to Look Absolutely Delicious</h1>
-    <p><em>July 29, 2025</em></p>
+    <p><em>July 25, 2025</em></p>
 
-    <img src="/path/to/your/image-food-hero.jpg" alt="A vibrant and delicious-looking photo of a meal, shown next to its dull, unedited version" style="width:100%; max-width:700px; margin: 20px 0;">
+    <picture>
+      <source media="(max-width: 768px)" srcset="/images/image-food-hero-mobile.webp" type="image/webp">
+      <source media="(min-width: 769px)" srcset="/images/image-food-hero-desktop.webp" type="image/webp">
+      <img src="/images/image-food-hero-desktop.webp" alt="A vibrant and delicious-looking photo of a meal, shown next to its dull, unedited version"
+           width="100%" style="max-height: 50vh; object-fit: cover;" loading="lazy">
+    </picture>
 
     <p>In the age of Instagram and food blogs, food photography has become an art form. We don’t just eat with our mouths; we eat with our eyes first. A great food photograph can make a simple dish look like a gourmet masterpiece, enticing viewers and making their stomachs rumble. The secret to irresistible food photography isn’t just in the cooking or the plating; it’s in the edit. The right editing techniques can transform a flat, unappetizing snapshot into a vibrant, textured, and utterly delicious-looking image.</p>
     <p>Editing food photos requires a specific approach. The goal is to enhance the natural appeal of the food, making it look fresh, vibrant, and as tasty as it is in real life. This guide will provide you with the key editing techniques to make your food photography pop off the plate.</p>

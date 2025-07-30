@@ -3,9 +3,14 @@
 ?>
 <main class="static-page">
     <h1>How to Easily Fix Underexposed or Overexposed Photos</h1>
-    <p><em>July 29, 2025</em></p>
+    <p><em>July 26, 2025</em></p>
 
-    <img src="/path/to/your/image-exposure-fix-hero.jpg" alt="A split image showing a photo that is too dark, one that is too bright, and the perfectly exposed version in the middle" style="width:100%; max-width:700px; margin: 20px 0;">
+    <picture>
+      <source media="(max-width: 768px)" srcset="/images/image-exposure-fix-hero-mobile.webp" type="image/webp">
+      <source media="(min-width: 769px)" srcset="/images/image-exposure-fix-hero-desktop.webp" type="image/webp">
+      <img src="/images/image-exposure-fix-hero-desktop.webp" alt="A split image showing a photo that is too dark, one that is too bright, and the perfectly exposed version in the middle"
+           width="100%" style="max-height: 50vh; object-fit: cover;" loading="lazy">
+    </picture>
 
     <p>Every photographer, from a beginner with a smartphone to a seasoned professional with a high-end camera, has experienced the frustration of a poorly exposed photo. You capture a once-in-a-lifetime moment, but when you view it later, it’s either a dark, muddy mess (underexposed) or a bright, washed-out scene with no detail (overexposed). Tricky lighting situations, like a strong backlight or a dark indoor setting, can easily fool a camera’s automatic light meter.</p>
     <p>Fortunately, if you shoot in a format that captures enough data (like RAW, or even a high-quality JPG), you have a remarkable ability to correct these exposure problems after the fact. Rescuing a poorly exposed photo is one of the most common and satisfying tasks in photo editing. This guide will show you the simple, essential tools you need to bring your photos back from the brink.</p>

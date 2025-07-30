@@ -3,9 +3,14 @@
 ?>
 <main class="static-page">
     <h1>A Guide to Basic Portrait Retouching: Smoothing Skin and Removing Blemishes</h1>
-    <p><em>July 29, 2025</em></p>
+    <p><em>July 22, 2025</em></p>
 
-    <img src="/path/to/your/image-retouching-hero.jpg" alt="A close-up portrait split to show the before and after of skin retouching" style="width:100%; max-width:700px; margin: 20px 0;">
+    <picture>
+      <source media="(max-width: 768px)" srcset="/images/image-retouching-hero-mobile.webp" type="image/webp">
+      <source media="(min-width: 769px)" srcset="/images/image-retouching-hero-desktop.webp" type="image/webp">
+      <img src="/images/image-retouching-hero-desktop.webp" alt="A close-up portrait split to show the before and after of skin retouching"
+           width="100%" style="max-height: 50vh; object-fit: cover;" loading="lazy">
+    </picture>
 
     <p>Portraits are one of the most powerful forms of photography. A great portrait captures not just a person's likeness, but also their character and emotion. However, the high resolution of modern cameras can be unforgiving, highlighting every tiny imperfection, temporary blemish, and stray hair. This is where portrait retouching comes in. The goal of good retouching is not to make someone look like a different person, but to reduce distractions so their true self can shine through.</p>
     <p>Ethical, professional retouching is a subtle art. It’s about cleaning up, not covering up. This guide will walk you through the fundamental techniques of basic portrait retouching, focusing on removing temporary blemishes and gently smoothing skin for a natural, polished result.</p>

@@ -3,9 +3,14 @@
 ?>
 <main class="static-page">
     <h1>What is Non-Destructive Editing and Why is it Important?</h1>
-    <p><em>July 29, 2025</em></p>
+    <p><em>July 21, 2025</em></p>
 
-    <img src="/path/to/your/image-nondestructive-hero.jpg" alt="An illustration showing a destructive workflow with a single locked image vs. a non-destructive workflow with multiple flexible layers" style="width:100%; max-width:700px; margin: 20px 0;">
+    <picture>
+      <source media="(max-width: 768px)" srcset="/images/image-nondestructive-hero-mobile.webp" type="image/webp">
+      <source media="(min-width: 769px)" srcset="/images/image-nondestructive-hero-desktop.webp" type="image/webp">
+      <img src="/images/image-nondestructive-hero-desktop.webp" alt="An illustration showing a destructive workflow with a single locked image vs. a non-destructive workflow with multiple flexible layers"
+           width="100%" style="max-height: 50vh; object-fit: cover;" loading="lazy">
+    </picture>
 
     <p>In the world of digital photo editing, there are two fundamental ways to approach your work: destructively and non-destructively. For beginners, the distinction might seem like a minor technical detail. For professionals, it’s everything. Understanding and embracing a non-destructive workflow is arguably the most important step you can take to gain creative freedom, protect your work, and elevate your editing skills to a professional level.</p>
     <p>So, what is non-destructive editing? In the simplest terms, it is an editing method that allows you to make changes to an image without overwriting or permanently altering the original pixel data. It’s like working on a copy, or better yet, with a set of instructions that can be changed, reordered, or removed at any time.</p>

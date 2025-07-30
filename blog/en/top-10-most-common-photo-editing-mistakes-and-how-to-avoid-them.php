@@ -3,9 +3,14 @@
 ?>
 <main class="static-page">
     <h1>Top 10 Most Common Photo Editing Mistakes and How to Avoid Them</h1>
-    <p><em>July 29, 2025</em></p>
+    <p><em>July 20, 2025</em></p>
 
-    <img src="/path/to/your/image-mistakes-hero.jpg" alt="A collage showing several over-edited photos with common mistakes like excessive saturation and HDR" style="width:100%; max-width:700px; margin: 20px 0;">
+    <picture>
+      <source media="(max-width: 768px)" srcset="/images/image-mistakes-hero-mobile.webp" type="image/webp">
+      <source media="(min-width: 769px)" srcset="/images/image-mistakes-hero-desktop.webp" type="image/webp">
+      <img src="/images/image-mistakes-hero-desktop.webp" alt="A collage showing several over-edited photos with common mistakes like excessive saturation and HDR" 
+           width="100%" style="max-height: 50vh; object-fit: cover;" loading="lazy">
+    </picture>
 
     <p>Photo editing is a powerful tool. It can transform a good photo into a great one, rescue a flawed shot, and unlock your creative vision. But as the saying goes, with great power comes great responsibility. It’s incredibly easy to get carried away with sliders and filters, and a few wrong moves can quickly take an image from enhanced to unnatural and amateurish. The best editing is often the editing you don’t notice.</p>
     <p>Recognizing the common pitfalls is the first step toward avoiding them. This guide will highlight the top 10 most common photo editing mistakes that beginners (and even some seasoned editors) make, and provide simple advice on how to achieve a more professional, polished result.</p>

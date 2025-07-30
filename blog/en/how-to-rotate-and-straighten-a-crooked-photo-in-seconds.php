@@ -3,9 +3,14 @@
 ?>
 <main class="static-page">
     <h1>How to Rotate and Straighten a Crooked Photo in Seconds</h1>
-    <p><em>July 29, 2025</em></p>
+    <p><em>July 19, 2025</em></p>
 
-    <img src="/path/to/your/image-straighten-hero.jpg" alt="A crooked horizon in a photo being straightened with a rotation tool" style="width:100%; max-width:700px; margin: 20px 0;">
+    <picture>
+      <source media="(max-width: 768px)" srcset="/images/image-straighten-hero-mobile.webp" type="image/webp">
+      <source media="(min-width: 769px)" srcset="/images/image-straighten-hero-desktop.webp" type="image/webp">
+      <img src="/images/image-straighten-hero-desktop.webp" alt="A crooked horizon in a photo being straightened with a rotation tool"
+           width="100%" style="max-height: 50vh; object-fit: cover;" loading="lazy">
+    </picture>
 
     <p>It’s a simple mistake that happens to everyone. You’re capturing a beautiful sunset, a family portrait, or an architectural shot, but in the moment, you hold your camera or phone just slightly off-kilter. When you look at the photo later, the problem is glaring: a tilted horizon, a leaning building, or a subject that seems to be sliding off the page. A crooked photo can look unprofessional and feel unsettling to the viewer, distracting them from the subject matter.</p>
     <p>Fortunately, this is one of the easiest and quickest problems to fix in photo editing. Straightening a crooked photo is a fundamental skill that can instantly improve the quality and professionalism of your images. This guide will walk you through the simple methods to rotate and straighten your photos, ensuring they always look balanced and polished.</p>

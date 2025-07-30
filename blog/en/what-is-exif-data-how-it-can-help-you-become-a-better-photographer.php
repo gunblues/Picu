@@ -3,9 +3,14 @@
 ?>
 <main class="static-page">
     <h1>What is EXIF Data? How It Can Help You Become a Better Photographer</h1>
-    <p><em>July 29, 2025</em></p>
+    <p><em>July 26, 2025</em></p>
 
-    <img src="/path/to/your/image-exif-hero.jpg" alt="An illustration showing a photo and its associated EXIF data, like shutter speed, aperture, and ISO" style="width:100%; max-width:700px; margin: 20px 0;">
+    <picture>
+      <source media="(max-width: 768px)" srcset="/images/image-exif-hero-mobile.webp" type="image/webp">
+      <source media="(min-width: 769px)" srcset="/images/image-exif-hero-desktop.webp" type="image/webp">
+      <img src="/images/image-exif-hero-desktop.webp" alt="An illustration showing a photo and its associated EXIF data, like shutter speed, aperture, and ISO"
+           width="100%" style="max-height: 50vh; object-fit: cover;" loading="lazy">
+    </picture>
 
     <p>Every time you take a picture with a digital camera or a smartphone, a hidden treasure trove of information is saved along with the image itself. This information is called EXIF data. For many casual photographers, this data remains unseen and unused. But for those looking to improve their craft, EXIF data is like a detailed recipe book for your photographs, revealing the exact ingredients that went into creating each one.</p>
     <p>Understanding what EXIF data is and how to read it can provide invaluable feedback, helping you to analyze your successes, diagnose your failures, and ultimately, become a more intentional and skilled photographer. This guide will demystify EXIF data and show you how to use it to accelerate your learning curve.</p>

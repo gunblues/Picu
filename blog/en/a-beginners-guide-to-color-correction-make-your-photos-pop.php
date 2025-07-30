@@ -3,9 +3,14 @@
 ?>
 <main class="static-page">
     <h1>A Beginner's Guide to Color Correction: Make Your Photos Pop</h1>
-    <p><em>July 29, 2025</em></p>
+    <p><em>July 15, 2025</em></p>
 
-    <img src="/path/to/your/image-color-correction-hero.jpg" alt="A photo shown half in its original dull colors and half with vibrant, corrected colors" style="width:100%; max-width:700px; margin: 20px 0;">
+    <picture>
+      <source media="(max-width: 768px)" srcset="/images/image-color-correction-hero-mobile.webp" type="image/webp">
+      <source media="(min-width: 769px)" srcset="/images/image-color-correction-hero-desktop.webp" type="image/webp">
+      <img src="/images/image-color-correction-hero-desktop.webp" alt="A photo shown half in its original dull colors and half with vibrant, corrected colors" 
+           width="100%" style="max-height: 50vh; object-fit: cover;" loading="lazy">
+    </picture>
 
     <p>Have you ever taken a photo that looked vibrant and beautiful in person, only to find it looks flat, dull, or has a strange color cast when you view it on a screen? This is a common problem that even professional photographers face. The human eye is incredibly sophisticated and automatically adjusts for different lighting conditions, but a camera simply captures the light as it is. This is where color correction comes in.</p>
     <p>Color correction is the process of adjusting the colors in a photo to make them look more natural, accurate, and vibrant. It’s one of the most impactful edits you can make, capable of transforming a mediocre snapshot into a stunning photograph. This guide will introduce you to the basic concepts of color correction and show you how to use simple tools to bring your images to life.</p>

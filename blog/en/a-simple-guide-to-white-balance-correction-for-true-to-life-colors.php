@@ -3,9 +3,14 @@
 ?>
 <main class="static-page">
     <h1>A Simple Guide to White Balance Correction for True-to-Life Colors</h1>
-    <p><em>July 29, 2025</em></p>
+    <p><em>July 25, 2025</em></p>
 
-    <img src="/path/to/your/image-whitebalance-hero.jpg" alt="A split photo showing a version with a blue color cast and a corrected version with natural colors" style="width:100%; max-width:700px; margin: 20px 0;">
+    <picture>
+      <source media="(max-width: 768px)" srcset="/images/image-whitebalance-hero-mobile.webp" type="image/webp">
+      <source media="(min-width: 769px)" srcset="/images/image-whitebalance-hero-desktop.webp" type="image/webp">
+      <img src="/images/image-whitebalance-hero-desktop.webp" alt="A split photo showing a version with a blue color cast and a corrected version with natural colors"
+           width="100%" style="max-height: 50vh; object-fit: cover;" loading="lazy">
+    </picture>
 
     <p>Have you ever taken a photo indoors that came out looking strangely orange? Or a photo in the shade that looked unnaturally blue? This common problem is a result of incorrect white balance. Our brains are amazing at automatically adjusting to different types of light, so we perceive a white piece of paper as white whether we're under the warm light of a lamp or the cool light of a cloudy day. Digital cameras, however, are not so smart. They simply record the light as it is, which often results in an unwanted color cast.</p>
     <p>White balance correction is the process of removing these unrealistic color casts so that objects that appear white in person are rendered as white in your photo. It is the absolute foundation of color correction. If your white balance is wrong, all the other colors in your photo will be wrong too. Mastering this simple adjustment is the first and most important step to achieving natural, accurate, and beautiful colors in your images.</p>

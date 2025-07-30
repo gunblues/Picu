@@ -3,9 +3,15 @@
 ?>
 <main class="static-page">
     <h1>From Dull to Dazzling: How to Adjust Brightness and Contrast Like a Pro</h1>
-    <p><em>July 29, 2025</em></p>
+    <p><em>July 18, 2025</em></p>
 
-    <img src="/path/to/your/image-contrast-hero.jpg" alt="A photo split in half, showing a dull, flat version and a bright, high-contrast version" style="width:100%; max-width:700px; margin: 20px 0;">
+    <picture>
+      <source media="(max-width: 768px)" srcset="/images/image-contrast-hero-mobile.webp" type="image/webp">
+      <source media="(min-width: 769px)" srcset="/images/image-contrast-hero-desktop.webp" type="image/webp">
+      <img src="/images/image-contrast-hero-desktop.webp" alt="A photo split in half, showing a dull, flat version and a bright, high-contrast version" 
+           width="100%" style="max-height: 50vh; object-fit: cover;" loading="lazy">
+    </picture>
+
 
     <p>One of the most common reasons a photograph fails to impress is a lack of tonal range. The image might look "flat," "muddy," or "washed out." This usually means the photo doesn't have a good distribution of tones from the darkest blacks to the brightest whites. The good news is that this is one of the easiest problems to fix. By learning to properly adjust brightness and contrast, you can add depth, dimension, and "pop" to your images, transforming them from dull snapshots into dazzling photos.</p>
     <p>This guide will demystify these fundamental adjustments. We'll explore not just the basic sliders, but also more advanced tools like Highlights and Shadows, giving you the skills to take full control over the light in your images.</p>

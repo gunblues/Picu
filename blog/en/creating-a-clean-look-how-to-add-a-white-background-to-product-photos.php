@@ -3,9 +3,14 @@
 ?>
 <main class="static-page">
     <h1>Creating a Clean Look: How to Add a White Background to Product Photos</h1>
-    <p><em>July 29, 2025</em></p>
+    <p><em>July 19, 2025</em></p>
 
-    <img src="/path/to/your/image-whitebg-hero.jpg" alt="A product shown first in its original setting, then isolated on a pure white background" style="width:100%; max-width:700px; margin: 20px 0;">
+    <picture>
+      <source media="(max-width: 768px)" srcset="/images/image-whitebg-hero-mobile.webp" type="image/webp">
+      <source media="(min-width: 769px)" srcset="/images/image-whitebg-hero-desktop.webp" type="image/webp">
+      <img src="/images/image-whitebg-hero-desktop.webp" alt="A product shown first in its original setting, then isolated on a pure white background"
+           width="100%" style="max-height: 50vh; object-fit: cover;" loading="lazy">
+    </picture>
 
     <p>In the competitive world of e-commerce, the quality of your product photography can make or break a sale. Customers can't touch or feel your product, so your photos have to do all the work. One of the most effective ways to create a professional, trustworthy, and high-converting product listing is to display your item on a pure, distraction-free white background.</p>
     <p>A clean white background does more than just look nice; it’s a strategic choice that focuses the customer's attention, ensures consistency across your brand, and meets the strict requirements of major online marketplaces like Amazon, eBay, and Google Shopping. This guide will explain why a white background is the industry standard and how you can easily achieve this polished look, even if you're not a professional photographer.</p>

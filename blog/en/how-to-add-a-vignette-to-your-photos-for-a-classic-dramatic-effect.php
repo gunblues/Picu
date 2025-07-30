@@ -3,9 +3,14 @@
 ?>
 <main class="static-page">
     <h1>How to Add a Vignette to Your Photos for a Classic, Dramatic Effect</h1>
-    <p><em>July 29, 2025</em></p>
+    <p><em>July 24, 2025</em></p>
 
-    <img src="/path/to/your/image-vignette-hero.jpg" alt="A portrait with a subtle vignette effect that darkens the corners and draws attention to the face" style="width:100%; max-width:700px; margin: 20px 0;">
+    <picture>
+      <source media="(max-width: 768px)" srcset="/images/image-vignette-hero-mobile.webp" type="image/webp">
+      <source media="(min-width: 769px)" srcset="/images/image-vignette-hero-desktop.webp" type="image/webp">
+      <img src="/images/image-vignette-hero-desktop.webp" alt="A portrait with a subtle vignette effect that darkens the corners and draws attention to the face"
+           width="100%" style="max-height: 50vh; object-fit: cover;" loading="lazy">
+    </picture>
 
     <p>A vignette is a darkening or lightening of the edges of a photograph, with the effect gradually fading towards the center. It’s one of the oldest and most enduring techniques in photography and art. Originally, vignetting was often an unintentional optical flaw caused by camera lenses that couldn't evenly illuminate the entire image frame. Photographers, however, quickly realized that this effect could be used deliberately for powerful artistic purposes.</p>
     <p>Today, a post-production vignette is a tool used by photographers of all levels to subtly guide the viewer's eye, enhance the mood of a photo, and add a sense of depth and focus. When done well, a vignette is an invisible hand that directs attention. When done poorly, it can be a distracting and obvious filter. This guide will teach you how to apply a vignette with skill and subtlety.</p>

@@ -3,9 +3,14 @@
 ?>
 <main class="static-page">
     <h1>5 Simple Tricks to Fix Blurry Photos and Sharpen Your Images</h1>
-    <p><em>July 29, 2025</em></p>
+    <p><em>July 16, 2025</em></p>
 
-    <img src="/path/to/your/image-sharpen-hero.jpg" alt="A side-by-side comparison of a blurry photo and a sharpened photo" style="width:100%; max-width:700px; margin: 20px 0;">
+    <picture>
+      <source media="(max-width: 768px)" srcset="/images/image-sharpen-hero-mobile.webp" type="image/webp">
+      <source media="(min-width: 769px)" srcset="/images/image-sharpen-hero-desktop.webp" type="image/webp">
+      <img src="/images/image-sharpen-hero-desktop.webp" alt="A side-by-side comparison of a blurry photo and a sharpened photo" 
+           width="100%" style="max-height: 50vh; object-fit: cover;" loading="lazy">
+    </picture>
 
     <p>There are few things in photography as disappointing as capturing what you thought was the perfect moment, only to discover later that the image is soft, slightly out of focus, or blurry. A blurry photo can happen for many reasons: camera shake, a moving subject, a missed focus point, or even the natural softness that occurs after resizing an image. While you can't magically fix a completely out-of-focus shot, you can absolutely rescue and significantly improve a photo that is just a little bit soft.</p>
     <p>This guide will provide you with five practical, easy-to-implement tricks to sharpen your images and bring back the crisp detail you were hoping for. These techniques can be applied using most photo editing software, including powerful online tools like Picu.</p>

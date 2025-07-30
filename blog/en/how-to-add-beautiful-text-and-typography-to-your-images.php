@@ -3,9 +3,14 @@
 ?>
 <main class="static-page">
     <h1>How to Add Beautiful Text and Typography to Your Images</h1>
-    <p><em>July 29, 2025</em></p>
+    <p><em>July 28, 2025</em></p>
 
-    <img src="/path/to/your/image-typography-hero.jpg" alt="A beautiful photo with elegantly designed text overlaid on it" style="width:100%; max-width:700px; margin: 20px 0;">
+    <picture>
+      <source media="(max-width: 768px)" srcset="/images/image-typography-hero-mobile.webp" type="image/webp">
+      <source media="(min-width: 769px)" srcset="/images/image-typography-hero-desktop.webp" type="image/webp">
+      <img src="/images/image-typography-hero-desktop.webp" alt="A beautiful photo with elegantly designed text overlaid on it"
+           width="100%" style="max-height: 50vh; object-fit: cover;" loading="lazy">
+    </picture>
 
     <p>In a world dominated by visual content, combining images with text is a powerful way to communicate a message, create a shareable quote, design a marketing banner, or make a personalized greeting. An image can capture attention, but well-executed typography can provide context, convey a specific message, and add a layer of sophistication and design. However, adding text to an image is more than just typing in a box. Good typography is an art form in itself.</p>
     <p>Poorly chosen fonts, bad placement, or low legibility can ruin a beautiful photo and make your message look amateurish. This guide will walk you through the key principles of adding text to your images, helping you create a harmonious and professional-looking final product.</p>
