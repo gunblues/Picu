@@ -40,13 +40,13 @@ if (isset($pathSegments[0]) && $pathSegments[0] === 'blog') {
     $page = 'blog';
     if (isset($pathSegments[1])) { // Check for an article slug
         $articleName = $pathSegments[1];
-        $contentFile = 'blog/en/' . $articleName . '.php';
+        $contentFile = 'blog/' . $currentLang . '/' . $articleName . '.php';
         if (!file_exists($contentFile)) {
             header("HTTP/1.0 404 Not Found");
             $page = '404';
         }
     } else { // No slug, so it's the blog index page
-        $contentFile = 'blog/en/index.php';
+        $contentFile = 'blog/' . $currentLang . '/index.php';
     }
 } else if (!empty($pathSegments[0])) {
     if ($pathSegments[0] === 'articles') {
@@ -96,7 +96,7 @@ if ($page !== 'blog') { // Don't overwrite blog content file
 <link rel="apple-touch-icon" sizes="180x180" href="/icons/apple-touch-icon.png">
 <link rel="manifest" href="/icons/site.webmanifest">
 
-<link rel="stylesheet" href="/dist/assets/style.BKxe1WVr.css">
+<link rel="stylesheet" href="/dist/assets/style.yy1Z_iu3.css">
 <link rel="stylesheet" href="lib/cropper.min.css">
 <script src="lib/jszip.min.js" defer></script>
 <script src="lib/cropper.min.js" defer></script>

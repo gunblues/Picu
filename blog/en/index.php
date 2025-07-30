@@ -5,23 +5,7 @@
     <h1>Picu Blog: Photo Editing Tips and Tutorials</h1>
     <p>Welcome to our collection of guides and tutorials. Here you'll find everything you need to know about photo editing, from basic principles to advanced creative techniques.</p>
     
-    <style>
-        .blog-list {
-            list-style: none;
-            padding: 0;
-        }
-        .blog-list li {
-            margin-bottom: 15px;
-            font-size: 1.1em;
-        }
-        .blog-list a {
-            text-decoration: none;
-            color: #333;
-        }
-        .blog-list a:hover {
-            text-decoration: underline;
-        }
-    </style>
+    
 
     <ul class="blog-list">
         <li><a href="/en/blog/real-estate-photo-editing-5-tips-to-make-properties-look-irresistible">Real Estate Photo Editing: 5 Tips to Make Properties Look Irresistible</a></li>

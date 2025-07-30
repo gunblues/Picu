@@ -648,3 +648,39 @@ footer {
   list-style: none;
   padding-left: 0; /* 可選：避免預設縮排 */
 }
+
+/* New blog-list styles */
+.blog-list {
+    list-style: none; /* Remove default bullet points */
+    padding: 0;
+    margin: 20px 0;
+}
+
+.blog-list li {
+    background-color: #ffffff;
+    border: 1px solid #e0e0e0;
+    border-radius: 8px;
+    margin-bottom: 15px;
+    padding: 20px;
+    box-shadow: 0 2px 5px rgba(0,0,0,0.05);
+    transition: transform 0.2s ease, box-shadow 0.2s ease;
+}
+
+.blog-list li:hover {
+    transform: translateY(-5px); /* Lift effect on hover */
+    box-shadow: 0 5px 15px rgba(0,0,0,0.1);
+}
+
+.blog-list li a {
+    display: block; /* Make the entire list item clickable */
+    font-size: 1.5em;
+    font-weight: bold;
+    color: #e67e22; /* Article title link color */
+    margin-bottom: 10px;
+    text-decoration: none; /* Remove underline by default */
+}
+
+.blog-list li a:hover {
+    color: #f39c12; /* Lighter orange on hover */
+    text-decoration: underline; /* Add underline on hover */
+}
