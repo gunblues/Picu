@@ -108,31 +108,31 @@ if ($page !== 'blog') { // Don't overwrite blog content file
 
 <!-- Open Graph / Facebook -->
 <meta property="og:type" content="website">
-<meta property="og:url" content="https://picu.app/"> <!-- Replace with your actual website URL -->
+<meta property="og:url" content="https://tool.istock.tw/"> <!-- Replace with your actual website URL -->
 <meta property="og:title" content="<?php echo getTranslation('ogTitle'); ?>">
 <meta property="og:description" content="<?php echo getTranslation('ogDescription'); ?>">
-<meta property="og:image" content="https://picu.app/picu-og-image.jpg">
+<meta property="og:image" content="https://tool.istock.tw/picu-og-image.jpg">
 
 <!-- Twitter -->
 <meta property="twitter:card" content="summary_large_image">
-<meta property="twitter:url" content="https://picu.app/"> <!-- Replace with your actual website URL -->
+<meta property="twitter:url" content="https://tool.istock.tw/"> <!-- Replace with your actual website URL -->
 <meta property="twitter:title" content="<?php echo getTranslation('twitterTitle'); ?>">
 <meta property="twitter:description" content="<?php echo getTranslation('twitterDescription'); ?>">
-<meta property="twitter:image" content="https://picu.app/picu-twitter-image.jpg">
+<meta property="twitter:image" content="https://tool.istock.tw/picu-twitter-image.jpg">
 
 <!-- 多國語言 hreflang 標籤 -->
-<link rel="alternate" hreflang="en" href="https://picu.app/en/" />
-<link rel="alternate" hreflang="zh" href="https://picu.app/zh/" />
-<link rel="alternate" hreflang="ja" href="https://picu.app/ja/" />
-<link rel="alternate" hreflang="ko" href="https://picu.app/ko/" />
-<link rel="alternate" hreflang="es" href="https://picu.app/es/" />
-<link rel="alternate" hreflang="hi" href="https://picu.app/hi/" />
-<link rel="alternate" hreflang="ar" href="https://picu.app/ar/" />
-<link rel="alternate" hreflang="fr" href="https://picu.app/fr/" />
-<link rel="alternate" hreflang="bn" href="https://picu.app/bn/" />
-<link rel="alternate" hreflang="pt" href="https://picu.app/pt/" />
-<link rel="alternate" hreflang="ru" href="https://picu.app/ru/" />
-<link rel="alternate" hreflang="x-default" href="https://picu.app/" />
+<link rel="alternate" hreflang="en" href="https://tool.istock.tw/en/" />
+<link rel="alternate" hreflang="zh" href="https://tool.istock.tw/zh/" />
+<link rel="alternate" hreflang="ja" href="https://tool.istock.tw/ja/" />
+<link rel="alternate" hreflang="ko" href="https://tool.istock.tw/ko/" />
+<link rel="alternate" hreflang="es" href="https://tool.istock.tw/es/" />
+<link rel="alternate" hreflang="hi" href="https://tool.istock.tw/hi/" />
+<link rel="alternate" hreflang="ar" href="https://tool.istock.tw/ar/" />
+<link rel="alternate" hreflang="fr" href="https://tool.istock.tw/fr/" />
+<link rel="alternate" hreflang="bn" href="https://tool.istock.tw/bn/" />
+<link rel="alternate" hreflang="pt" href="https://tool.istock.tw/pt/" />
+<link rel="alternate" hreflang="ru" href="https://tool.istock.tw/ru/" />
+<link rel="alternate" hreflang="x-default" href="https://tool.istock.tw/" />
 
 <script async src="https://pagead2.googlesyndication.com/pagead/js/adsbygoogle.js?client=ca-pub-1004943414433052"
      crossorigin="anonymous"></script>
