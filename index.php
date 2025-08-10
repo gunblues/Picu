@@ -1,4 +1,26 @@
 <?php
+// 舊網域（可含 www 與不含 www）
+$oldDomains = [
+    'picu.app',
+];
+
+// 新網域（記得加上 https://）
+$newDomain = 'https://tool.istock.tw';
+
+// 取得目前的 Host（不含協議）
+$currentHost = $_SERVER['HTTP_HOST'] ?? '';
+
+// 判斷是否為舊網域
+if (in_array($currentHost, $oldDomains, true)) {
+    // 取得完整路徑與查詢字串
+    $requestUri = $_SERVER['REQUEST_URI'] ?? '';
+
+    // 301 永久轉址
+    header("HTTP/1.1 301 Moved Permanently");
+    header("Location: " . $newDomain . $requestUri);
+    exit();
+}
+
 require_once 'modules/translations.php';
 
 // Determine current language
